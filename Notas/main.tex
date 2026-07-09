@@ -1,0 +1,52 @@
+\documentclass[12pt,letterpaper]{report}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{enumerate}
+
+\title{Zeta-Regularización}
+\author{Daniel Soto Villada\\Estudiante del pregrado de astronomía}
+\date{\today}
+
+\titleformat{\chapter}
+  {\normalfont\huge\bfseries}
+  {}
+  {0pt}
+  {}
+\titlespacing*{\chapter}{0pt}{0pt}{1cm}
+
+\begin{document}
+
+\pagenumbering{gobble}
+\begin{titlepage}
+    \centering
+    {\Large Universidad de Antioquia\par}
+    \vspace{0.5cm}
+    {\large Facultad de Ciencias Exactas y Naturales\par}
+    \vspace{0.5cm}
+    {\large Instituto de Física\par}
+    \vfill
+    {\Huge\bfseries Zeta-Regularización\par}
+    \vfill
+    {\large Daniel Soto Villada\par}
+    \vspace{0.3cm}
+    {\large Estudiante del pregrado de astronomía\par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\input{Secciones/Seccion1}
+
+\end{document}
