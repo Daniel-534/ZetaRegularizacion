@@ -1,0 +1,357 @@
+\chapter{Teoría de Números, Primos y Fronteras Naturales}
+
+\section{La Función Zeta Prima $P(s)$}
+
+Habiendo explorado la regularización de sumas y productos sobre la totalidad de los números naturales $\mathbb{N}$, es natural dirigir nuestra atención hacia los bloques de construcción fundamentales de la aritmética: los números primos $\mathbb{P} = \{2, 3, 5, 7, 11, \dots\}$. La transición de $\mathbb{N}$ a $\mathbb{P}$ no es meramente un cambio de conjunto; altera profundamente la estructura analítica de las funciones zeta asociadas. En esta sección, definiremos rigurosamente la Función Zeta Prima, la conectaremos con la clásica función Zeta de Riemann a través del producto de Euler, y derivaremos su representación explícita mediante la fórmula de inversión de Möbius.
+
+\subsection{Definición y abscisa de convergencia}
+
+Análoga a la función Zeta de Riemann, la Función Zeta Prima se define inicialmente mediante una serie de Dirichlet donde la suma no se extiende sobre todos los enteros positivos, sino exclusivamente sobre los números primos:
+
+$$ P(s) = \sum_{p \in \mathbb{P}} \frac{1}{p^s} = \sum_{p \text{ prime}} p^{-s} $$
+
+donde $s = \sigma + it \in \mathbb{C}$. 
+
+Para determinar el dominio de convergencia absoluta de esta serie, debemos analizar la densidad asintótica de los números primos. Por el Teorema de los Números Primos, la función de conteo espectral (en este caso, la función contadora de primos) $\pi(x) = |\{p \le x : p \text{ es primo}\}|$ satisface la relación asintótica $\pi(x) \sim \frac{x}{\log x}$ cuando $x \to \infty$. 
+
+Dado que $\pi(x)$ crece casi tan rápido como $x$ (salvo por un factor logarítmico), la serie de Dirichlet $\sum p^{-s}$ converge absolutamente en la misma región que la serie $\sum n^{-s}$, es decir, para $\Re(s) > 1$. Por lo tanto, la abscisa de convergencia de la función Zeta Prima es $\sigma_c = 1$. En este semiplano derecho, $P(s)$ es una función holomorfa. El desafío analítico, como veremos en las secciones subsecuentes, surgirá cuando intentemos llevar esta función más allá de su dominio de convergencia original.
+
+\subsection{El Producto de Euler y la conexión logarítmica}
+
+La relación más profunda entre los números primos y los números enteros está codificada en el Producto de Euler, el cual establece que la función Zeta de Riemann puede factorizarse como un producto infinito sobre todos los primos:
+
+$$ \zeta(s) = \sum_{n=1}^{\infty} n^{-s} = \prod_{p \text{ prime}} \left(1 - p^{-s}\right)^{-1} $$
+
+Esta identidad, válida para $\Re(s) > 1$, es la manifestación analítica del Teorema Fundamental de la Aritmética (la factorización única en primos). Para conectar $\zeta(s)$ con $P(s)$, tomamos el logaritmo complejo de ambos lados de la ecuación. Dado que estamos en el semiplano $\Re(s) > 1$, tenemos $|p^{-s}| < 1$, lo que nos permite utilizar la expansión en serie de Taylor para el logaritmo, $\log(1-z)^{-1} = \sum_{k=1}^{\infty} \frac{z^k}{k}$:
+
+$$ \log \zeta(s) = \sum_{p \text{ prime}} -\log\left(1 - p^{-s}\right) = \sum_{p \text{ prime}} \sum_{k=1}^{\infty} \frac{p^{-ks}}{k} $$
+
+Dado que la doble suma converge absolutamente para $\Re(s) > 1$, podemos intercambiar el orden de sumación sin alterar el resultado. Agrupando los términos por potencias $k$, obtenemos:
+
+$$ \log \zeta(s) = \sum_{k=1}^{\infty} \frac{1}{k} \left( \sum_{p \text{ prime}} p^{-ks} \right) $$
+
+Reconocemos inmediatamente que la suma interna es exactamente la definición de la función Zeta Prima evaluada en $ks$. Por lo tanto, llegamos a la relación integral/logarítmica fundamental entre ambas funciones:
+
+$$ \log \zeta(s) = \sum_{k=1}^{\infty} \frac{P(ks)}{k} $$
+
+Esta ecuación nos dice que el logaritmo de la función Zeta de Riemann es una serie de Dirichlet generalizada cuyas "frecuencias" son las evaluaciones de la función Zeta Prima en múltiplos enteros de $s$. El término líder de esta expansión es $P(s)$ (cuando $k=1$), mientras que los términos subsecuentes $P(2s)/2, P(3s)/3, \dots$ representan correcciones que decaen más rápidamente a medida que $\Re(s)$ aumenta.
+
+\subsection{Inversión de Möbius y fórmula explícita}
+
+La relación $\log \zeta(s) = \sum_{n=1}^{\infty} \frac{P(ns)}{n}$ tiene la forma de una convolución de Dirichlet. Para despejar $P(s)$ y expresar la función Zeta Prima puramente en términos de la función Zeta de Riemann, debemos aplicar la \textbf{Fórmula de Inversión de Möbius}.
+
+Primero, recordamos la definición de la función de Möbius $\mu(n)$, una función multiplicativa fundamental en la teoría de números:
+
+\begin{enumerate}[a)]
+    \item $\mu(1) = 1$.
+    \item $\mu(n) = (-1)^k$ si $n$ es el producto de $k$ números primos distintos (es decir, $n$ es libre de cuadrados).
+    \item $\mu(n) = 0$ si $n$ tiene un factor primo cuadrado (es decir, si $p^2 | n$ para algún primo $p$).
+\end{enumerate}
+
+La propiedad analítica clave de $\mu(n)$ es que su serie de Dirichlet es exactamente el inverso multiplicativo de la función Zeta de Riemann:
+
+$$ \sum_{n=1}^{\infty} \frac{\mu(n)}{n^s} = \frac{1}{\zeta(s)} $$
+
+La fórmula de inversión de Möbius para series de Dirichlet establece que si dos funciones $F(s)$ y $G(s)$ están relacionadas por $F(s) = \sum_{n=1}^{\infty} \frac{G(ns)}{n}$, entonces la función $G(s)$ puede recuperarse mediante la inversión:
+
+$$ G(s) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} F(ns) $$
+
+Aplicando este teorema general a nuestra relación específica, donde identificamos $F(s) = \log \zeta(s)$ y $G(s) = P(s)$, obtenemos directamente la representación explícita de la Función Zeta Prima:
+
+$$ P(s) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \zeta(ns) $$
+
+Esta fórmula es de una importancia capital. Nos proporciona una expresión cerrada (en forma de serie infinita) para $P(s)$ utilizando únicamente la función Zeta de Riemann evaluada en múltiplos de $s$. 
+
+\subsubsection*{Análisis de la estructura de la fórmula}
+
+Desglosemos los primeros términos de esta serie para comprender su comportamiento en el semiplano de convergencia $\Re(s) > 1$:
+
+$$ P(s) = \log \zeta(s) - \frac{1}{2}\log \zeta(2s) - \frac{1}{3}\log \zeta(3s) - \frac{1}{5}\log \zeta(5s) + \frac{1}{6}\log \zeta(6s) - \dots $$
+
+\begin{itemize}
+    \item \textbf{El término dominante:} Para $\Re(s)$ grande, $\zeta(ns) \to 1$ rápidamente cuando $n \ge 2$, por lo que $\log \zeta(ns) \to 0$. Así, $P(s) \approx \log \zeta(s)$, lo cual es consistente con el hecho de que los números primos dominan la estructura de los enteros en escalas grandes.
+    \item \textbf{Singularidades y la función logaritmo:} La presencia de la función $\log \zeta(ns)$ introduce una complejidad analítica inmediata. Aunque $\zeta(s)$ es una función meromorfa en todo el plano complejo (con un único polo simple en $s=1$), la aplicación del logaritmo complejo transforma los ceros de $\zeta(ns)$ en singularidades logarítmicas (cortes de rama). 
+    \item \textbf{Dominio de validez formal:} La derivación de la fórmula de inversión de Möbius requiere que las series converjan absolutamente, lo cual está garantizado para $\Re(s) > 1$. En este dominio, $\zeta(ns)$ no tiene ceros para $n \ge 1$ (ya que todos los ceros de $\zeta$ están en la banda crítica $0 < \Re(s) < 1$ o en el eje real negativo), por lo que el logaritmo está bien definido y es holomorfo.
+\end{itemize}
+
+La fórmula $P(s) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \zeta(ns)$ es el puente algebraico que nos permite estudiar los primos a través de la lente de Riemann. Sin embargo, como la estructura del logaritmo y la acumulación de los ceros de $\zeta(ns)$ modifican drásticamente el panorama analítico cuando intentamos evaluar o continuar la función hacia $\Re(s) \le 1$, esta fórmula será el punto de partida para enfrentar los obstáculos de continuación analítica que caracterizan a la teoría de los primos.
+
+\section{El obstáculo de la Frontera Natural}
+
+Habiendo establecido la conexión fundamental entre la Función Zeta Prima $P(s)$ y la función Zeta de Riemann $\zeta(s)$ a través de la fórmula de inversión de Möbius, nos enfrentamos ahora a la barrera analítica más formidable de la teoría de los números primos: la existencia de una \textit{frontera natural}. A diferencia de la función Zeta de Riemann, que admite una continuación meromorfa a todo el plano complejo, la función $P(s)$ posee una estructura de singularidades tan densa y compleja que le impide ser extendida más allá de ciertas líneas críticas. Este obstáculo no es una mera curiosidad analítica; es el muro que derriba el formalismo estándar de la Zeta-Regularización cuando se intenta aplicar al producto de todos los números primos.
+
+\subsection{La representación logarítmica y la génesis de las singularidades}
+
+Para comprender el origen de la frontera natural, debemos reexaminar la representación explícita de $P(s)$ derivada previamente:
+
+$$ P(s) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \zeta(ns) $$
+
+Esta serie converge absolutamente y define una función holomorfa en el semiplano $\Re(s) > 1$. En este dominio, $\zeta(ns)$ no tiene ceros ni polos (excepto el polo simple de $\zeta(s)$ en $s=1$, que corresponde a $n=1$), por lo que el logaritmo complejo está perfectamente definido. Sin embargo, la estructura analítica de $P(s)$ está intrínsecamente ligada a los ceros y polos de $\zeta(ns)$. 
+
+La función $\log(z)$ tiene una singularidad logarítmica (un corte de rama) en $z=0$. Por lo tanto, cada vez que $\zeta(ns) = 0$, la función $\log \zeta(ns)$ desarrolla un corte de rama. Los ceros no triviales de la función Zeta de Riemann, denotados habitualmente como $\rho_k = \frac{1}{2} + i\gamma_k$ (donde $\gamma_k \in \mathbb{R}$), generan singularidades en $P(s)$ cada vez que el argumento $ns$ coincide con uno de estos ceros:
+
+$$ ns = \rho_k \implies s = \frac{\rho_k}{n} = \frac{1}{2n} + i\frac{\gamma_k}{n} $$
+
+Para cada entero $n$ tal que $\mu(n) \neq 0$ (es decir, para cada $n$ libre de cuadrados), la función $\log \zeta(ns)$ introduce una familia infinita de cortes de rama logarítmicos en el plano complejo de $s$, ubicados exactamente en los puntos $s_{n,k} = \frac{1}{2n} + i\frac{\gamma_k}{n}$.
+
+\subsection{La acumulación densa en el eje imaginario}
+
+El comportamiento catastrófico de $P(s)$ surge al analizar la distribución de estos puntos singulares $s_{n,k}$ cuando $n \to \infty$. Observemos la parte real de estas singularidades:
+
+$$ \Re(s_{n,k}) = \frac{1}{2n} $$
+
+A medida que $n$ crece y recorremos los enteros libres de cuadrados, la parte real de las singularidades tiende a cero. Simultáneamente, las partes imaginarias $\Im(s_{n,k}) = \frac{\gamma_k}{n}$ se distribuyen por todo el eje real. Dado que la densidad de los ceros de Riemann $\gamma_k$ crece asintóticamente como $\frac{T}{2\pi} \log \frac{T}{2\pi}$, la división por $n$ asegura que los puntos $\frac{\gamma_k}{n}$ se vuelven densos en $\mathbb{R}$.
+
+En consecuencia, los cortes de rama logarítmicos generados por los ceros no triviales de $\zeta(ns)$ se acumulan infinitamente a lo largo de toda la línea vertical $\Re(s) = 0$. Esta línea, el eje imaginario, se convierte en una \textbf{frontera natural} para la función $P(s)$. 
+
+Una frontera natural es una línea (o curva) en el plano complejo tal que la función no puede ser analíticamente continuada a través de ningún punto de ella. No importa cuán pequeño sea el disco abierto que intentemos dibujar alrededor de un punto en el eje imaginario; dicho disco contendrá inevitablemente una infinidad de cortes de rama superpuestos, haciendo imposible la definición de una rama analítica única y continua.
+
+\subsection{Singularidades en el eje real y el cerco analítico del origen}
+
+La obstrucción analítica no se limita al eje imaginario. La función $P(s)$ también presenta una secuencia infinita de singularidades a lo largo del eje real positivo que convergen directamente hacia el origen. 
+
+El polo simple de $\zeta(z)$ en $z=1$ induce singularidades en $\log \zeta(ns)$ cada vez que $ns = 1$, es decir, en $s = 1/n$. Dado que la suma involucra el factor de Möbius $\mu(n)$, estas singularidades reales están presentes en $s = 1/k$ para todo entero $k$ libre de cuadrados. 
+
+La naturaleza de estas singularidades depende del signo de $\mu(k)$:
+\begin{itemize}
+    \item Si $\mu(k) = 1$, la singularidad en $s = 1/k$ es un corte de rama que tiende hacia $+\infty$ (singularidad hacia "arriba").
+    \item Si $\mu(k) = -1$, la singularidad en $s = 1/k$ es un corte de rama que tiende hacia $-\infty$ (singularidad hacia "abajo").
+\end{itemize}
+
+A medida que $k \to \infty$, los puntos $s = 1/k$ se acumulan densamente en $s = 0$ desde la derecha (el semiplano positivo). Esto crea un "cerco" de singularidades logarítmicas alternantes a lo largo del eje real que converge exactamente en el origen.
+
+\subsection{El colapso del formalismo estándar de Zeta-Regularización}
+
+La convergencia de las singularidades del eje real y la acumulación de los cortes de rama del eje imaginario tienen una consecuencia devastadora para la regularización: el punto $s=0$ está completamente cercado y atrapado en la frontera natural.
+
+Recordemos que el formalismo estándar de la Zeta-Regularización para productos infinitos exige calcular la derivada de la función zeta espectral evaluada en el origen:
+
+$$ \prod_{p \text{ prime}} p = \exp(-P'(0)) $$
+
+Para que esta fórmula tenga sentido matemático bajo los paradigmas clásicos del análisis complejo, la función $P(s)$ debe ser, como mínimo, analítica (holomorfa) en un entorno abierto que contenga a $s=0$, o en el peor de los casos, tener un polo aislado en $s=0$ del cual se pueda extraer un residuo o parte principal. 
+
+Sin embargo, debido a la frontera natural:
+\begin{enumerate}[a)]
+    \item $P(s)$ \textbf{no es analítica} en $s=0$. No existe ningún disco $\mathcal{D}(0, \epsilon)$ donde $P(s)$ sea holomorfa, ya que cualquier entorno del origen está atravesado por la frontera natural del eje imaginario y asediado por las singularidades reales en $1/k$.
+    \item $P(s)$ \textbf{no tiene un polo aislado} en $s=0$. Las singularidades que convergen en el origen son cortes de rama logarítmicos, no polos. La función oscila salvajemente y no está acotada en ninguna dirección que se acerque a $s=0$ a lo largo del eje real.
+    \item La derivada $P'(0)$ \textbf{no está definida} en el sentido clásico de la continuación analítica. No podemos simplemente "evaluar" o "tomar el límite" de la derivada porque la función carece de una extensión meromorfa en esa región.
+\end{enumerate}
+
+El obstáculo de la frontera natural nos dicta una verdad ineludible: la maquinaria analítica que funcionó maravillosamente para los números naturales (donde $\zeta(s)$ es meromorfa en todo $\mathbb{C}$) fracasa estrepitosamente para los números primos. La función $P(s)$ se niega a ser continuada hasta el origen. Por lo tanto, calcular el producto de todos los números primos requiere abandonar la continuación analítica estándar y desarrollar un marco heurístico y algebraico completamente nuevo que pueda lidiar con funciones evaluadas \textit{sobre} su propia frontera natural.
+
+\section{Superando la Frontera (Método de Muñoz García y Pérez-Marco)}
+
+Habiendo establecido que la función Zeta Prima $P(s)$ posee una frontera natural a lo largo del eje imaginario, el formalismo clásico de la Zeta-Regularización —que exige la evaluación de la función o de sus derivadas en $s=0$ mediante continuación analítica— colapsa irremediablemente. El origen $s=0$ no es un punto aislado de singularidad, sino un punto de acumulación densa de cortes de rama logarítmicos. Sin embargo, en 2003, Muñoz García y Pérez-Marco demostraron que es posible eludir este obstáculo analítico recurriendo a identidades algebraicas profundas que conectan la función $P(s)$ con la función Zeta de Riemann $\zeta(s)$, permitiendo así asignar un valor regularizado riguroso a $P'(0)$ y, por extensión, al producto de todos los números primos. Más aún, su enfoque puede extenderse para evaluar $P(s)$ a una distancia finita más allá de la frontera natural, proporcionando un valor para la suma de todos los números primos.
+
+\subsection{La Identidad de Artin-Hasse y la reconstrucción de $P(s)$}
+
+La estrategia fundamental para superar la frontera natural consiste en no intentar continuar $P(s)$ directamente, sino reconstruirla a partir de $\zeta(s)$ utilizando una identidad exponencial clásica. La herramienta clave es la \textbf{Identidad de Artin-Hasse}, la cual establece que la función exponencial puede factorizarse como un producto infinito indexado por la función de Möbius $\mu(n)$:
+
+$$ e^x = \prod_{n=1}^{\infty} \left(1 - x^n\right)^{-\mu(n)/n} $$
+
+Esta identidad es válida para $|x| < 1$ y puede extenderse formalmente en el contexto de las series de Dirichlet. Para conectar esta identidad con la función Zeta Prima, evaluamos la exponencial de $P(s)$:
+
+$$ \exp(P(s)) = \exp\left( \sum_{p \text{ prime}} p^{-s} \right) = \prod_{p \text{ prime}} \exp(p^{-s}) $$
+
+Aplicando la identidad de Artin-Hasse a cada factor $\exp(p^{-s})$ (con $x = p^{-s}$), obtenemos:
+
+$$ \exp(P(s)) = \prod_{p \text{ prime}} \prod_{n=1}^{\infty} \left(1 - p^{-ns}\right)^{-\mu(n)/n} $$
+
+Dado que estamos operando en el semiplano $\Re(s) > 1$, la doble suma (y por ende el doble producto) converge absolutamente, lo que nos permite intercambiar el orden de los productos infinitos sin alterar el resultado:
+
+$$ \exp(P(s)) = \prod_{n=1}^{\infty} \left( \prod_{p \text{ prime}} \left(1 - p^{-ns}\right)^{-1} \right)^{\mu(n)/n} $$
+
+Reconocemos inmediatamente que el producto interno es exactamente la representación del Producto de Euler para la función Zeta de Riemann evaluada en $ns$. Por lo tanto:
+
+$$ \exp(P(s)) = \prod_{n=1}^{\infty} \zeta(ns)^{\mu(n)/n} $$
+
+Tomando el logaritmo complejo en ambos lados, recuperamos la representación explícita de $P(s)$ que ya habíamos derivado mediante la inversión de Möbius, pero ahora con una justificación exponencial directa:
+
+$$ P(s) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \zeta(ns) $$
+
+Aunque esta serie hereda la frontera natural de $\zeta(ns)$, la estructura algebraica subyacente nos permite manipular las sumas que involucran a $\mu(n)$ utilizando el propio esquema de Zeta-Regularización, tratándolas como series de Dirichlet evaluadas en puntos donde la continuación analítica de la función generadora $M(s) = \sum \mu(n) n^{-s} = 1/\zeta(s)$ está bien definida.
+
+\subsection{Evaluación heurística de $P'(0)$ y el producto de los primos}
+
+El objetivo central es calcular el producto de todos los números primos, definido formalmente como $\Pi = \exp(-P'(0))$. Para ello, derivamos la expresión de $P(s)$ respecto a $s$:
+
+$$ P'(s) = \frac{d}{ds} \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \zeta(ns) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \cdot n \frac{\zeta'(ns)}{\zeta(ns)} = \sum_{n=1}^{\infty} \mu(n) \frac{\zeta'(ns)}{\zeta(ns)} $$
+
+El desafío analítico radica en evaluar esta expresión en $s=0$, un punto situado sobre la frontera natural. Siguiendo el enfoque heurístico de Muñoz García y Pérez-Marco, evaluamos formalmente la suma en $s=0$:
+
+$$ P'(0) = \sum_{n=1}^{\infty} \mu(n) \frac{\zeta'(0)}{\zeta(0)} = \frac{\zeta'(0)}{\zeta(0)} \sum_{n=1}^{\infty} \mu(n) $$
+
+La suma $\sum_{n=1}^{\infty} \mu(n)$ es clásicamente divergente y oscilante. Sin embargo, en el marco de la Zeta-Regularización, esta suma se identifica con la serie de Dirichlet de la función de Möbius $M(s) = \sum \mu(n) n^{-s} = 1/\zeta(s)$ evaluada en $s=0$. Por lo tanto, asignamos el valor regularizado:
+
+$$ \sum_{n=1}^{\infty} \mu(n) := M(0) = \frac{1}{\zeta(0)} $$
+
+Sustituyendo este valor en la expresión para $P'(0)$, obtenemos:
+
+$$ P'(0) = \frac{\zeta'(0)}{\zeta(0)} \cdot \frac{1}{\zeta(0)} = \frac{\zeta'(0)}{\zeta(0)^2} $$
+
+Ahora, utilizamos los valores clásicos y rigurosamente establecidos de la función Zeta de Riemann en el origen:
+\begin{itemize}
+    \item $\zeta(0) = -\frac{1}{2}$
+    \item $\zeta'(0) = -\frac{1}{2} \log(2\pi)$
+\end{itemize}
+
+Sustituyendo estos valores en la ecuación:
+
+$$ P'(0) = \frac{-\frac{1}{2} \log(2\pi)}{\left(-\frac{1}{2}\right)^2} = \frac{-\frac{1}{2} \log(2\pi)}{\frac{1}{4}} = -2 \log(2\pi) = -\log(4\pi^2) $$
+
+Finalmente, aplicamos la fórmula maestra para el producto regularizado:
+
+$$ \Pi = \prod_{p \text{ prime}} p = \exp(-P'(0)) = \exp(\log(4\pi^2)) = 4\pi^2 $$
+
+Este resultado es extraordinario. A pesar de que $P(s)$ no es analítica en $s=0$, la estructura algebraica de la identidad de Artin-Hasse, combinada con la regularización de la suma de Möbius, permite extraer un valor finito, coherente y profundamente conectado con las constantes fundamentales de la matemática. El producto de todos los números primos es exactamente $4\pi^2$.
+
+\subsection{La suma regularizada de los primos $P(-1)$ y el cruce de la frontera}
+
+Si evaluar $P'(0)$ requirió operar \textit{sobre} la frontera natural, calcular la suma regularizada de todos los números primos, $P(-1) = \sum_{p} p$, exige cruzar la frontera y adentrarse en el semiplano izquierdo $\Re(s) < 0$, a una distancia finita del eje imaginario. 
+
+Utilizando la misma representación logarítmica, la suma regularizada se expresa como:
+
+$$ P(-1) = \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \zeta(-n) $$
+
+Aquí nos encontramos con un obstáculo técnico inmediato: la función Zeta de Riemann se anula en todos los enteros negativos pares (los ceros triviales, $\zeta(-2k) = 0$). El logaritmo de cero es indefinido. Para resolver esto, introducimos un parámetro de regularización $\epsilon$ y evaluamos $P(-1+\epsilon)$, tomando la parte real (ya que esperamos que la suma de primos positivos sea un número real) y considerando el límite $\epsilon \to 0$:
+
+$$ P(-1+\epsilon) \approx \sum_{n \text{ odd}} \frac{\mu(n)}{n} \log |\zeta(-n)| + \sum_{n \text{ even}} \frac{\mu(n)}{n} \log |n\epsilon \zeta'(-n)| $$
+
+Separamos la suma en índices impares y pares. En la suma de los índices pares, el término $\log \epsilon$ aparece multiplicado por $\sum_{n \text{ even}} \frac{\mu(n)}{n}$. Definimos las series de Dirichlet restringas:
+
+$$ M_{\text{odd}}(s) = \sum_{n \text{ odd}} \mu(n) n^{-s}, \quad M_{\text{even}}(s) = \sum_{n \text{ even}} \mu(n) n^{-s} $$
+
+Dado que $\mu(2k) = -\mu(k)$ si $k$ es impar y $0$ si $k$ es par, se cumple que $M_{\text{even}}(s) = -2^{-s} M_{\text{odd}}(s)$. Como $M_{\text{odd}}(s) + M_{\text{even}}(s) = M(s) = 1/\zeta(s)$, podemos despejar:
+
+$$ M_{\text{even}}(s) = \frac{-1}{(2^s - 1)\zeta(s)} $$
+
+Evaluando en $s=1$, y recordando que $\zeta(s)$ tiene un polo simple en $s=1$ (por lo que $1/\zeta(1) = 0$), obtenemos que $M_{\text{even}}(1) = 0$. Esto es crucial: \textit{el término divergente proporcional a $\log \epsilon$ se cancela exactamente}, dejando un límite bien definido cuando $\epsilon \to 0$:
+
+$$ P(-1) = \sum_{n \text{ odd}} \frac{\mu(n)}{n} \log |\zeta(-n)| + \sum_{n \text{ even}} \frac{\mu(n)}{n} \log |n\zeta'(-n)| $$
+
+Para evaluar estas sumas, aplicamos la fórmula de reflexión de la función Zeta, $\zeta(1-s) = 2(2\pi)^{-s} \cos(\frac{\pi s}{2}) \Gamma(s) \zeta(s)$, lo que nos permite expresar $|\zeta(-n)|$ y $|n\zeta'(-n)|$ en términos de $\zeta(n+1)$, factoriales y potencias de $\pi$. Tras sustituir, las sumas toman la forma:
+
+$$ P_{\text{odd}} = \sum_{n \text{ odd}} \frac{\mu(n)}{n} \log \left( \frac{n! (e/n)^n \zeta(n+1)}{\pi} \right) $$
+$$ P_{\text{even}} = \sum_{n \text{ even}} \frac{\mu(n)}{n} \log \left( \frac{n \cdot n! (e/n)^n \zeta(n+1)}{2} \right) $$
+
+Estas series aún son divergentes debido al crecimiento asintótico de los argumentos de los logaritmos, los cuales crecen como $\sqrt{2n/\pi}$ (para impares) y $\sqrt{\pi n^3/2}$ (para pares). Para extraer el valor finito, aislamos el comportamiento asintótico líder, que es proporcional a $(n/2\pi e)^n$, y regularizamos las sumas de estos términos asintóticos utilizando las propiedades de $M(s)$ y sus derivadas. 
+
+El proceso de regularización de los términos asintóticos genera contribuciones racionales exactas. Específicamente, la regularización del término líder produce $2$, la del siguiente orden produce $-1$ (para los impares) y $3/2$ (para los pares). La suma de estas contribuciones racionales es:
+
+$$ 2 - 1 + \frac{3}{2} = \frac{5}{2} $$
+
+Lo que resta de las sumas, una vez sustraído el crecimiento asintótico, es una serie absolutamente convergente. Reuniendo todo, llegamos a la expresión final para la suma de todos los números primos:
+
+$$ P(-1) = \frac{5}{2} + \sum_{n=1}^{\infty} \frac{\mu(n)}{n} \log \left( \frac{n! (e/n)^n \zeta(n+1)}{\sqrt{2\pi n}} \right) $$
+
+La serie infinita restante converge rápidamente y su valor numérico es aproximadamente $0.425292456\dots$. Por lo tanto, la suma regularizada de todos los números primos es:
+
+$$ P(-1) = 2 + 3 + 5 + 7 + 11 + 13 + \dots = 2.925292456\dots $$
+
+\subsubsection{Significado del cruce de la frontera}
+
+El cálculo de $P(-1)$ representa un hito en la teoría de la regularización. No solo hemos evaluado la función en la frontera natural ($s=0$), sino que la hemos evaluado en $s=-1$, cruzando la barrera de los cortes de rama logarítmicos. 
+
+Esto es posible porque la identidad $P(s) = \sum \frac{\mu(n)}{n} \log \zeta(ns)$ actúa como un "puente algebraico". Aunque $P(s)$ individualmente no puede ser continuada analíticamente más allá del eje imaginario, la serie de funciones $\log \zeta(ns)$ ponderadas por $\mu(n)/n$ permite que las singularidades se redistribuyan y se cancelen mutuamente en la suma regularizada. La frontera natural de $P(s)$ es, en cierto sentido, un artefacto de la representación logarítmica individual; al sumar sobre todos los $n$ con los pesos de Möbius, la estructura global de la función Zeta de Riemann domina, permitiendo que la regularización zeta de las sumas de Möbius extraiga un valor finito y consistente. 
+
+Este resultado demuestra que la Zeta-Regularización, cuando se combina con las herramientas de la teoría analítica de números, posee un poder analítico que trasciende las limitaciones impuestas por la continuación analítica clásica, abriendo la puerta a la asignación de valores finitos a sumas y productos que yacen en las regiones más hostiles del plano complejo.
+
+\section{Generalización a Campos Cuadráticos Imaginarios}
+
+El éxito de la Zeta-Regularización para los números naturales y los números primos de $\mathbb{N}$ motiva una pregunta natural: ¿puede extenderse esta maquinaria analítica a otros anillos de enteros algebraicos? La respuesta es afirmativa y conduce a resultados de una elegancia aritmética extraordinaria. En esta sección, generalizamos los productos regularizados a los campos cuadráticos imaginarios $\mathbb{Q}(i\sqrt{d})$ donde el anillo de enteros $\mathbb{Z}[\omega]$ posee factorización única en primos (es decir, tiene número de clase uno). 
+
+\subsection{Enteros de Gauss ($\mathbb{Z}[i]$) y de Eisenstein ($\mathbb{Z}[\omega]$)}
+
+Para construir productos regularizados en un anillo de enteros algebraicos, primero debemos definir la norma de los elementos y el grupo de unidades. Dado que los anillos contienen raíces de la unidad, el producto de todos los elementos no nulos no converge ni siquiera en sentido regularizado si no agrupamos los elementos por sus clases de asociatividad. Por ello, trabajamos con el módulo (o norma absoluta) de los elementos.
+
+\begin{itemize}
+    \item \textbf{Enteros de Gauss ($\mathbb{Z}[i]$):} Corresponden al campo $\mathbb{Q}(i)$, con discriminante absoluto $\Delta = 4$. Los elementos son de la forma $a+bi$, y su norma al cuadrado es $\|a+bi\|^2 = a^2+b^2$. El grupo de unidades está formado por $\{\pm 1, \pm i\}$, por lo que el número de unidades es $w_4 = 4$.
+    \item \textbf{Enteros de Eisenstein ($\mathbb{Z}[\omega]$):} Corresponden al campo $\mathbb{Q}(\sqrt{-3})$, con discriminante absoluto $\Delta = 3$. Los elementos son de la forma $a+b\omega$, donde $\omega = e^{2\pi i/3}$, y su norma al cuadrado es $\|a+b\omega\|^2 = a^2-ab+b^2$. El grupo de unidades tiene $w_3 = 6$ elementos.
+\end{itemize}
+
+En general, para los nueve campos cuadráticos imaginarios con factorización única (cuyos discriminantes absolutos $\Delta$ son los números de Heegner: $3, 4, 7, 8, 11, 19, 43, 67, 163$), definimos el producto regularizado de todos los enteros no nulos (agrupados por norma) como:
+
+$$ |P_\Delta|^2 = \prod_{(a,b) \neq (0,0)} \|a+b\omega\|^2 = \exp(-\zeta_\Delta'(0)) $$
+
+donde $\zeta_\Delta(s)$ es la función Zeta de Dedekind asociada al campo. De manera análoga, el producto regularizado de todos los primos del anillo (también agrupados por norma) se define como:
+
+$$ |\Pi_\Delta|^2 = \prod_{a+b\omega \text{ primo}} \|a+b\omega\|^2 = \exp(-P_\Delta'(0)) $$
+
+donde $P_\Delta(s)$ es la función Zeta Prima asociada al campo.
+
+\subsection{Funciones Zeta de Dedekind y funciones L de Dirichlet}
+
+La clave analítica para evaluar estos productos reside en la descomposición de la función Zeta de Dedekind $\zeta_\Delta(s)$ en términos de funciones más elementales. La función Zeta de Dedekind se define inicialmente para $\Re(s) > 1$ como:
+
+$$ \zeta_\Delta(s) = \sum_{(a,b) \neq (0,0)} \|a+b\omega\|^{-2s} $$
+
+Un teorema fundamental de la teoría algebraica de números establece que $\zeta_\Delta(s)$ factoriza como el producto de la función Zeta de Riemann $\zeta(s)$ y una función L de Dirichlet $L_\Delta(s)$:
+
+$$ \zeta_\Delta(s) = w_\Delta \zeta(s) L_\Delta(s) $$
+
+donde $w_\Delta$ es el número de unidades del anillo, y la función L de Dirichlet se define mediante la serie:
+
+$$ L_\Delta(s) = \sum_{n=1}^{\infty} \frac{\chi_\Delta(n)}{n^s} $$
+
+Aquí, $\chi_\Delta(n) = \left(\frac{D}{n}\right)$ es el símbolo de Kronecker (o de Legendre generalizado), donde $D = -\Delta$ es el discriminante del campo. La función $\chi_\Delta(n)$ es un carácter de Dirichlet completamente multiplicativo que codifica cómo se descomponen los primos racionales $p$ en el anillo $\mathbb{Z}[\omega]$:
+\begin{enumerate}[a)]
+    \item Si $\chi_\Delta(p) = 1$, el primo $p$ se \textit{divide} (split) en dos primos conjugados en $\mathbb{Z}[\omega]$.
+    \item Si $\chi_\Delta(p) = -1$, el primo $p$ permanece \textit{inerte} (es primo en $\mathbb{Z}[\omega]$).
+    \item Si $\chi_\Delta(p) = 0$, el primo $p$ se \textit{ramifica} (es el cuadrado de un primo en $\mathbb{Z}[\omega]$).
+\end{enumerate}
+
+Esta factorización es crucial porque nos permite heredar las propiedades analíticas de $\zeta(s)$ y $L_\Delta(s)$. En particular, evaluando en $s=0$, se cumple que $\zeta_\Delta(0) = -1$ (lo que analíticamente "cuenta" el origen $(0,0)$ excluido del producto con signo negativo) y la derivada $\zeta_\Delta'(0)$ puede calcularse explícitamente usando la fórmula de Lerch generalizada y las razones de Gamma de Chowla-Selberg.
+
+\subsection{La ley de potencia universal: Relación entre el producto de enteros y primos}
+
+Para conectar el producto de todos los enteros $|P_\Delta|$ con el producto de todos los primos $|\Pi_\Delta|$, debemos construir la función Zeta Prima del campo, $P_\Delta(s)$. Al igual que en $\mathbb{N}$, utilizamos la identidad de Artin-Hasse y la inversión de Möbius, pero adaptadas a la estructura de primos de $\mathbb{Z}[\omega]$.
+
+Definimos la función generadora de los primos del campo mediante su producto de Euler:
+
+$$ Z_\Delta(s) = \prod_{a+b\omega \text{ primo}} \left(1 - \|a+b\omega\|^{-2s}\right)^{-1} $$
+
+Debido a la clasificación de los primos racionales (inertes, divididos, ramificados) y al hecho de que cada ideal primo está generado por exactamente $w_\Delta$ primos asociados (diferentes solo por multiplicación por unidades), la función $Z_\Delta(s)$ se relaciona con la función Zeta de Dedekind mediante una potencia exacta:
+
+$$ Z_\Delta(s) = \left( \frac{\zeta_\Delta(s)}{w_\Delta} \right)^{w_\Delta} $$
+
+Esta ecuación es el puente algebraico que generaliza la relación $\zeta(s) = \prod (1-p^{-s})^{-1}$ a los campos cuadráticos. Tomando el logaritmo complejo y derivando respecto a $s$, obtenemos la derivada logarítmica:
+
+$$ \frac{Z_\Delta'(s)}{Z_\Delta(s)} = w_\Delta \frac{\zeta_\Delta'(s)}{\zeta_\Delta(s)} $$
+
+Siguiendo la heurística de Muñoz García y Pérez-Marco que utilizamos para los primos naturales, la derivada de la función Zeta Prima en el origen se evalúa como:
+
+$$ P_\Delta'(0) = \frac{1}{\zeta(0)} \frac{Z_\Delta'(0)}{Z_\Delta(0)} $$
+
+Sustituyendo la derivada logarítmica que acabamos de encontrar:
+
+$$ P_\Delta'(0) = \frac{1}{\zeta(0)} \left( w_\Delta \frac{\zeta_\Delta'(0)}{\zeta_\Delta(0)} \right) $$
+
+Ahora, introducimos los valores analíticos exactos en $s=0$:
+\begin{itemize}
+    \item $\zeta(0) = -1/2$
+    \item $\zeta_\Delta(0) = -1$
+\end{itemize}
+
+Sustituyendo estos valores en la expresión:
+
+$$ P_\Delta'(0) = \frac{1}{-1/2} \left( w_\Delta \frac{\zeta_\Delta'(0)}{-1} \right) = -2 \left( -w_\Delta \zeta_\Delta'(0) \right) = 2w_\Delta \zeta_\Delta'(0) $$
+
+Este es el resultado central. La derivada de la función Zeta Prima del campo en el origen es exactamente $2w_\Delta$ veces la derivada de la función Zeta de Dedekind. 
+
+Finalmente, aplicamos la fórmula maestra para el producto regularizado de los primos:
+
+$$ |\Pi_\Delta|^2 = \exp(-P_\Delta'(0)) = \exp(-2w_\Delta \zeta_\Delta'(0)) = \left( \exp(-\zeta_\Delta'(0)) \right)^{2w_\Delta} $$
+
+Dado que $|P_\Delta|^2 = \exp(-\zeta_\Delta'(0))$, obtenemos la relación para los cuadrados de las normas. Tomando la raíz cuadrada, llegamos a la \textbf{Ley de Potencia Universal} para los nueve campos cuadráticos imaginarios con factorización única:
+
+$$ |\Pi_\Delta| = |P_\Delta|^{2w_\Delta} $$
+
+Esta fórmula es una generalización directa y asombrosa de la relación $\Pi = P^4$ para los números naturales (donde $w=2$ si consideramos $\pm 1$, aunque en $\mathbb{N}$ la fórmula es $\Pi = P^4$ por convenciones de producto sobre $\mathbb{Z}$). En los campos cuadráticos, el exponente $2w_\Delta$ depende estrictamente de la simetría del anillo:
+\begin{itemize}
+    \item Para los enteros de Eisenstein ($\Delta = 3$), $w_3 = 6$, por lo que $|\Pi_3| = |P_3|^{12}$.
+    \item Para los enteros de Gauss ($\Delta = 4$), $w_4 = 4$, por lo que $|\Pi_4| = |P_4|^8$.
+    \item Para los otros siete campos de Heegner ($\Delta = 7, 8, 11, 19, 43, 67, 163$), $w_\Delta = 2$, por lo que $|\Pi_\Delta| = |P_\Delta|^4$.
+\end{itemize}
+
+Esta ley universal demuestra que la Zeta-Regularización no solo asigna valores finitos a productos divergentes, sino que preserva y revela las simetrías algebraicas más profundas de los anillos de enteros, conectando la geometría de los retículos (a través de $w_\Delta$) con la distribución asintótica de sus elementos primos.
+

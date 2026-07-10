@@ -1,0 +1,575 @@
+\documentclass[a4paper]{article}
+
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, mathrsfs}
+\usepackage[margin=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{parskip}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel, calc, decorations.pathreplacing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+
+
+% cabecera
+\pagestyle{fancy}
+\fancyhead[l]{Teoria Analitica de Números}
+\fancyhead[c]{Introduccion}
+\fancyhead[r]{\today}
+\fancyfoot[c]{\thepage}
+\renewcommand{\headrulewidth}{0.2pt} % linea horizontal
+
+
+\begin{document}
+
+\tableofcontents
+
+\section{Secuencia y Serie}
+
+En el análisis matemático, particularmente en el análisis complejo y la teoría analítica de números, los conceptos de sucesión (o secuencia) y serie constituyen la piedra angular para el estudio de funciones, convergencia y propiedades asintóticas. A continuación, se formalizan estas definiciones de manera rigurosa, estableciendo primero la naturaleza general de una serie y posteriormente su vínculo intrínseco con las secuencias.
+
+\subsection*{Secuencia}
+Una secuencia $\Lambda$ en un conjunto $X$ (típicamente $X = \mathbb{R}$ o $X = \mathbb{C}$) es una función $f: \mathbb{N} \to X$. En lugar de utilizar la notación funcional estándar $f(n)$, es convención denotar la imagen de $n$ bajo $f$ como $\lambda_n$. Por lo tanto, la secuencia se denota como:
+$$ \Lambda = \{\lambda_n\}_{n=1}^{\infty} = (\lambda_1, \lambda_2, \lambda_3, \dots) $$
+donde $\lambda_n$ es el $n$-ésimo término de la secuencia.
+
+Decimos que la secuencia $\Lambda$ \textit{converge} a un límite $L \in X$ si se satisface la siguiente condición $\epsilon$-$N$:
+$$ \forall \epsilon > 0, \quad \exists N \in \mathbb{N} \quad \text{tal que} \quad \forall n > N \implies |\lambda_n - L| < \epsilon $$
+Si tal $L$ existe, escribimos $\lim_{n \to \infty} \lambda_n = L$. Si la secuencia no converge, se dice que diverge.
+
+\subsection*{Serie}
+De manera general, una \textit{serie} es una expresión matemática que representa la suma de los términos de una colección infinita de objetos matemáticos (usualmente números reales o complejos). Una serie se escribe formalmente como:
+$$ \sum_{n=1}^{\infty} a_n = a_1 + a_2 + a_3 + \dots $$
+donde $\{a_n\}$ es una colección de términos. En su forma más pura, una serie es simplemente una notación abreviada para una suma infinita. Sin embargo, dado que no podemos realizar una suma infinita de manera directa mediante la aritmética finita, el análisis matemático le otorga un significado riguroso a través del concepto de límite.
+
+\subsection*{Relación entre Serie y Secuencia}
+La conexión fundamental entre ambos conceptos radica en que \textit{toda serie se construye a partir de una secuencia}, y \textit{la convergencia de una serie se define mediante la convergencia de otra secuencia}. 
+
+Dada una secuencia $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$, podemos construir una serie sumando formalmente sus términos:
+$$ \sum_{n=1}^{\infty} \lambda_n $$
+Para darle sentido analítico a esta expresión, introducimos la \textit{secuencia de sumas parciales}, denotada como $\{S_N\}_{N=1}^{\infty}$, donde cada término es la suma finita de los primeros $N$ elementos de la secuencia original:
+$$ S_N = \sum_{n=1}^{N} \lambda_n = \lambda_1 + \lambda_2 + \dots + \lambda_N $$
+La serie $\sum_{n=1}^{\infty} \lambda_n$ \textit{converge} a un valor $S$ si y solo si la secuencia de sumas parciales $\{S_N\}_{N=1}^{\infty}$ converge a $S$. Es decir:
+$$ \lim_{N \to \infty} S_N = S \implies \sum_{n=1}^{\infty} \lambda_n = S $$
+Si la secuencia de sumas parciales diverge (es decir, no existe un límite finito $S$), entonces decimos que la serie es divergente. De este modo, el estudio de las series se reduce al estudio de la convergencia de secuencias.
+
+\subsection*{Criterio de Cauchy para Series}
+Una herramienta analítica fundamental para determinar la convergencia de una serie sin conocer explícitamente su límite (ni calcular la secuencia de sumas parciales) es el Criterio de Cauchy. La serie $\sum_{n=1}^{\infty} \lambda_n$ converge si y solo si:
+$$ \forall \epsilon > 0, \quad \exists N \in \mathbb{N} \quad \text{tal que} \quad \forall m > n > N \implies \left| \sum_{k=n+1}^{m} \lambda_k \right| < \epsilon $$
+
+\subsection*{Contexto en Series de Dirichlet Generales}
+Dado el contexto de la teoría analítica de números, la notación $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ se utiliza frecuentemente para denotar una secuencia de exponentes. Si $\Lambda$ es una secuencia estrictamente creciente de números reales positivos tal que $\lambda_n \to \infty$, la \textit{Serie de Dirichlet General} asociada a esta secuencia de exponentes y a una secuencia de coeficientes complejos $\{a_n\}$ se define como:
+$$ F(s) = \sum_{n=1}^{\infty} a_n e^{-\lambda_n s} $$
+donde $s = \sigma + it$ es una variable compleja. La convergencia de esta serie depende críticamente del crecimiento asintótico de la secuencia $\Lambda$. Por ejemplo, si $\lambda_n = \ln(n)$, la serie se reduce a la Serie de Dirichlet ordinaria $\sum a_n n^{-s}$, fundamental en el estudio de la función Zeta de Riemann.
+
+\subsection{Ejemplos}
+
+A continuación, se presentan ejemplos que ilustran el comportamiento de secuencias y sus series asociadas, abarcando desde casos elementales hasta conexiones con el análisis complejo.
+
+\textbf{Ejemplo 1: Secuencia Geométrica y su Serie}
+Sea la secuencia $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ definida por $\lambda_n = r^{n-1}$, donde $r \in \mathbb{C}$ y $r \neq 1$.
+La $N$-ésima suma parcial de la serie asociada es:
+$$ S_N = \sum_{n=1}^{N} r^{n-1} = 1 + r + r^2 + \dots + r^{N-1} $$
+Multiplicando por $(1-r)$, obtenemos una suma telescópica:
+$$ (1-r)S_N = 1 - r^N \implies S_N = \frac{1 - r^N}{1 - r} $$
+Para analizar la convergencia de la serie, evaluamos el límite de la secuencia de sumas parciales $S_N$ cuando $N \to \infty$:
+$$ \lim_{N \to \infty} S_N = \lim_{N \to \infty} \frac{1 - r^N}{1 - r} $$
+Si $|r| < 1$, entonces $\lim_{N \to \infty} r^N = 0$, y la serie converge a:
+$$ \sum_{n=1}^{\infty} r^{n-1} = \frac{1}{1 - r} $$
+Si $|r| \geq 1$, el límite de $r^N$ no existe o es infinito, por lo que la secuencia de sumas parciales diverge y la serie no converge.
+
+\textbf{Ejemplo 2: Serie Telescópica}
+Consideremos la secuencia $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ dada por:
+$$ \lambda_n = \frac{1}{n(n+1)} $$
+Mediante descomposición en fracciones parciales, podemos reescribir el término general:
+$$ \lambda_n = \frac{1}{n} - \frac{1}{n+1} $$
+La $N$-ésima suma parcial es:
+$$ S_N = \sum_{n=1}^{N} \left( \frac{1}{n} - \frac{1}{n+1} \right) = \left(1 - \frac{1}{2}\right) + \left(\frac{1}{2} - \frac{1}{3}\right) + \dots + \left(\frac{1}{N} - \frac{1}{N+1}\right) $$
+Todos los términos intermedios se cancelan, dejando:
+$$ S_N = 1 - \frac{1}{N+1} $$
+Tomando el límite cuando $N \to \infty$:
+$$ \lim_{N \to \infty} S_N = \lim_{N \to \infty} \left( 1 - \frac{1}{N+1} \right) = 1 $$
+Por lo tanto, la secuencia $\lambda_n$ converge a $0$, y su serie asociada converge absolutamente a $1$.
+
+\textbf{Ejemplo 3: Secuencia de Exponentes en Series de Dirichlet}
+En el estudio de la función Zeta de Riemann $\zeta(s)$, nos encontramos con la secuencia de exponentes $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ definida por:
+$$ \lambda_n = \ln(n) $$
+Esta secuencia es estrictamente creciente y $\lim_{n \to \infty} \ln(n) = \infty$. Si tomamos la secuencia de coeficientes $a_n = 1$, la serie de Dirichlet general asociada es:
+$$ F(s) = \sum_{n=1}^{\infty} 1 \cdot e^{-\ln(n) s} = \sum_{n=1}^{\infty} (e^{\ln n})^{-s} = \sum_{n=1}^{\infty} n^{-s} $$
+El estudio de la convergencia de esta serie depende de la parte real de $s$, denotada como $\sigma = \text{Re}(s)$. La serie converge absolutamente si y solo si $\sigma > 1$. La secuencia $\Lambda = \{\ln n\}$ dicta la estructura analítica de $\zeta(s)$, permitiendo su continuación meromorfa al plano complejo (excepto en $s=1$), un resultado central en la teoría analítica de números.
+
+\subsection{Tarea}
+
+Para consolidar la comprensión analítica de las secuencias y series, resuelva el siguiente problema multipartes. Se requiere rigor en las demostraciones, utilizando las definiciones formales vistas en la sección de concepto.
+
+\textbf{Problema: Análisis Asintótico y Convergencia de Series}
+
+Sea $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ una secuencia de números reales estrictamente positivos.
+
+\textbf{Parte A (Criterio de la Razón Riguroso):}
+Suponga que existe el límite $L = \lim_{n \to \infty} \frac{\lambda_{n+1}}{\lambda_n}$.
+Demuestre formalmente utilizando la definición $\epsilon$-$N$ que:
+\begin{enumerate}[a)]
+	\item Si $L < 1$, la serie $\sum_{n=1}^{\infty} \lambda_n$ converge.
+	\item Si $L > 1$, la serie $\sum_{n=1}^{\infty} \lambda_n$ diverge.
+	
+\textit{Pista: Para el caso $L < 1$, elija un $\epsilon > 0$ tal que $L + \epsilon = r < 1$, y demuestre que a partir de cierto $N$, $\lambda_{n+1} < r \lambda_n$, acotando así la serie por una serie geométrica convergente.}
+\end{enumerate}
+
+\textbf{Parte B (Aplicación a una Secuencia Específica):}
+Considere la secuencia definida por $\lambda_n = \frac{n!}{n^n}$.
+\begin{enumerate}[a)]
+	\item Calcule el límite $L = \lim_{n \to \infty} \frac{\lambda_{n+1}}{\lambda_n}$.
+	\item Con base en el resultado de la Parte A, determine si la serie $\sum_{n=1}^{\infty} \frac{n!}{n^n}$ converge o diverge.
+\end{enumerate}
+\textbf{Parte C (Condiciones Necesarias vs. Suficientes):}
+Considere ahora la secuencia $\lambda_n = \frac{1}{\ln(n+1)}$.
+\begin{enumerate}[a)]
+	\item Demuestre que la secuencia $\Lambda$ converge a $0$ (es decir, $\lim_{n \to \infty} \lambda_n = 0$).
+	\item Demuestre que, a pesar de que los términos de la secuencia tienden a cero, la serie asociada $\sum_{n=1}^{\infty} \frac{1}{\ln(n+1)}$ diverge.
+	
+\textit{Pista: Utilice el criterio de comparación directa comparando $\lambda_n$ con la secuencia $\mu_n = \frac{1}{n}$, cuya serie asociada (serie armónica) es conocida por divergir.}
+\end{enumerate}
+
+\section{Espectro de un operador diferencial}
+
+En el análisis funcional y la teoría de ecuaciones diferenciales, el concepto de espectro de un operador diferencial es una generalización profunda de la noción de autovalores (o valores propios) de las matrices en álgebra lineal de dimensión finita. Para comprender cómo el espectro puede ser representado por una secuencia $\Lambda$, es necesario establecer el marco teórico de los operadores lineales en espacios de dimensión infinita, específicamente en espacios de Hilbert.
+
+\subsection*{Operadores Diferenciales y Espacios de Hilbert}
+Sea $H = L^2(\Omega)$ un espacio de Hilbert de funciones de cuadrado integrable sobre un dominio $\Omega \subseteq \mathbb{R}^n$. Un operador diferencial lineal $L$ se define como una aplicación lineal $L: D(L) \to H$, donde $D(L) \subset H$ es el dominio del operador, el cual incorpora no solo las condiciones de suavidad de las funciones (por ejemplo, tener derivadas de segundo orden en $L^2$), sino también las condiciones de frontera del problema físico o matemático subyacente.
+
+Un ejemplo prototípico es el operador de Sturm-Liouville de segundo orden en un intervalo finito $[a, b]$:
+$$ L[u] = -\frac{d}{dx}\left( p(x) \frac{du}{dx} \right) + q(x)u $$
+donde $p, q$ son funciones reales continuas, y $p(x) > 0$ en $[a, b]$.
+
+\subsection*{Definición del Espectro}
+El espectro de $L$, denotado como $\sigma(L)$, es el conjunto de todos los números complejos $\lambda \in \mathbb{C}$ para los cuales el operador $L - \lambda I$ no es invertible, o más precisamente, no posee una inversa acotada definida en todo $H$. El espectro se descompone en tres partes disjuntas:
+1. \textbf{Espectro puntual (o discreto) $\sigma_p(L)$}: El conjunto de autovalores $\lambda$ para los cuales existe una función no trivial $u \in D(L)$ tal que $Lu = \lambda u$. A estas funciones $u$ se les llama autofunciones.
+2. \textbf{Espectro continuo $\sigma_c(L)$}: Valores $\lambda$ para los cuales $L - \lambda I$ es inyectivo y su imagen es densa en $H$, pero la inversa no es acotada.
+3. \textbf{Espectro residual $\sigma_r(L)$}: Valores $\lambda$ para los cuales $L - \lambda I$ es inyectivo, pero su imagen no es densa en $H$.
+
+\subsection*{Representación del Espectro mediante una Secuencia $\Lambda$}
+Para operadores diferenciales regulares de Sturm-Liouville definidos en un intervalo finito $[a, b]$ con condiciones de frontera separadas y regulares (como Dirichlet, Neumann o Robin), el operador $L$ es autoadjunto y su resolvente $(L - \lambda I)^{-1}$ es un operador compacto en $H$. 
+
+El teorema espectral para operadores compactos autoadjuntos garantiza que el espectro de $L$ es puramente discreto y está constituido exclusivamente por autovalores reales. En este contexto, el espectro $\sigma(L) = \sigma_p(L)$ puede ser representado rigurosamente como una secuencia infinita de números reales:
+$$ \Lambda = \{\lambda_n\}_{n=1}^{\infty} $$
+Esta secuencia posee propiedades analíticas fundamentales:
+\begin{itemize}
+    \item \textbf{Realidad}: $\lambda_n \in \mathbb{R}$ para todo $n \geq 1$, debido a que $L$ es autoadjunto.
+    \item \textbf{Ordenación y Acotación inferior}: Los autovalores pueden ordenarse de manera no decreciente: $\lambda_1 \leq \lambda_2 \leq \lambda_3 \leq \dots$, y existe una cota inferior finita.
+    \item \textbf{Comportamiento asintótico}: La secuencia diverge hacia el infinito, es decir, $\lim_{n \to \infty} \lambda_n = +\infty$. Esto refleja el hecho de que el operador inverso $L^{-1}$ es compacto.
+    \item \textbf{Multiplicidad finita}: Cada autovalor $\lambda_n$ tiene una multiplicidad geométrica finita (en el caso regular de segundo orden, la multiplicidad es exactamente 1).
+    \item \textbf{Completitud}: Las autofunciones $\{u_n\}_{n=1}^{\infty}$ asociadas a la secuencia $\Lambda$ forman una base ortonormal completa en $L^2(a, b)$. Cualquier función $f \in L^2(a, b)$ puede expandirse en una serie de Fourier generalizada: $f(x) = \sum_{n=1}^{\infty} c_n u_n(x)$.
+\end{itemize}
+
+Es crucial notar que si el dominio $\Omega$ no es acotado (por ejemplo, $\Omega = \mathbb{R}$), el operador diferencial generalmente carece de resolvente compacto, y su espectro contiene una parte continua. En tales casos, el espectro no puede ser representado por una secuencia discreta $\Lambda$, sino por un intervalo o una unión de intervalos en $\mathbb{R}$.
+
+\subsection{Ejemplos}
+
+A continuación, se presentan ejemplos que ilustran cómo el espectro de diferentes operadores diferenciales se manifiesta como una secuencia $\Lambda$ o, por el contrario, exhibe un espectro continuo.
+
+\textbf{Ejemplo 1: Operador de Laplace 1D con Condiciones de Dirichlet}
+Consideremos el operador diferencial $L = -\frac{d^2}{dx^2}$ definido en el espacio de Hilbert $L^2(0, \pi)$. El dominio del operador $D(L)$ consiste en funciones $u \in H^2(0, \pi)$ que satisfacen las condiciones de frontera de Dirichlet homogéneas: $u(0) = 0$ y $u(\pi) = 0$.
+
+El problema de autovalores está dado por la ecuación diferencial ordinaria:
+$$ -u''(x) = \lambda u(x) $$
+Para $\lambda > 0$, escribimos $\lambda = k^2$ con $k > 0$. La solución general es:
+$$ u(x) = A \sin(kx) + B \cos(kx) $$
+Aplicando la condición $u(0) = 0$, obtenemos $B = 0$. Aplicando $u(\pi) = 0$, obtenemos:
+$$ A \sin(k\pi) = 0 $$
+Para evitar la solución trivial $A = 0$, requerimos $\sin(k\pi) = 0$, lo que implica $k\pi = n\pi$ para $n \in \mathbb{Z}^+$. Por lo tanto, $k_n = n$, y los autovalores son:
+$$ \lambda_n = n^2, \quad n = 1, 2, 3, \dots $$
+El espectro de este operador está completamente determinado por la secuencia:
+$$ \Lambda = \{n^2\}_{n=1}^{\infty} = \{1, 4, 9, 16, \dots\} $$
+Las autofunciones correspondientes son $u_n(x) = \sqrt{\frac{2}{\pi}} \sin(nx)$, las cuales constituyen la base clásica de las series de Fourier en senos.
+
+\textbf{Ejemplo 2: Operador de Laplace 1D con Condiciones de Neumann}
+Mantengamos el mismo operador $L = -\frac{d^2}{dx^2}$ en $L^2(0, \pi)$, pero ahora con condiciones de frontera de Neumann homogéneas: $u'(0) = 0$ y $u'(\pi) = 0$. Esto modela, por ejemplo, una cuerda vibrante con extremos libres o un problema de conducción de calor con extremos aislados.
+
+La solución general para $\lambda = k^2 > 0$ es la misma: $u(x) = A \sin(kx) + B \cos(kx)$.
+La derivada es $u'(x) = Ak \cos(kx) - Bk \sin(kx)$.
+Aplicando $u'(0) = 0$, obtenemos $Ak = 0 \implies A = 0$ (dado que $k \neq 0$).
+Aplicando $u'(\pi) = 0$, obtenemos:
+$$ -Bk \sin(k\pi) = 0 \implies \sin(k\pi) = 0 \implies k_n = n, \quad n = 1, 2, 3, \dots $$
+Además, debemos considerar el caso $\lambda = 0$. Si $\lambda = 0$, la ecuación es $u'' = 0$, cuya solución es $u(x) = Cx + D$. Las condiciones de frontera $u'(0) = u'(\pi) = 0$ implican $C = 0$, dejando $u_0(x) = D$ (una constante no trivial). Por lo tanto, $\lambda_0 = 0$ es un autovalor.
+
+El espectro en este caso está representado por la secuencia:
+$$ \Lambda = \{n^2\}_{n=0}^{\infty} = \{0, 1, 4, 9, 16, \dots\} $$
+A diferencia del Ejemplo 1, la secuencia incluye el cero, lo que refleja la existencia de un estado estacionario no nulo (el núcleo del operador no es trivial).
+
+\textbf{Ejemplo 3: Contraste con el Espectro Continuo en la Recta Real}
+Consideremos ahora el operador $L = -\frac{d^2}{dx^2}$ definido en $L^2(\mathbb{R})$. El dominio $D(L)$ es el espacio de Sobolev $H^2(\mathbb{R})$. No hay condiciones de frontera explícitas, solo el requisito de que $u \in L^2(\mathbb{R})$.
+
+Buscamos $\lambda \in \mathbb{C}$ tales que $-u'' = \lambda u$ tenga soluciones en $L^2(\mathbb{R})$.
+Si $\lambda < 0$, escribimos $\lambda = -\mu^2$ con $\mu > 0$. Las soluciones son $u(x) = C_1 e^{\mu x} + C_2 e^{-\mu x}$. Ninguna de estas soluciones (excepto la trivial) pertenece a $L^2(\mathbb{R})$ porque divergen cuando $x \to \pm \infty$. Por lo tanto, no hay autovalores negativos.
+
+Si $\lambda > 0$, escribimos $\lambda = k^2$ con $k > 0$. Las soluciones son $u(x) = C_1 e^{ikx} + C_2 e^{-ikx}$. Estas soluciones son acotadas pero \textit{no} son de cuadrado integrable en $\mathbb{R}$ (su integral de $|u|^2$ sobre $\mathbb{R}$ es infinita). Sin embargo, para cualquier $\lambda > 0$, el operador $L - \lambda I$ no es sobreyectivo y su inversa no es acotada. 
+
+En este caso, el espectro no es una secuencia discreta $\Lambda$, sino que es puramente continuo:
+$$ \sigma(L) = \sigma_c(L) = [0, \infty) $$
+Este ejemplo demuestra que la representación del espectro mediante una secuencia $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ es una propiedad exclusiva de operadores con resolvente compacto, típicamente asociados a dominios espaciales acotados o potenciales de confinamiento (como el oscilador armónico en mecánica cuántica).
+
+\subsection{Tarea}
+
+Para consolidar la comprensión analítica del espectro de operadores diferenciales y su representación mediante secuencias, resuelva el siguiente problema multipartes.
+
+\textbf{Problema: Análisis Espectral de un Operador de Sturm-Liouville con Condiciones Mixtas}
+
+Sea el operador diferencial $L = -\frac{d^2}{dx^2}$ definido en el espacio de Hilbert $H = L^2(0, \pi)$. El dominio del operador $D(L)$ está constituido por funciones $u \in H^2(0, \pi)$ que satisfacen las siguientes condiciones de frontera mixtas:
+$$ u(0) = 0 \quad \text{y} \quad u'(\pi) = 0 $$
+
+\textbf{Parte A (Cálculo de la Secuencia Espectral $\Lambda$):}
+1. Plantee la ecuación diferencial de autovalores $Lu = \lambda u$ y resuélvala analíticamente para los casos $\lambda < 0$, $\lambda = 0$ y $\lambda > 0$.
+2. Demuestre que los únicos valores de $\lambda$ que producen autofunciones no triviales en $D(L)$ son estrictamente positivos.
+3. Determine explícitamente la secuencia de autovalores $\Lambda = \{\lambda_n\}_{n=1}^{\infty}$ y escriba la fórmula cerrada para las autofunciones normalizadas $u_n(x)$ correspondientes.
+
+\textbf{Parte B (Propiedades de la Secuencia $\Lambda$):}
+1. Demuestre que la secuencia $\Lambda$ obtenida en la Parte A satisface la condición asintótica $\lim_{n \to \infty} \lambda_n = +\infty$.
+2. Calcule el valor exacto de la serie infinita formada por los inversos de los autovalores:
+$$ S = \sum_{n=1}^{\infty} \frac{1}{\lambda_n} $$
+\textit{Pista: Utilice la función de Green $G(x, s)$ asociada al operador $L$ con las condiciones de frontera dadas. Recuerde que la traza del operador inverso $L^{-1}$ es igual a la integral de la función de Green sobre la diagonal: $\text{Tr}(L^{-1}) = \int_0^{\pi} G(x, x) dx$.}
+
+\textbf{Parte C (Expansión Espectral):}
+Considere la función $f(x) = x$ definida en $[0, \pi]$. 
+1. Exprese $f(x)$ como una serie de autofunciones: $f(x) = \sum_{n=1}^{\infty} c_n u_n(x)$.
+2. Calcule los coeficientes de Fourier generalizados $c_n = \langle f, u_n \rangle$.
+3. Utilice la identidad de Parseval para demostrar que:
+$$ \sum_{n=1}^{\infty} \frac{1}{\lambda_n^2} = \frac{\pi^4}{96} $$
+
+\section{Producto Infinito}
+
+En el análisis matemático, particularmente en el análisis complejo y la teoría analítica de números, el concepto de producto infinito es una herramienta fundamental para la construcción de funciones, la factorización de funciones enteras y la representación de funciones aritméticas. Un producto infinito es la generalización del producto finito de una cantidad infinita de términos.
+
+\subsection*{Definición Formal de Producto Infinito}
+Dada una sucesión de números complejos $\{p_n\}_{n=1}^{\infty}$, el producto infinito asociado se denota formalmente como:
+$$ \prod_{n=1}^{\infty} p_n = p_1 \cdot p_2 \cdot p_3 \cdots $$
+Para asignar un valor matemático riguroso a esta expresión, se define la sucesión de \textit{productos parciales} $P_N$ como:
+$$ P_N = \prod_{n=1}^{N} p_n $$
+Se dice que el producto infinito \textit{converge} si existe un número entero no negativo $n_0$ tal que $p_n \neq 0$ para todo $n > n_0$, y el límite de los productos parciales a partir de $n_0$ existe y es distinto de cero. Es decir, si:
+$$ \lim_{N \to \infty} \prod_{n=n_0+1}^{N} p_n = P \neq 0 $$
+En este caso, el valor del producto infinito se define como:
+$$ \prod_{n=1}^{\infty} p_n = \left( \prod_{n=1}^{n_0} p_n \right) \cdot P $$
+Si el límite $P$ es cero, o si no existe, se dice que el producto infinito \textit{diverge}. Es crucial notar que, a diferencia de las series infinitas donde la divergencia a cero es un caso particular, en los productos infinitos la convergencia a cero se considera divergencia (a menos que sea causada por un número finito de factores nulos).
+
+\subsection*{Convergencia Absoluta y Relación con Series Infinitas}
+En la práctica, y especialmente en los textos de análisis complejo (como Churchill o Riley), los productos infinitos se escriben casi exclusivamente en la forma:
+$$ \prod_{n=1}^{\infty} (1 + a_n) $$
+donde $\{a_n\}_{n=1}^{\infty}$ es una sucesión de números complejos con $a_n \neq -1$. 
+
+La convergencia de este producto está íntimamente ligada a la convergencia de la serie infinita asociada. Tomando el logaritmo complejo del producto parcial, obtenemos:
+$$ \log P_N = \sum_{n=1}^{N} \log(1 + a_n) $$
+Para $|a_n|$ suficientemente pequeño, la expansión de Taylor del logaritmo nos dice que $\log(1 + a_n) \approx a_n$. Esto establece el siguiente teorema fundamental:
+El producto infinito $\prod_{n=1}^{\infty} (1 + a_n)$ converge absolutamente si y solo si la serie infinita $\sum_{n=1}^{\infty} a_n$ converge absolutamente. 
+
+Más precisamente, si $a_n \geq 0$ para todo $n$, el producto $\prod (1 + a_n)$ converge si y solo si la serie $\sum a_n$ converge. Esta dualidad entre productos y series es la piedra angular para demostrar teoremas profundos como el Teorema de Factorización de Weierstrass.
+
+\subsection*{Contexto en Teoría Analítica de Números y Análisis Complejo}
+El estudio de los productos infinitos no se limita a sucesiones de constantes; se extiende a productos de funciones. 
+En la \textit{Teoría Analítica de Números}, los productos infinitos sobre números primos (Productos de Euler) permiten conectar la geometría de los números primos con el análisis complejo, siendo la fórmula del producto de Euler para la función Zeta de Riemann el ejemplo más célebre.
+En el \textit{Análisis Complejo}, los productos infinitos de funciones enteras (Productos de Weierstrass) permiten construir funciones enteras con ceros prescritos en cualquier conjunto discreto del plano complejo, generalizando el Teorema Fundamental del Álgebra a funciones trascendentales.
+
+\subsection{Ejemplos}
+
+A continuación, se presentan ejemplos que ilustran la evaluación, convergencia y aplicación de los productos infinitos en diferentes ramas de las matemáticas.
+
+\textbf{Ejemplo 1: Producto Infinito Telescópico}
+Consideremos el producto infinito de términos reales positivos dado por:
+$$ \prod_{n=1}^{\infty} \frac{n(n+2)}{(n+1)^2} $$
+Podemos reescribir el término general factorizando y separando las fracciones:
+$$ p_n = \frac{n}{n+1} \cdot \frac{n+2}{n+1} $$
+Calculamos el $N$-ésimo producto parcial $P_N$:
+$$ P_N = \prod_{n=1}^{N} \left( \frac{n}{n+1} \right) \cdot \prod_{n=1}^{N} \left( \frac{n+2}{n+1} \right) $$
+El primer producto es telescópico:
+$$ \prod_{n=1}^{N} \frac{n}{n+1} = \frac{1}{2} \cdot \frac{2}{3} \cdot \frac{3}{4} \cdots \frac{N}{N+1} = \frac{1}{N+1} $$
+El segundo producto también es telescópico, pero con un desplazamiento:
+$$ \prod_{n=1}^{N} \frac{n+2}{n+1} = \frac{3}{2} \cdot \frac{4}{3} \cdot \frac{5}{4} \cdots \frac{N+2}{N+1} = \frac{N+2}{2} $$
+Multiplicando ambos resultados, obtenemos el producto parcial cerrado:
+$$ P_N = \frac{1}{N+1} \cdot \frac{N+2}{2} = \frac{N+2}{2(N+1)} $$
+Para determinar la convergencia, tomamos el límite cuando $N \to \infty$:
+$$ \lim_{N \to \infty} P_N = \lim_{N \to \infty} \frac{N+2}{2N+2} = \frac{1}{2} $$
+Dado que el límite es finito y distinto de cero, el producto infinito converge, y su valor es exactamente $1/2$.
+
+\textbf{Ejemplo 2: Producto de Euler para la Función Zeta de Riemann}
+En el contexto de la teoría analítica de números, la función Zeta de Riemann se define inicialmente para $\text{Re}(s) > 1$ mediante la serie de Dirichlet:
+$$ \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} $$
+Euler demostró que esta serie puede factorizarse en un producto infinito sobre todos los números primos $p$. La idea se basa en el Tamiz de Eratóstenes. Si multiplicamos $\zeta(s)$ por $(1 - 2^{-s})$, eliminamos todos los términos pares. Repitiendo el proceso para todos los primos, obtenemos formalmente:
+$$ \zeta(s) = \prod_{p \text{ primo}} \left( 1 - \frac{1}{p^s} \right)^{-1} $$
+Para justificar la convergencia absoluta de este producto infinito para $\text{Re}(s) = \sigma > 1$, escribimos el término general como $1 + a_p$, donde $a_p = (1 - p^{-s})^{-1} - 1 = \frac{p^{-s}}{1 - p^{-s}}$. 
+Para $\sigma > 1$ y $p$ suficientemente grande, $|a_p| \approx p^{-\sigma}$. Dado que la serie $\sum p^{-\sigma}$ converge para $\sigma > 1$ (por comparación con la serie $\sum n^{-\sigma}$), el producto infinito de Euler converge absoluta y uniformemente en regiones de la forma $\text{Re}(s) \geq 1 + \delta$ para cualquier $\delta > 0$. Este producto es la manifestación analítica de la factorización única en números primos.
+
+\textbf{Ejemplo 3: Producto de Weierstrass para el Seno}
+En análisis complejo, una de las factorizaciones más bellas es la del función seno. La función $f(z) = \frac{\sin(\pi z)}{\pi z}$ es una función entera con ceros simples en $z = \pm 1, \pm 2, \dots$. El teorema de factorización de Weierstrass nos permite construir esta función como un producto infinito sobre sus raíces:
+$$ \frac{\sin(\pi z)}{\pi z} = \prod_{n=1}^{\infty} \left( 1 - \frac{z^2}{n^2} \right) $$
+Para analizar la convergencia de este producto de funciones, reescribimos cada factor como $(1 + a_n(z))$, donde $a_n(z) = -z^2/n^2$. 
+El producto converge absoluta y uniformemente en cualquier subconjunto compacto de $\mathbb{C}$ si y solo si la serie $\sum |a_n(z)|$ converge uniformemente en ese compacto. 
+Dado que para $|z| \leq R$, tenemos $|a_n(z)| \leq R^2/n^2$, y la serie $\sum R^2/n^2$ converge (es una serie $p$ con $p=2$), el producto infinito converge. Esta representación es fundamental para deducir identidades como la fórmula de los recíprocos de los cuadrados (el problema de Basilea), evaluando la derivada logarítmica en $z=0$.
+
+\subsection{Tarea}
+
+Para consolidar la comprensión analítica de los productos infinitos y su interacción con las series y la teoría de funciones, resuelva el siguiente problema multipartes. Se requiere rigor en las demostraciones.
+
+\textbf{Problema: Análisis de Convergencia y Aplicaciones del Producto Infinito}
+
+\textbf{Parte A (Equivalencia Producto-Serie para Términos Positivos):}
+Sean $\{a_n\}_{n=1}^{\infty}$ una sucesión de números reales tales que $a_n \geq 0$ para todo $n$.
+Demuestre formalmente que el producto infinito $\prod_{n=1}^{\infty} (1 + a_n)$ converge si y solo si la serie infinita $\sum_{n=1}^{\infty} a_n$ converge.
+\textit{Pista: Utilice las desigualdades $x - x^2/2 \leq \ln(1+x) \leq x$ para $x \geq 0$, y aplique el criterio de comparación para series de términos positivos tanto para la serie original como para la serie de logaritmos.}
+
+\textbf{Parte B (Convergencia de la Serie de Primos Recíprocos):}
+Utilizando el Producto de Euler para la función Zeta de Riemann $\zeta(s) = \prod_p (1 - p^{-s})^{-1}$ válido para $\text{Re}(s) > 1$:
+1. Tome el logaritmo natural de ambos lados y utilice la expansión de Taylor de $-\ln(1-x)$ para expresar $\ln \zeta(s)$ como una suma doble sobre primos y potencias de primos.
+2. Demuestre que cuando $s \to 1^+$, la serie $\sum_p p^{-s}$ diverge.
+3. Concluya que la suma de los recíprocos de los números primos, $\sum_p \frac{1}{p}$, diverge.
+
+\textbf{Parte C (Factores Primarios de Weierstrass):}
+En la construcción de la función Gamma de Euler y en el teorema general de Weierstrass, se utilizan los "factores primarios" definidos como:
+$$ E_k(u) = (1 - u) \exp\left( u + \frac{u^2}{2} + \dots + \frac{u^k}{k} \right) $$
+Considere el producto infinito de funciones $\prod_{n=1}^{\infty} E_1\left(\frac{z}{n}\right)$, donde $E_1(u) = (1-u)e^u$.
+1. Demuestre que para $|u| \leq 1/2$, existe una constante $C > 0$ tal que $|\ln(1-u) + u| \leq C|u|^2$.
+2. Utilice esta cota para demostrar que la serie $\sum_{n=1}^{\infty} \left| \ln E_1\left(\frac{z}{n}\right) \right|$ converge absoluta y uniformemente en cualquier disco compacto $|z| \leq R$.
+3. Concluya que el producto infinito $\prod_{n=1}^{\infty} \left(1 - \frac{z}{n}\right) e^{z/n}$ converge a una función entera no trivial (la cual está inversamente relacionada con la función Gamma de Weierstrass).
+
+\section{Funciones holomorfas y meromorfas}
+
+En el análisis complejo, el estudio de las funciones de variable compleja se centra fundamentalmente en aquellas que poseen propiedades de diferenciabilidad y analiticidad. Dos de las clases de funciones más importantes y ampliamente estudiadas, tal como se desarrolla en textos clásicos de análisis complejo (como Churchill) y en la teoría analítica de números, son las funciones holomorfas y las funciones meromorfas.
+
+\subsection*{Funciones Holomorfas}
+Sea $U$ un subconjunto abierto del plano complejo $\mathbb{C}$. Una función $f: U \to \mathbb{C}$ se dice que es \textit{holomorfa} (o analítica) en $U$ si es complejamente diferenciable en cada punto de $U$. Esto significa que para todo $z_0 \in U$, existe el límite:
+$$ f'(z_0) = \lim_{z \to z_0} \frac{f(z) - f(z_0)}{z - z_0} $$
+y este límite es el mismo independientemente de la dirección desde la cual $z$ se aproxima a $z_0$ en el plano complejo. 
+
+Si escribimos $f(z) = u(x, y) + iv(x, y)$, donde $z = x + iy$ y $u, v$ son funciones con valores reales, la diferenciabilidad compleja impone restricciones severas sobre las componentes real e imaginaria. Específicamente, $f$ es holomorfa si y solo si $u$ y $v$ tienen derivadas parciales continuas que satisfacen las \textit{ecuaciones de Cauchy-Riemann}:
+$$ \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \quad \text{y} \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x} $$
+Una propiedad fundamental de las funciones holomorfas es que son infinitamente diferenciables y pueden ser representadas localmente por su serie de Taylor. Si una función es holomorfa en todo el plano complejo $\mathbb{C}$, se le denomina \textit{función entera}.
+
+\subsection*{Funciones Meromorfas}
+La clase de funciones meromorfas es una generalización natural de las funciones holomorfas que permite la presencia de ciertas singularidades. 
+
+Una función $f$ se dice que es \textit{meromorfa} en un dominio $D \subseteq \mathbb{C}$ si es analítica (holomorfa) en todo $D$ excepto en un conjunto de puntos aislados, todos los cuales son \textit{polos} de $f$. 
+
+Un punto $z_0$ es un polo de orden $m \geq 1$ si el límite $\lim_{z \to z_0} |f(z)| = \infty$ y, equivalentemente, si la función $g(z) = (z - z_0)^m f(z)$ es holomorfa en un entorno de $z_0$ y $g(z_0) \neq 0$. En las cercanías de un polo de orden $m$, la función puede expandirse en una serie de Laurent con un número finito de términos con potencias negativas:
+$$ f(z) = \sum_{k=-m}^{\infty} a_k (z - z_0)^k, \quad \text{con } a_{-m} \neq 0 $$
+Desde una perspectiva geométrica y algebraica, las funciones meromorfas en $D$ son exactamente aquellas que pueden expresarse localmente como el cociente de dos funciones holomorfas, $f(z) = \frac{h(z)}{g(z)}$, donde $g$ no es idénticamente cero. En la esfera de Riemann (el plano complejo extendido $\mathbb{C} \cup \{\infty\}$), una función meromorfa puede verse como una función holomorfa que toma valores en la esfera de Riemann, donde los polos de $f$ son simplemente los puntos que se mapean al "infinito" ($\infty$).
+
+\subsection{Ejemplos}
+
+A continuación, se presentan ejemplos que ilustran la verificación de holomorfía, la identificación de polos y la relevancia de estas funciones en contextos avanzados.
+
+\textbf{Ejemplo 1: Verificación de Holomorfía (Función Entera)}
+Consideremos la función exponencial compleja $f(z) = e^z$. Podemos escribir $f(z)$ en términos de sus componentes real e imaginaria:
+$$ f(z) = e^{x+iy} = e^x \cos y + i e^x \sin y $$
+Por lo tanto, $u(x, y) = e^x \cos y$ y $v(x, y) = e^x \sin y$. Calculamos las derivadas parciales de primer orden:
+$$ \frac{\partial u}{\partial x} = e^x \cos y, \quad \frac{\partial u}{\partial y} = -e^x \sin y $$
+$$ \frac{\partial v}{\partial x} = e^x \sin y, \quad \frac{\partial v}{\partial y} = e^x \cos y $$
+Es evidente que las ecuaciones de Cauchy-Riemann se satisfacen en todo el plano complejo:
+$$ \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \quad \text{y} \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x} $$
+Dado que las derivadas parciales son continuas en $\mathbb{C}$, $f(z) = e^z$ es holomorfa en todo $\mathbb{C}$. Al no tener singularidades, es una función entera.
+
+\textbf{Ejemplo 2: Función Meromorfa y sus Polos}
+Sea la función racional $f(z) = \frac{1}{z^2 + 1}$. El denominador se anula cuando $z^2 = -1$, es decir, en $z_1 = i$ y $z_2 = -i$. 
+Dado que el numerador es una constante no nula y el denominador tiene ceros simples en estos puntos (la derivada del denominador, $2z$, no se anula en $\pm i$), la función $f(z)$ tiene polos simples (de orden 1) en $z = i$ y $z = -i$. 
+Como $f(z)$ es el cociente de dos polinomios (que son funciones enteras), es holomorfa en $\mathbb{C} \setminus \{i, -i\}$. Por lo tanto, $f(z)$ es una función meromorfa en todo el plano complejo $\mathbb{C}$.
+
+\textbf{Ejemplo 3: La Función Zeta de Riemann (Contexto Analítico)}
+En la teoría analítica de números, la función Zeta de Riemann $\zeta(s)$ juega un papel central. Inicialmente definida por la serie de Dirichlet $\zeta(s) = \sum_{n=1}^{\infty} n^{-s}$ para $\text{Re}(s) > 1$, esta serie converge absolutamente y define una función holomorfa en ese semiplano.
+Sin embargo, mediante el proceso de \textit{continuación analítica}, $\zeta(s)$ puede extenderse a una función meromorfa en todo el plano complejo $\mathbb{C}$. La función continuada es holomorfa en todas partes excepto en $s = 1$, donde posee un \textit{polo simple} con residuo $1$. Es decir, $\zeta(s)$ es una función meromorfa en $\mathbb{C}$ con un único polo. Esta propiedad es fundamental para la demostración del Teorema de los Números Primos y el estudio de la distribución de los ceros no triviales (Hipótesis de Riemann).
+
+\subsection{Tarea}
+
+Para consolidar la comprensión analítica de las funciones holomorfas y meromorfas, así como el manejo de sus singularidades, resuelva el siguiente problema multipartes. Se requiere rigor en las demostraciones y cálculos.
+
+\textbf{Problema: Análisis de Singularidades, Cuerpos de Funciones y Derivadas Logarítmicas}
+
+\textbf{Parte A (Clasificación de Singularidades Aisladas):}
+Considere la función compleja definida por:
+$$ f(z) = \frac{1}{z^2 (e^z - 1)} $$
+1. Identifique todas las singularidades aisladas de $f(z)$ en el plano complejo $\mathbb{C}$.
+2. Para cada singularidad $z_k$, determine la naturaleza de la misma (evitable, polo o singularidad esencial) y, si es un polo, calcule su orden exacto $m_k$.
+\textit{Pista: Utilice la expansión en serie de Taylor de $e^z - 1$ alrededor de $z=0$ para analizar el comportamiento en el origen. Para los otros puntos, analice los ceros del denominador.}
+
+\textbf{Parte B (Estructura Algebraica de Funciones Meromorfas):}
+Sea $D$ un dominio (conjunto abierto conexo) en $\mathbb{C}$. Denotemos por $\mathcal{M}(D)$ al conjunto de todas las funciones meromorfas en $D$.
+1. Demuestre formalmente que $\mathcal{M}(D)$ forma un \textit{cuerpo} (campo) bajo las operaciones usuales de suma y multiplicación de funciones.
+\textit{Pista: Debe demostrar que es un anillo conmutativo con identidad, y que todo elemento no nulo tiene un inverso multiplicativo en $\mathcal{M}(D)$. Para el inverso, utilice el teorema de que los ceros de una función holomorfa no idénticamente nula son aislados.}
+
+\textbf{Parte C (Derivada Logarítmica de la Función Zeta):}
+En la teoría analítica de números, la derivada logarítmica de la función Zeta de Riemann, definida como $F(s) = \frac{\zeta'(s)}{\zeta(s)}$, es una herramienta crucial (por ejemplo, en la fórmula explícita de von Mangoldt).
+1. Utilizando las propiedades de $\zeta(s)$ (meromorfa en $\mathbb{C}$ con un polo simple en $s=1$, y sus ceros $\rho$ de multiplicidad $m_\rho$), determine la naturaleza de todas las singularidades de $F(s)$.
+2. Calcule el residuo de $F(s)$ en el polo $s = 1$.
+3. Calcule el residuo de $F(s)$ en un cero $\rho$ de $\zeta(s)$ de multiplicidad $m_\rho$.
+\textit{Pista: Si $g(z)$ tiene un cero de orden $m$ en $z_0$, entonces $g(z) = (z-z_0)^m h(z)$ con $h(z_0) \neq 0$. Derive logarítmicamente esta expresión para encontrar el comportamiento de $g'/g$ cerca de $z_0$.}
+
+
+\section{Continuación y extensión analítica}
+
+En el análisis complejo, la rigidez de las funciones analíticas (es decir, que están completamente determinadas por su comportamiento en un entorno arbitrariamente pequeño) es la propiedad fundamental que permite extender sus dominios de definición más allá de sus regiones originales. Los conceptos de continuación analítica y extensión analítica son pilares en la teoría de funciones de variable compleja y en la teoría analítica de números, permitiendo, por ejemplo, el estudio de la función Zeta de Riemann.
+
+\subsection*{Continuación Analítica}
+Sean $D_1$ y $D_2$ dos dominios (conjuntos abiertos conexos) en el plano complejo $\mathbb{C}$. Supongamos que $f_1$ es una función analítica en $D_1$ y $f_2$ es una función analítica en $D_2$. Si la intersección $D_1 \cap D_2$ no es vacía y se cumple que:
+$$ f_1(z) = f_2(z) \quad \text{para todo } z \in D_1 \cap D_2 $$
+entonces decimos que $f_2$ es la \textit{continuación analítica} de $f_1$ en el dominio $D_2$. Equivalentemente, $f_1$ es la continuación analítica de $f_2$ en $D_1$. 
+
+Bajo estas condiciones, es posible definir una única función $F$ en la unión $D_1 \cup D_2$ mediante:
+$$ F(z) = \begin{cases} f_1(z) & \text{si } z \in D_1 \\ f_2(z) & \text{si } z \in D_2 \end{cases} $$
+El teorema fundamental garantiza que $F(z)$ es analítica en todo el dominio $D_1 \cup D_2$. Este proceso puede iterarse a lo largo de una cadena de dominios superpuestos, extendiendo la función a regiones cada vez más amplias del plano complejo.
+
+\subsection*{Teorema de Unicidad y el Principio de Identidad}
+La continuación analítica es un proceso determinista. El \textit{Principio de Identidad} (o Teorema de Unicidad) establece que si dos funciones $f$ y $g$ son analíticas en un dominio conexo $D$, y si $f(z) = g(z)$ para todo $z$ en un subconjunto $S \subset D$ que posee al menos un \textit{punto de acumulación} en $D$, entonces $f(z) = g(z)$ para todo $z \in D$. 
+
+Como corolario directo, la continuación analítica de una función, si existe, es \textit{única}. No puede haber dos extensiones analíticas diferentes de la misma función original en un dominio dado.
+
+\subsection*{Extensión Analítica}
+Aunque en la literatura los términos a menudo se usan de manera intercambiable, la \textit{extensión analítica} suele referirse al resultado global o al proceso de ampliar el dominio de una función definida inicialmente en un conjunto restringido (como un intervalo real, una frontera, o un semiplano de convergencia de una serie) a un dominio maximal en $\mathbb{C}$.
+
+Un caso de estudio paradigmático es el de las series de Dirichlet. Una serie como $\sum a_n n^{-s}$ define una función analítica en su semiplano de convergencia absoluta $\text{Re}(s) > \sigma_a$. Sin embargo, mediante técnicas de extensión analítica (como representaciones integrales, ecuaciones funcionales o la fórmula de sumación de Euler-Maclaurin), la función puede ser extendida a regiones donde la serie original diverge. El ejemplo más célebre es la función Zeta de Riemann $\zeta(s)$, definida originalmente por la serie $\sum n^{-s}$ para $\text{Re}(s) > 1$, la cual admite una extensión analítica a todo el plano complejo $\mathbb{C}$, excepto por un polo simple en $s = 1$.
+
+\subsection*{Elementos Singulares y Superficies de Riemann}
+El proceso de continuación analítica a lo largo de curvas puede encontrar obstáculos. Si al continuar $f_1$ a través de una cadena de discos se llega a un punto $z_0$ donde la función no puede ser extendida (por ejemplo, una singularidad esencial o una rama de una función multivaluada), $z_0$ se denomina un \textit{elemento singular}. 
+
+Cuando la continuación analítica a lo largo de diferentes caminos que rodean una singularidad (como un punto de ramificación) produce valores diferentes, la función resultante es multivaluada. Para resolver esto y mantener la analiticidad, se construye una \textit{Superficie de Riemann}, una variedad compleja unidimensional donde la función extendida es single-valued (univaluada) y analítica en todas sus hojas.
+
+\subsection{Ejemplos}
+
+A continuación, se presentan ejemplos que ilustran los mecanismos de continuación y extensión analítica, desde construcciones geométricas elementales hasta resultados profundos en teoría de números.
+
+\textbf{Ejemplo 1: Continuación Analítica mediante Series de Potencias}
+Sea $f_1(z)$ la función definida por la serie geométrica:
+$$ f_1(z) = \sum_{n=0}^{\infty} z^n = \frac{1}{1-z} $$
+Esta serie converge y define una función analítica en el disco abierto $D_1 = \{z \in \mathbb{C} : |z| < 1\}$. El radio de convergencia es $R=1$, limitado por la singularidad en $z=1$.
+Sin embargo, la expresión cerrada $g(z) = \frac{1}{1-z}$ es una función racional que es analítica en todo $\mathbb{C} \setminus \{1\}$. Dado que $g(z) = f_1(z)$ para todo $z \in D_1$, la función $g(z)$ es la extensión analítica de $f_1(z)$ al dominio $D_2 = \mathbb{C} \setminus \{1\}$. 
+Si quisiéramos hacer esto puramente mediante series de potencias (sin conocer la forma cerrada), elegiríamos un punto $z_0 \in D_1$, digamos $z_0 = -1/2$. La serie de Taylor de $f_1$ centrada en $z_0$ es:
+$$ f_2(z) = \sum_{n=0}^{\infty} \frac{f_1^{(n)}(-1/2)}{n!} \left(z + \frac{1}{2}\right)^n = \sum_{n=0}^{\infty} \frac{1}{(3/2)^{n+1}} \left(z + \frac{1}{2}\right)^n $$
+El radio de convergencia de esta nueva serie es la distancia desde $z_0 = -1/2$ hasta la singularidad más cercana ($z=1$), es decir, $R_2 = 3/2$. El nuevo disco $D_2 = \{z : |z + 1/2| < 3/2\}$ se superpone con $D_1$ y se extiende más allá del círculo unitario original, logrando así la continuación analítica paso a paso.
+
+\textbf{Ejemplo 2: Extensión Analítica de la Función Logaritmo y Superficies de Riemann}
+Consideremos la función logaritmo principal, definida inicialmente como:
+$$ f_1(z) = \text{Log}(z) = \ln|z| + i\text{Arg}(z), \quad -\pi < \text{Arg}(z) \leq \pi $$
+Esta función es analítica en el dominio $D_1 = \mathbb{C} \setminus (-\infty, 0]$. Si intentamos continuar $f_1$ analíticamente a través del eje real negativo (por ejemplo, dando una vuelta alrededor del origen en sentido antihorario), al cruzar la rama, la función no coincide con $f_1$, sino que adquiere un valor desplazado por $2\pi i$. 
+La función no puede ser extendida a una función univaluada en $\mathbb{C} \setminus \{0\}$. En su lugar, la continuación analítica a lo largo de todos los caminos posibles genera una función multivaluada. Para formalizar esto, se construye la Superficie de Riemann del logaritmo, que consiste en infinitas hojas helicoidales apiladas sobre el plano complejo, donde la función $\text{log}(z)$ es perfectamente analítica y univaluada.
+
+\textbf{Ejemplo 3: Extensión Analítica de la Función Zeta de Riemann}
+En el contexto de la teoría analítica de números (como se detalla en textos clásicos como el de Apostol), la función Zeta se define mediante la serie de Dirichlet:
+$$ \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} $$
+Esta serie converge absolutamente y define una función analítica en el semiplano $\text{Re}(s) > 1$. Para extender $\zeta(s)$ al semiplano $\text{Re}(s) \leq 1$, se utiliza la función Zeta de Hurwitz $\zeta(s, a) = \sum_{n=0}^{\infty} (n+a)^{-s}$. 
+Mediante la fórmula de sumación de Euler-Maclaurin o representaciones integrales de contorno (como la integral de Hankel alrededor del eje real negativo), se puede demostrar que $\zeta(s)$ admite una extensión analítica a todo el plano complejo $\mathbb{C}$. La función extendida es meromorfa, con un único polo simple en $s=1$ con residuo $1$. Esta extensión es el prerrequisito fundamental para formular la ecuación funcional de Riemann y estudiar la distribución de los ceros no triviales.
+
+\subsection{Tarea}
+
+Para consolidar la comprensión de la continuación y extensión analítica, así como el manejo de sus singularidades y superficies de Riemann, resuelva el siguiente problema multipartes. Se requiere rigor en las demostraciones.
+
+\textbf{Problema: Continuación Analítica, Ecuaciones Funcionales y Ramificación}
+
+\textbf{Parte A (Continuación mediante Ecuación Funcional):}
+Sea $f(z)$ una función analítica en el semiplano derecho $D = \{z \in \mathbb{C} : \text{Re}(z) > 0\}$ que satisface la ecuación funcional:
+$$ f(z+1) = z f(z) \quad \text{para todo } z \in D $$
+y la condición inicial $f(1) = 1$.
+1. Utilice la ecuación funcional para definir la continuación analítica de $f(z)$ en el semiplano $\text{Re}(z) > -1$ (excepto en los polos).
+2. Identifique la naturaleza y ubicación de todas las singularidades de esta función extendida en la franja $-1 < \text{Re}(z) \leq 0$.
+3. Demuestre que la función extendida es meromorfa en todo el plano complejo $\mathbb{C}$. (Pista: Esta es la construcción fundamental de la función Gamma de Euler, $\Gamma(z)$).
+
+\textbf{Parte B (Unicidad y el Principio de Identidad):}
+Sean $f(z)$ y $g(z)$ funciones enteras (analíticas en todo $\mathbb{C}$). Suponga que existe una sucesión de números reales positivos $\{x_n\}_{n=1}^{\infty}$ tal que $\lim_{n \to \infty} x_n = \infty$ y que $f(x_n) = g(x_n)$ para todo $n \geq 1$.
+1. ¿Es posible concluir que $f(z) = g(z)$ para todo $z \in \mathbb{C}$? Justifique rigurosamente su respuesta utilizando el Principio de Identidad.
+2. Modifique la hipótesis: suponga ahora que la sucesión $\{x_n\}$ converge a un punto finito $x_0 \in \mathbb{R}$, es decir, $\lim_{n \to \infty} x_n = x_0$, y $f(x_n) = g(x_n)$. ¿Qué puede concluir ahora sobre $f$ y $g$? Demuestre su afirmación.
+
+\textbf{Parte C (Superficies de Riemann y Continuación a lo largo de Curvas):}
+Considere la función $f(z) = \sqrt{z^2 - 1}$.
+1. Identifique los puntos de ramificación de esta función en el plano complejo.
+2. Demuestre que si se realiza una continuación analítica de $f(z)$ a lo largo de un contorno cerrado $\gamma$ que encierra exactamente a uno de los puntos de ramificación (por ejemplo, $z=1$), la función resultante al completar el ciclo es $-f(z)$.
+3. Proponga un corte de rama (branch cut) en el plano complejo que permita definir una rama univaluada y analítica de $f(z)$ en el dominio resultante.
+
+
+\section{Puntos de acumulación}
+
+En topología y análisis complejo, el concepto de \textit{punto de acumulación} (también conocido como punto límite) es una noción fundamental para entender la estructura de los conjuntos, la convergencia de sucesiones y, de manera crucial, la rigidez de las funciones analíticas. En textos clásicos de análisis complejo, como el de Churchill y Brown, los puntos de acumulación son el ingrediente esencial en el enunciado del Principio de Identidad (o Teorema de Unicidad), el cual dicta que las funciones analíticas están completamente determinadas por sus valores en conjuntos suficientemente "densos".
+
+\subsection*{Definición Formal mediante Entornos}
+Sea $S$ un subconjunto del plano complejo $\mathbb{C}$ (o de un espacio métrico general), y sea $z_0 \in \mathbb{C}$ un punto (que puede o no pertenecer a $S$). Definimos el \textit{entorno} de radio $\epsilon > 0$ centrado en $z_0$ como el disco abierto:
+$$ N_\epsilon(z_0) = \{ z \in \mathbb{C} : |z - z_0| < \epsilon \} $$
+El \textit{entorno reducido} (o disco perforado) se define excluyendo el centro:
+$$ N_\epsilon^*(z_0) = \{ z \in \mathbb{C} : 0 < |z - z_0| < \epsilon \} $$
+
+Se dice que $z_0$ es un \textit{punto de acumulación} de $S$ si y solo si todo entorno reducido de $z_0$ contiene al menos un punto de $S$. Formalmente:
+$$ \forall \epsilon > 0, \quad N_\epsilon^*(z_0) \cap S \neq \emptyset $$
+Esto significa que, sin importar cuán pequeño sea el radio $\epsilon$, siempre podremos encontrar un punto de $S$ (distinto de $z_0$) arbitrariamente cerca de $z_0$.
+
+\subsection*{Caracterización Secuencial}
+Una forma equivalente y altamente útil de definir los puntos de acumulación, especialmente en espacios métricos como $\mathbb{C}$, es a través de sucesiones. Un punto $z_0$ es punto de acumulación de $S$ si y solo si existe una sucesión $\{z_n\}_{n=1}^{\infty}$ de puntos en $S$ tales que $z_n \neq z_0$ para todo $n$, y:
+$$ \lim_{n \to \infty} z_n = z_0 $$
+Esta caracterización conecta directamente el concepto topológico con el análisis de límites y series.
+
+\subsection*{Propiedades Topológicas y Conjunto Derivado}
+Una consecuencia inmediata de la definición es que si $z_0$ es un punto de acumulación de $S$, entonces \textit{todo} entorno de $z_0$ contiene \textit{infinitos} puntos de $S$. (Si un entorno contuviera solo un número finito de puntos de $S$ distintos de $z_0$, podríamos elegir un $\epsilon$ lo suficientemente pequeño para evitar esos puntos finitos, contradiciendo la definición).
+
+El conjunto de todos los puntos de acumulación de $S$ se denomina \textit{conjunto derivado} de $S$, y se denota comúnmente como $S'$. 
+El \textit{clausura} (o cierre) de $S$, denotada como $\bar{S}$, es la unión de $S$ con su conjunto derivado:
+$$ \bar{S} = S \cup S' $$
+Un conjunto $S$ se dice \textit{cerrado} si contiene todos sus puntos de acumulación, es decir, si $S' \subseteq S$, lo que equivale a decir que $S = \bar{S}$.
+
+Por otro lado, si $z_0 \in S$ pero $z_0$ \textit{no} es un punto de acumulación de $S$, entonces $z_0$ se denomina \textit{punto aislado} de $S$. Esto significa que existe algún $\epsilon > 0$ tal que $N_\epsilon^*(z_0) \cap S = \emptyset$.
+
+\subsection*{Relevancia en Análisis Complejo y Teoría de Números}
+En el análisis complejo (Churchill), el concepto es vital para el \textbf{Teorema de Unicidad}. Si dos funciones $f$ y $g$ son analíticas en un dominio $D$, y el conjunto $S = \{z \in D : f(z) = g(z)\}$ tiene un \textit{punto de acumulación que pertenece a $D$}, entonces $f(z) = g(z)$ para todo $z \in D$. La condición de que el punto de acumulación esté \textit{dentro} del dominio de analiticidad es estricta y no negociable.
+
+En la \textbf{Teoría Analítica de Números} (Apostol), los puntos de acumulación aparecen al estudiar la distribución de los números primos, los ceros de la función Zeta de Riemann $\zeta(s)$, y las fronteras de convergencia de las series de Dirichlet. Por ejemplo, el estudio de si los ceros no triviales de $\zeta(s)$ tienen puntos de acumulación en la franja crítica es un problema central (de hecho, no tienen puntos de acumulación finitos, pero sí se acumulan en el infinito).
+
+\subsection{Ejemplos}
+
+A continuación, se presentan ejemplos que ilustran la identificación de puntos de acumulación, la diferencia entre puntos aislados y de acumulación, y la importancia de la ubicación del punto de acumulación respecto al dominio de analiticidad.
+
+\textbf{Ejemplo 1: Conjunto Derivado de un Disco Abierto}
+Sea $S$ el disco abierto unitario en el plano complejo:
+$$ S = \{ z \in \mathbb{C} : |z| < 1 \} $$
+Para cualquier punto $z_0$ con $|z_0| < 1$, es evidente que cualquier entorno reducido contiene puntos de $S$, por lo que $S \subseteq S'$. 
+Para un punto $z_0$ en la frontera, es decir, $|z_0| = 1$, cualquier entorno $N_\epsilon(z_0)$ (por pequeño que sea $\epsilon$) se "adentra" en el disco abierto, conteniendo infinitos puntos de $S$. Por lo tanto, la frontera también consiste en puntos de acumulación.
+Si $|z_0| > 1$, podemos elegir $\epsilon = |z_0| - 1 > 0$, de modo que $N_\epsilon(z_0)$ está completamente fuera de $S$, por lo que no hay intersección.
+El conjunto derivado es el disco cerrado:
+$$ S' = \{ z \in \mathbb{C} : |z| \leq 1 \} $$
+Note que todos los puntos de la frontera $|z|=1$ son puntos de acumulación de $S$, aunque no pertenezcan a $S$.
+
+\textbf{Ejemplo 2: Sucesión con Punto de Acumulación Externo}
+Considere el conjunto de puntos en la recta real dado por:
+$$ S = \left\{ \frac{1}{n} : n \in \mathbb{Z}^+ \right\} = \left\{ 1, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, \dots \right\} $$
+Cualquier punto $1/k \in S$ es un \textit{punto aislado}. Si elegimos $\epsilon = \frac{1}{k(k+1)}$, el entorno reducido $N_\epsilon^*(1/k)$ no contiene ningún otro punto de $S$.
+Sin embargo, el punto $z_0 = 0$ no pertenece a $S$, pero es un punto de acumulación. La sucesión $z_n = 1/n$ está en $S$, $z_n \neq 0$, y $\lim_{n \to \infty} z_n = 0$.
+El conjunto derivado es $S' = \{0\}$, y la clausura es $\bar{S} = S \cup \{0\}$.
+
+\textbf{Ejemplo 3: Ceros de $\sin(1/z)$ y el Límite del Teorema de Unicidad}
+Sea $f(z) = \sin(1/z)$. Esta función es analítica en el dominio $D = \mathbb{C} \setminus \{0\}$. 
+Los ceros de $f(z)$ ocurren cuando $1/z = n\pi$ para $n \in \mathbb{Z} \setminus \{0\}$. El conjunto de ceros es:
+$$ S = \left\{ \frac{1}{n\pi} : n \in \mathbb{Z} \setminus \{0\} \right\} $$
+El conjunto $S$ tiene un punto de acumulación en $z_0 = 0$. 
+Si aplicáramos el Teorema de Unicidad de manera ingenua, podríamos pensar que como $f(z) = 0$ en $S$, y $S$ tiene un punto de acumulación, entonces $f(z)$ debería ser idénticamente cero. ¡Pero $f(z)$ no es la función cero! 
+La aparente paradoja se resuelve notando que el punto de acumulación $z_0 = 0$ \textit{no pertenece al dominio de analiticidad} $D$. De hecho, $z=0$ es una singularidad esencial de $f(z)$. Este ejemplo demuestra por qué el Teorema de Identidad exige rigurosamente que el punto de acumulación esté dentro del dominio donde la función es analítica.
+
+\subsection{Tarea}
+
+Para consolidar la comprensión topológica y analítica de los puntos de acumulación, y su papel en la teoría de funciones de variable compleja, resuelva el siguiente problema multipartes. Se requiere rigor en las demostraciones.
+
+\textbf{Problema: Propiedades Topológicas y Aplicaciones del Principio de Identidad}
+
+\textbf{Parte A (Infinitud de Puntos en el Entorno):}
+Utilizando la definición formal de punto de acumulación mediante entornos, demuestre por contradicción que si $z_0$ es un punto de acumulación de un conjunto $S \subseteq \mathbb{C}$, entonces \textit{todo} entorno $N_\epsilon(z_0)$ contiene \textit{infinitos} puntos de $S$.
+\textit{Pista: Suponga que existe algún $\epsilon > 0$ tal que $N_\epsilon(z_0) \cap S$ contiene solo un número finito de puntos distintos de $z_0$, digamos $\{w_1, w_2, \dots, w_k\}$. Construya un nuevo radio $\delta > 0$ lo suficientemente pequeño para excluir todos estos $w_i$ y llegue a una contradicción con la definición de punto de acumulación.}
+
+\textbf{Parte B (Aplicación del Teorema de Identidad de Churchill):}
+Sea $f(z)$ una función analítica en el disco abierto $D = \{ z \in \mathbb{C} : |z| < 1 \}$. Determine si es posible concluir que $f(z) = 0$ para todo $z \in D$ en los siguientes dos casos independientes. Justifique rigurosamente su respuesta identificando el conjunto de ceros y sus puntos de acumulación.
+1. \textbf{Caso 1:} $f\left(\frac{1}{n}\right) = 0$ para todo $n = 2, 3, 4, \dots$
+2. \textbf{Caso 2:} $f\left(1 - \frac{1}{n}\right) = 0$ para todo $n = 2, 3, 4, \dots$
+
+\textbf{Parte C (Racionales de Gauss y Densidad):}
+Sea $S$ el conjunto de los "Racionales de Gauss" en el plano complejo, definido como:
+$$ S = \{ x + iy \in \mathbb{C} : x \in \mathbb{Q} \text{ y } y \in \mathbb{Q} \} $$
+1. Determine el conjunto derivado $S'$ y la clausura $\bar{S}$.
+2. Demuestre formalmente su afirmación utilizando la propiedad de densidad de los números racionales $\mathbb{Q}$ en los números reales $\mathbb{R}$ (es decir, que entre dos números reales cualesquiera existe un número racional).
+3. Concluya si el conjunto $S$ es abierto, cerrado, o ninguno de los dos.
+\end{document}

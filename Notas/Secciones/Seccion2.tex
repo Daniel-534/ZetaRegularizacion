@@ -1,0 +1,309 @@
+\chapter{Justificación Física y Aplicaciones en Teoría Cuántica de Campos}
+
+\section{El significado físico de la regularización}
+
+En la física teórica moderna, y particularmente en la Teoría Cuántica de Campos (QFT) y la física de la materia condensada, la Zeta-Regularización no debe interpretarse como un mero artificio matemático para "esconder" infinitos bajo la alfombra del análisis complejo. Por el contrario, es la manifestación analítica exacta de un principio físico fundamental: la sustracción de energías de referencia y el manejo riguroso de cortes energéticos finitos. Para comprender por qué la función Zeta de Riemann (y sus generalizaciones) aparece de manera natural en las predicciones físicas observables, debemos diseccionar el origen de las divergencias y el procedimiento físico para aislar las cantidades medibles.
+
+\subsection{Energías de punto cero y el vacío cuántico}
+
+El origen de las sumas infinitas divergentes en física se remonta a la cuantización de campos. En la mecánica cuántica, un oscilador armónico tiene una energía de estado fundamental (energía de punto cero) dada por $E_0 = \frac{1}{2}\hbar\omega$. En QFT, un campo (como el electromagnético o un campo escalar) se modela como una colección infinita de osciladores armónicos independientes, uno para cada modo de Fourier permitido por las condiciones de frontera o la geometría del espacio.
+
+La energía total del vacío $E_{\text{vac}}$ se obtiene sumando las contribuciones de punto cero de todos los modos posibles:
+$$ E_{\text{vac}} = \sum_{n} \frac{1}{2} \hbar \omega_n $$
+Donde $\omega_n$ son las frecuencias de los modos. Dado que el número de modos es infinito y las frecuencias crecen indefinidamente ($\omega_n \to \infty$), esta suma diverge catastróficamente. Clásicamente, se asumía que la energía del vacío podía ser desplazada a cero sin consecuencias físicas. Sin embargo, en QFT, las diferencias en esta energía de punto cero, inducidas por cambios en las condiciones de frontera (como la introducción de placas conductoras) o por la aplicación de campos externos (como un campo magnético en un material), producen fuerzas y respuestas termodinámicas reales y medibles, como la fuerza de Casimir o la magnetización de Landau.
+
+\subsection{La ilusión de la energía absoluta y los estados de referencia}
+
+El problema central al calcular efectos como la fuerza de Casimir o la magnetización de un material cuántico es que nos enfrentamos a la diferencia de dos cantidades que son individualmente infinitas. Sea $\Omega(B)$ el potencial termodinámico (o la energía del vacío) de un sistema bajo la influencia de un parámetro externo $B$ (que puede ser un campo magnético, la distancia entre placas $d$, etc.). La cantidad física observable no es $\Omega(B)$, sino la diferencia $\Delta \Omega$ respecto a un estado de referencia donde el parámetro externo está ausente o es trivial:
+$$ \Delta \Omega(B) = \Omega(B) - \Omega(0) $$
+Aquí yace la paradoja aparente: tanto $\Omega(B)$ como $\Omega(0)$ son sumas infinitas que divergen hacia $+\infty$ (o $-\infty$ dependiendo de la convención de fermiones/bosones). La expresión $\Delta \Omega(B) = \infty - \infty$ es una forma matemáticamente indeterminada. 
+
+La física nos dicta que esta diferencia debe ser finita, ya que el estado de referencia $\Omega(0)$ actúa como el "vacío no perturbado" o el "bulk" del material, cuya energía de punto cero se sustrae porque no es accesible experimentalmente; solo podemos medir la \textit{variación} de la energía debido a la perturbación $B$. La regularización, por tanto, es el procedimiento matemático riguroso para evaluar esta diferencia $\infty - \infty$ sin perder la información finita que depende de $B$.
+
+\subsection{Cortes (cut-offs) energéticos finitos}
+
+Para resolver la indeterminación $\infty - \infty$ de manera física y no puramente formal, debemos introducir un corte (cut-off) energético o de modos, denotado habitualmente por un entero grande $m$. Físicamente, esto representa el hecho de que ningún sistema real tiene modos de frecuencia infinita; siempre existe una escala de energía donde la teoría efectiva deja de ser válida (por ejemplo, la frecuencia de plasma en el efecto Casimir, o el borde de la zona de Brillouin en materia condensada).
+
+En lugar de sumar hasta el infinito, calculamos la energía del sistema perturbado sumando solo hasta el $m$-ésimo modo:
+$$ \Omega(B, m) = \sum_{n=1}^{m} f(\omega_n(B)) $$
+Para el estado de referencia $\Omega(0)$, como no hay cuantización discreta (o el espectro es continuo en el límite de volumen infinito), la suma se reemplaza por una integral continua sobre la densidad de estados. Sin embargo, para que la resta $\Delta \Omega = \Omega(B, m) - \Omega(0)$ tenga sentido y no diverja, la integral de referencia también debe truncarse en un límite superior que corresponda físicamente a la misma energía de corte $m$. Si el corte en la suma discreta es $m$, el corte en la integral continua se ajusta a $m+x$, donde $x$ es un parámetro de desplazamiento fraccionario que se determinará analíticamente:
+$$ \Omega(0, m) = \int_{0}^{m+x} f(\omega(\epsilon)) D(\epsilon) \, d\epsilon $$
+Donde $D(\epsilon)$ es la densidad de estados del sistema no perturbado. El objetivo es calcular $\Delta \Omega(B, m) = \Omega(B, m) - \Omega(0, m)$ y tomar el límite $m \to \infty$.
+
+\subsection{La emergencia natural de la función Zeta}
+
+Es en este punto donde la función Zeta deja de ser un truco y se revela como la estructura algebraica subyacente a las sumas finitas. Supongamos que la suma discreta truncada involucra potencias de los índices de los modos, por ejemplo, una suma de la forma $\sum_{n=1}^{m} n^k$. En el análisis clásico, esta es una suma finita que crece como $m^{k+1}$. Sin embargo, podemos reescribir esta suma finita exacta utilizando la diferencia entre la función Zeta de Riemann (que representa la suma infinita regularizada) y la función Zeta de Hurwitz (que representa la "cola" infinita desde $m+1$):
+$$ \sum_{n=1}^{m} n^k = \zeta(-k) - \zeta(-k, m+1) $$
+Esta identidad es exacta para cualquier entero $m \ge 1$ y cualquier $k$, siempre que se entienda que $\zeta(-k)$ es el valor analíticamente continuado. 
+
+El poder de esta identidad radica en la expansión asintótica de la función Zeta de Hurwitz para argumentos grandes. Cuando $m \to \infty$, $\zeta(-k, m+1)$ se expande como una serie de potencias polinómicas en $m$ (relacionadas con los polinomios de Bernoulli):
+$$ \zeta(-k, m+1) \sim -\frac{m^{k+1}}{k+1} - \frac{1}{2}m^k + \dots $$
+Al sustituir esta expansión en la expresión de la suma finita, obtenemos:
+$$ \sum_{n=1}^{m} n^k = \zeta(-k) + \frac{m^{k+1}}{k+1} + \frac{1}{2}m^k - \dots $$
+Aquí ocurre la magia física: los términos polinómicos en $m$ (que son divergentes cuando $m \to \infty$) son exactamente los mismos términos que surgen al evaluar la integral continua de referencia $\Omega(0, m)$ expandida asintóticamente. 
+
+Al realizar la resta física $\Delta \Omega(B, m) = \Omega(B, m) - \Omega(0, m)$, todos los términos divergentes proporcionales a potencias positivas de $m$ se cancelan \textit{exacta y analíticamente}. Lo que sobrevive en el límite $m \to \infty$ no es un infinito, ni un término dependiente del corte, sino precisamente el valor de la función Zeta evaluada en el entero negativo:
+$$ \lim_{m \to \infty} \Delta \Omega(B, m) \propto \zeta(-k) $$
+
+Por lo tanto, la Zeta-Regularización no "inventa" un valor finito de la nada. La función Zeta de Riemann $\zeta(-k)$ emerge naturalmente como el \textit{residuo finito} que queda después de que la energía de referencia continua ha sustraído exactamente todas las contribuciones divergentes dependientes del cut-off. El valor $\zeta(-k)$ es la huella dactilar analítica de la geometría discreta del espectro cuántico que no puede ser capturada por la aproximación continua del estado de referencia.
+
+\section{El Efecto Casimir en geometría de placas paralelas}
+
+El Efecto Casimir es, sin duda, la manifestación física más célebre de la Zeta-Regularización. Lejos de ser un mero ejercicio de manipulación de series divergentes, la predicción y posterior medición de la fuerza de Casimir entre placas conductoras demuestra que los valores asignados por la función Zeta de Riemann en enteros negativos poseen un significado físico tangible y medible. A continuación, desglosaremos rigurosamente cómo surge esta regularización de manera natural al calcular la energía del vacío, utilizando la justificación física basada en sumas finitas y la sustracción de un estado de referencia.
+
+\subsection{Formulación de la energía del vacío entre placas conductoras}
+
+Consideremos el campo electromagnético cuantizado en el espacio vacío comprendido entre dos placas metálicas perfectamente conductoras, paralelas e infinitas, separadas por una distancia $d$. Debido a las condiciones de frontera en las placas, los modos del campo electromagnético están cuantizados en la dirección perpendicular a las placas (dirección $z$), mientras que permanecen continuos en las direcciones paralelas (direcciones $x, y$). 
+
+La energía de punto cero del vacío, $V(d)$, se obtiene sumando las contribuciones $\frac{1}{2}\hbar \omega_n$ de todos los modos permitidos. Tras integrar sobre el momento transversal continuo $k_\parallel$ y regularizar la integral transversal mediante un corte físico, la suma discreta sobre los modos longitudinales $n$ adopta la forma de una serie cúbica divergente. 
+
+Para manejar esta divergencia de manera físicamente consistente, introducimos un corte (cut-off) de modos $m$, que representa el número máximo de modos que el sistema físico puede soportar antes de que la teoría efectiva deje de ser válida (por ejemplo, debido a la frecuencia de plasma del metal). La energía del vacío con corte se escribe como:
+
+$$ V(d, m) = - \frac{C}{d^3} \sum_{n=0}^{m} n^3 $$
+
+donde $C = \frac{L^2 \pi^2 \hbar c}{6}$ es una constante que agrupa el área de las placas $L^2$, la constante de Planck reducida $\hbar$ y la velocidad de la luz $c$. El signo negativo surge de la evaluación específica de la integral transversal regularizada.
+
+Sin embargo, la energía absoluta $V(d, m)$ no es observable. Físicamente, solo podemos medir la \textit{diferencia} de energía entre la configuración con las placas a una distancia finita $d$ y la configuración de referencia donde las placas están infinitamente separadas ($d \to \infty$). En este límite de referencia, la cuantización desaparece y el espectro se vuelve continuo. La energía de referencia $V(0, m)$ se calcula reemplazando la suma discreta por una integral continua sobre la densidad de estados, truncada en un límite superior análogo $m+x$, donde $x$ es un desplazamiento fraccionario que ajustaremos para alinear las densidades de estados:
+
+$$ V(0, m) = - \frac{C}{d^3} \int_{0}^{m+x} n^3 \, dn $$
+
+La cantidad física de interés es la diferencia de energías $\Delta V(d, m) = V(d, m) - V(0, m)$. El reto analítico consiste en demostrar que, aunque $V(d, m)$ y $V(0, m)$ divergen individualmente cuando $m \to \infty$, su diferencia $\Delta V(d, m)$ converge a un valor finito e independiente del corte.
+
+\subsection{Regularización de la suma $\sum n^3$ mediante la función Zeta de Riemann y Hurwitz}
+
+Para evaluar la suma finita $\sum_{n=0}^{m} n^3$ sin recurrir directamente a la fórmula de Faulhaber (lo cual ocultaría la estructura analítica subyacente), la embebemos en el formalismo de las funciones Zeta. La idea central es expresar la suma finita como la diferencia entre la suma infinita regularizada (función Zeta de Riemann) y la "cola" infinita que comienza en $m+1$ (función Zeta de Hurwitz):
+
+$$ \sum_{n=0}^{m} n^3 = \sum_{n=1}^{\infty} n^3 - \sum_{n=m+1}^{\infty} n^3 = \zeta(-3) - \zeta(-3, m+1) $$
+
+Esta identidad es exacta para cualquier entero $m \ge 1$ bajo el esquema de continuación analítica. El término $\zeta(-3)$ es el valor regularizado de la suma infinita, mientras que $\zeta(-3, m+1)$ codifica la dependencia del corte $m$.
+
+Para extraer el comportamiento asintótico cuando el corte $m$ es muy grande ($m \gg 1$), utilizamos la expansión asintótica de la función Zeta de Hurwitz, derivada de la fórmula de sumación de Euler-Maclaurin. Para un entero negativo $s = -\ell$, la expansión toma la forma de un polinomio en $m$:
+
+$$ \zeta(-\ell, m+1) \sim - \frac{m^{\ell+1}}{\ell+1} - \frac{1}{2}m^\ell + \sum_{k=1}^{\lfloor \ell/2 \rfloor} \frac{B_{2k}}{(2k)!} \frac{\ell!}{(\ell+2-2k)!} m^{\ell+1-2k} $$
+
+Evaluando esta expansión para $\ell = 3$, obtenemos:
+
+$$ \zeta(-3, m+1) \sim - \frac{m^4}{4} - \frac{m^3}{2} - \frac{m^2}{2} + \mathcal{O}(m^{-1}) $$
+
+Sustituyendo esta expansión en nuestra identidad de la suma finita, obtenemos la descomposición analítica de la energía discreta:
+
+$$ \sum_{n=0}^{m} n^3 = \zeta(-3) + \frac{m^4}{4} + \frac{m^3}{2} + \frac{m^2}{2} + \mathcal{O}(m^{-1}) $$
+
+Aquí podemos identificar claramente la estructura de la divergencia: los términos $\frac{m^4}{4}$ y $\frac{m^3}{2}$ son las contribuciones divergentes que dependen del corte ultravioleta $m$, mientras que $\zeta(-3)$ es el término constante, independiente de $m$, que sobrevivirá en el límite físico.
+
+\subsection{Cancelación exacta de los términos divergentes y el estado de referencia}
+
+El paso final y más crucial es calcular la diferencia de energías $\Delta V(d, m)$ y demostrar que los términos divergentes se aniquilan mutuamente. Sustituimos la expansión de la suma discreta y la evaluación de la integral continua en la expresión de $\Delta V(d, m)$:
+
+$$ \Delta V(d, m) = - \frac{C}{d^3} \left[ \left( \zeta(-3) + \frac{m^4}{4} + \frac{m^3}{2} + \frac{m^2}{2} \right) - \int_{0}^{m+x} n^3 \, dn \right] $$
+
+Evaluamos la integral del estado de referencia:
+
+$$ \int_{0}^{m+x} n^3 \, dn = \frac{1}{4}(m+x)^4 = \frac{m^4}{4} + m^3 x + \frac{3}{2} m^2 x^2 + m x^3 + \frac{x^4}{4} $$
+
+Al restar la integral de la suma, nos enfrentamos a la cancelación de los términos divergentes. Para que la física sea consistente (es decir, para que el resultado no dependa del corte arbitrario $m$ cuando $m \to \infty$), los coeficientes de las potencias positivas de $m$ deben anularse. Analicemos esto término a término:
+
+\begin{enumerate}[a)]
+    \item \textbf{Cancelación del término $m^4$:} Al restar los coeficientes de $m^4$, obtenemos $\frac{1}{4} - \frac{1}{4} = 0$. Este término divergente se cancela automáticamente, independientemente del valor de $x$. Esto refleja que la densidad de estados líder (el volumen del espacio de fases) es la misma en el espectro discreto y continuo.
+    
+    \item \textbf{Cancelación del término $m^3$:} Para cancelar la divergencia sub-líder, igualamos a cero el coeficiente de $m^3$:
+    $$ \frac{1}{2} - x = 0 \implies x = \frac{1}{2} $$
+    Físicamente, el desplazamiento fraccionario $x = 1/2$ en el límite de integración del estado de referencia es exactamente el necesario para compensar la diferencia entre la suma de Riemann discreta y la integral continua (una manifestación del término $\frac{1}{2}m^\ell$ en la expansión de Euler-Maclaurin).
+    
+    \item \textbf{Comportamiento de los términos restantes:} Con $x = 1/2$, los términos de orden $m^4$ y $m^3$ desaparecen exactamente. Los términos restantes son de orden $m^2$ y menores. Un análisis más detallado (ajustando $x$ con correcciones de orden superior como $x = -m + \sqrt{m^2+m} \approx 1/2 + \mathcal{O}(m^{-1})$) demuestra que todos los términos con potencias positivas de $m$ se cancelan sistemáticamente.
+\end{enumerate}
+
+Al tomar el límite termodinámico y de alto corte $m \to \infty$, todos los términos dependientes de $m$ se desvanecen, y la diferencia de energías converge estrictamente al valor regularizado:
+
+$$ \lim_{m \to \infty} \Delta V(d, m) = - \frac{C}{d^3} \zeta(-3) $$
+
+Este es el momento en que la Zeta-Regularización deja de ser un formalismo matemático y se convierte en una predicción física. La energía de Casimir por unidad de área es puramente el valor de la función Zeta de Riemann evaluada en $s = -3$.
+
+Finalmente, la fuerza de Casimir $F_C$ se obtiene derivando la energía regularizada respecto a la distancia $d$:
+
+$$ F_C = - \frac{\partial \Delta V(d)}{\partial d} = - \frac{3C}{d^4} \zeta(-3) $$
+
+Sustituyendo el valor exacto $\zeta(-3) = \frac{1}{120}$ y la constante $C = \frac{L^2 \pi^2 \hbar c}{6}$, obtenemos la célebre fórmula de Casimir:
+
+$$ F_C = - \frac{3}{d^4} \left( \frac{L^2 \pi^2 \hbar c}{6} \right) \left( \frac{1}{120} \right) = - \frac{L^2 \pi^2 \hbar c}{240 d^4} $$
+
+La derivación demuestra que el valor $\zeta(-3) = 1/120$ no es una asignación arbitraria, sino el residuo finito exacto que emerge tras la sustracción rigurosa de la energía del vacío de referencia. Los términos divergentes proporcionales a $m^4$ y $m^3$ representan la energía del vacío no observable (que depende del volumen y del corte del material), y su cancelación analítica exacta es lo que permite que la geometría discreta del espacio entre las placas se manifieste como una fuerza macroscópica medible.
+
+
+\section{Magnetización del Grafeno y Niveles de Landau}
+
+La aplicación de la Zeta-Regularización en la física de la materia condensada proporciona una justificación física profunda para el uso de valores de la función Zeta en argumentos negativos. Un ejemplo paradigmático y experimentalmente validado es el cálculo de la magnetización orbital del grafeno no dopado bajo la influencia de un campo magnético perpendicular. En este sistema, los electrones se comportan como fermiones de Dirac sin masa, y la cuantización de sus órbitas en niveles de Landau (LLs) conduce a sumas divergentes que, tras la sustracción rigurosa del estado de referencia, revelan la estructura analítica de la función Zeta de Riemann y de Hurwitz.
+
+\subsection{Potencial termodinámico en fermiones de Dirac bajo un campo magnético}
+
+En el grafeno, la relación de dispersión de los electrones cerca de los puntos de Dirac es lineal, $\epsilon(\mathbf{k}) = \pm \hbar v_F |\mathbf{k}|$, donde $v_F$ es la velocidad de Fermi. Al aplicar un campo magnético uniforme $B$ perpendicular al plano, el espectro de energía se cuantiza en los llamados Niveles de Landau (LLs). Para fermiones de Dirac, estos niveles están dados por:
+
+$$ \epsilon_n = \text{sgn}(n)\sqrt{2|n|\hbar v_F e B} \equiv \text{sgn}(n)\sqrt{|n|}E(B) $$
+
+donde $n = 0, \pm 1, \pm 2, \dots$, $e$ es la carga del electrón, y $E(B) = \sqrt{2\hbar v_F e B}$ es la energía característica del primer nivel de Landau. La degeneración de cada nivel por unidad de área es $1/(2\pi \ell_B^2) = eB/h$, donde $\ell_B = \sqrt{\hbar/(eB)}$ es la longitud magnética.
+
+La cantidad física fundamental para calcular la magnetización $M(B)$ es el potencial termodinámico (o gran potencial) por unidad de área, $\Omega(B)$. La magnetización se obtiene como la derivada de la diferencia de potenciales termodinámicos:
+
+$$ M(B) = -\frac{\partial \Delta\Omega(B)}{\partial B} $$
+
+donde $\Delta\Omega(B) = \Omega(B) - \Omega(0)$. Aquí, $\Omega(B)$ es el potencial del sistema en presencia del campo magnético (espectro discreto), y $\Omega(0)$ es el potencial de referencia en ausencia del campo (espectro continuo). Físicamente, $\Omega(0)$ representa la energía del "bulk" o volumen del material no perturbado, la cual no es accesible experimentalmente; solo las variaciones $\Delta\Omega(B)$ inducidas por el campo son medibles.
+
+El problema analítico inmediato es que tanto $\Omega(B)$ como $\Omega(0)$ son sumas (o integrales) que divergen catastróficamente debido a la contribución de los niveles de energía arbitrariamente altos. Sin embargo, la diferencia $\Delta\Omega(B)$ debe ser finita.
+
+\subsection{Límite de campo fuerte/baja temperatura y límite de campo débil/alta temperatura}
+
+El comportamiento del sistema y la estructura de las divergencias dependen crucialmente de la relación entre la escala de energía magnética $E(B)$ y la energía térmica $k_B T$.
+
+\subsubsection*{Límite de campo fuerte y baja temperatura ($E(B) \gg k_B T$)}
+
+En este régimen, el espaciamiento entre los niveles de Landau es mucho mayor que la energía térmica. Para el grafeno no dopado (nivel de Fermi en el punto de Dirac), solo es necesario considerar los estados de la banda de valencia ($n \le 0$), ya que la excitación térmica a la banda de conducción es despreciable. El potencial termodinámico se reduce a:
+
+$$ \Omega(B) \equiv \Omega_S(B) - C_B \sum_{n=1}^{\infty} \sqrt{n} $$
+
+donde $\Omega_S(B)$ es la contribución del nivel de Landau cero ($n=0$), la cual es lineal con la temperatura y está asociada a la entropía, y $C_B = \frac{2}{\pi \ell_B^2} E(B)$ es una constante con unidades de densidad de energía. La suma $\sum \sqrt{n}$ es la fuente de la divergencia ultravioleta.
+
+\subsubsection*{Límite de campo débil y alta temperatura ($E(B) \ll k_B T$)}
+
+En este límite, los electrones pueden excitarse térmicamente a través de múltiples niveles de Landau en ambas bandas (valencia y conducción). El potencial termodinámico requiere sumar sobre todos los niveles $-m \le n \le m$ (donde $m$ es un corte efectivo impuesto por la distribución de Fermi-Dirac). Tras expandir las funciones logarítmicas y exponenciales, el potencial se expresa como una serie infinita:
+
+$$ \Omega(B, m) = 2\Omega_S^{(\mu)} + \sum_{\ell=0}^{\infty} C_\ell \left[ \zeta(-\ell) - \zeta(-\ell, m+1) \right] $$
+
+donde $\Omega_S^{(\mu)}$ es la contribución del nivel cero dependiente del potencial químico $\mu$, y los coeficientes $C_\ell$ involucran funciones polilogarítmicas evaluadas en $-e^{\beta\mu}$. En este régimen, la cancelación de divergencias es mucho más compleja, ya que debe ocurrir simultáneamente para todos los términos de la serie sobre $\ell$. Se demuestra que existe un parámetro de desplazamiento $x(m)$ en el estado de referencia tal que $x(m) \to 1/2$ cuando $m \to \infty$ para todo $\ell$, garantizando que todos los términos divergentes $m^\alpha$ ($\alpha > 0$) se cancelen, dejando como resultado una respuesta lineal $M(B) \propto -(B/T)\text{sech}^2(\beta\mu/2)$, consistente con la susceptibilidad orbital clásica.
+
+\subsection{La expansión asintótica de $\zeta(-1/2, m+1)$ y la respuesta física observable}
+
+Para demostrar rigurosamente cómo la Zeta-Regularización emerge de la física, nos enfocamos en el límite de campo fuerte ($E \gg k_B T$), donde la estructura de la divergencia es más transparente. 
+
+Para manejar la divergencia de $\Omega(B)$, introducimos un corte físico $m$ en la suma de los niveles de Landau, reconociendo que ningún modelo de banda infinita es válido a energías arbitrariamente altas. La suma finita se evalúa exactamente usando la diferencia de funciones Zeta:
+
+$$ \sum_{n=1}^{m} \sqrt{n} = \zeta(-1/2) - \zeta(-1/2, m+1) $$
+
+Por otro lado, el estado de referencia $\Omega(0)$ se calcula integrando sobre la densidad de estados continua del cono de Dirac. Para que la resta $\Delta\Omega = \Omega(B, m) - \Omega^{(0)}(B, m)$ tenga sentido, la integral de referencia también debe truncarse en un límite superior que corresponda físicamente a la misma energía de corte. Definimos este límite superior como $m+x$, donde $x$ es un desplazamiento fraccionario. La integral de referencia se evalúa como:
+
+$$ \Omega^{(0)}(B, m) = -C_B \int_{0}^{m+x} \sqrt{n} \, dn = -\frac{2}{3} C_B (m+x)^{3/2} $$
+
+La cantidad física es la diferencia $\Delta\Omega(B, m) = \Omega(B, m) - \Omega^{(0)}(B, m)$. Para que esta diferencia sea independiente del corte arbitrario $m$ cuando $m \to \infty$, los términos divergentes deben cancelarse exactamente. Aquí es donde la expansión asintótica de la función Zeta de Hurwitz juega el papel protagonista.
+
+Para $m \gg 1$, la expansión asintótica de $\zeta(-1/2, m+1)$ (derivada de la fórmula de Euler-Maclaurin) es:
+
+$$ \zeta(-1/2, m+1) \sim -\frac{2}{3}m^{3/2} - \frac{1}{2}m^{1/2} - \frac{1}{24}m^{-1/2} + \mathcal{O}(m^{-3/2}) $$
+
+Sustituyendo esta expansión en la expresión de $\Omega(B, m)$, obtenemos:
+
+$$ \Omega(B, m) = \Omega_S(B) - C_B \left[ \zeta(-1/2) + \frac{2}{3}m^{3/2} + \frac{1}{2}m^{1/2} + \frac{1}{24}m^{-1/2} \right] $$
+
+Ahora, expandimos el término de referencia $\Omega^{(0)}(B, m)$ para un $x$ genérico:
+
+$$ \Omega^{(0)}(B, m) = -\frac{2}{3} C_B \left( m^{3/2} + \frac{3}{2}x m^{1/2} + \frac{3}{8}x^2 m^{-1/2} + \dots \right) $$
+
+Al restar $\Omega^{(0)}$ de $\Omega(B, m)$, exigimos que los coeficientes de las potencias positivas de $m$ se anulen:
+
+\begin{enumerate}[a)]
+    \item \textbf{Cancelación del término $m^{3/2}$:} Los coeficientes son $-\frac{2}{3}C_B$ en ambas expresiones. Se cancelan automáticamente, lo que refleja que la densidad de estados líder (el volumen del espacio de fases) es idéntica en el espectro discreto y continuo.
+    \item \textbf{Cancelación del término $m^{1/2}$:} Igualando a cero el coeficiente de $m^{1/2}$ en la diferencia:
+    $$ -C_B \left( \frac{1}{2} \right) - \left( -\frac{2}{3} C_B \cdot \frac{3}{2} x \right) = 0 \implies -\frac{1}{2} + x = 0 \implies x = \frac{1}{2} $$
+\end{enumerate}
+
+El desplazamiento fraccionario $x = 1/2$ en el límite de integración del estado de referencia es exactamente el necesario para compensar la diferencia entre la suma de Riemann discreta y la integral continua. 
+
+Con $x = 1/2$, la expansión del estado de referencia se convierte en:
+
+$$ \Omega^{(0)}(B, m) = -\frac{2}{3} C_B \left( m^{3/2} + \frac{3}{4}m^{1/2} + \frac{3}{32}m^{-1/2} + \dots \right) = -C_B \left( \frac{2}{3}m^{3/2} + \frac{1}{2}m^{1/2} + \frac{1}{16}m^{-1/2} \right) $$
+
+Al realizar la resta final $\Delta\Omega(B, m) = \Omega(B, m) - \Omega^{(0)}(B, m)$, los términos divergentes $m^{3/2}$ y $m^{1/2}$ desaparecen por completo. Los términos de orden $m^{-1/2}$ no se cancelan perfectamente, dejando un residuo:
+
+$$ \Delta\Omega(B, m) = \Omega_S(B) - C_B \left[ \zeta(-1/2) - \left( \frac{1}{16} - \frac{1}{24} \right) m^{-1/2} + \mathcal{O}(m^{-3/2}) \right] $$
+
+$$ \Delta\Omega(B, m) = \Omega_S(B) - C_B \left[ \zeta(-1/2) - \frac{1}{48}m^{-1/2} + \mathcal{O}(m^{-3/2}) \right] $$
+
+Al tomar el límite termodinámico y de alto corte $m \to \infty$, el término dependiente del corte $m^{-1/2}$ se desvanece, y la diferencia de energías converge estrictamente a:
+
+$$ \Delta\Omega(B) = \Omega_S(B) - C_B \zeta(-1/2) $$
+
+\begin{itemize}
+    \item \textbf{Justificación Física:} Este resultado demuestra que el valor $\zeta(-1/2)$ no se introduce como un artificio matemático para "esconder" un infinito. Por el contrario, $\zeta(-1/2)$ emerge naturalmente como el \textit{residuo finito exacto} que sobrevive después de que la energía de referencia continua ha sustraído todas las contribuciones divergentes dependientes del corte. 
+    \item \textbf{Respuesta Observable:} La magnetización resultante, $M(B) = -\partial \Delta\Omega / \partial B$, hereda esta dependencia. Dado que $C_B \propto \sqrt{B}$, la magnetización en el límite de campo fuerte contiene un término proporcional a $\sqrt{B}$ multiplicado por $\zeta(-1/2)$. Este es el origen microscópico de las oscilaciones cuánticas y la respuesta diamagnética no trivial en el grafeno, validando experimentalmente que la Zeta-Regularización es la herramienta analítica correcta para describir la sustracción de estados de referencia en sistemas cuánticos reales.
+\end{itemize}
+
+
+\section{Equivalencia de métodos: Derivación alternativa usando diferencias finitas}
+
+Hasta ahora, hemos justificado la regularización zeta demostrando que los términos divergentes de una suma discreta con un corte $m$ se cancelan exactamente al restar la integral continua del estado de referencia no perturbado $\Omega(0)$ o $V(0)$. Sin embargo, existe una formulación alternativa, igualmente rigurosa y físicamente reveladora, que evita por completo la introducción de un estado de referencia continuo. En su lugar, se utiliza la definición estricta de la derivada como un límite de diferencias finitas entre dos estados \textit{ambos cuantizados}. 
+
+Este enfoque alternativo no solo confirma la robustez de la regularización zeta, sino que demuestra que la aparición de los valores de la función zeta en enteros negativos es una consecuencia algebraica inherente a la cuantización del espectro, independiente de si se utiliza un fondo continuo para la sustracción.
+
+\subsection{El enfoque de diferencias finitas y cortes cuantizados}
+
+En la física teórica, las respuestas observables como la magnetización $M(B)$ o la fuerza de Casimir $F_C$ se definen como derivadas de un potencial termodinámico o de la energía del vacío. La definición fundamental de la derivada en un punto finito $B$ (o $d$) es el límite de una diferencia finita:
+
+$$ M(B) = - \lim_{\delta B \to 0} \frac{\Omega(B + \delta B) - \Omega(B)}{\delta B} $$
+
+En lugar de calcular $\Omega(B)$ restando el vacío continuo $\Omega(0)$, evaluamos directamente esta diferencia finita. El estado de referencia ya no es el vacío sin campo ($B=0$), sino un estado cuantizado con un campo ligeramente perturbado $B + \delta B$. Dado que el campo ha cambiado, el espectro de niveles de Landau (o los modos de cavidad) también cambia, y por lo tanto, el número máximo de modos ocupados (el corte energético $m$) debe ajustarse a un nuevo valor $m'$ para mantener la consistencia física del corte ultravioleta.
+
+La clave analítica de este método reside en relacionar los cortes cuantizados $m$ y $m'$ de manera que correspondan a la misma energía (o momento) máxima de corte, e introducir un parámetro de ajuste $x$ que permita cancelar las divergencias que surgen en la diferencia finita.
+
+\subsection{Aplicación a la magnetización del grafeno}
+
+Consideremos el potencial termodinámico del grafeno en el límite de campo fuerte y baja temperatura. La energía se corta en el $m$-ésimo nivel de Landau. Al aplicar un campo incremental $\delta B$, el nuevo corte $m'$ debe satisfacer la condición de que la energía máxima del nivel de Landau se mantenga constante:
+
+$$ \sqrt{2\hbar v_F^2 e B m} = \sqrt{2\hbar v_F^2 e (B + \delta B) m'} $$
+
+Resolviendo para $m'$ y expandiendo a primer orden en $\delta B$, obtenemos la relación entre los cortes cuantizados:
+
+$$ m' = \left(1 - x \frac{\delta B}{B}\right) m $$
+
+donde hemos introducido un parámetro $x$ que, por ahora, es arbitrario y será determinado analíticamente para cancelar divergencias. 
+
+La diferencia finita del potencial termodinámico es:
+
+$$ \Delta\Omega(B, m) = \Omega(B + \delta B, m') - \Omega(B, m) $$
+
+Al expresar las sumas finitas $\sum_{n=1}^m \sqrt{n}$ y $\sum_{n=1}^{m'} \sqrt{n'}$ en términos de las funciones zeta de Riemann y Hurwitz, y expandir asintóticamente para $m \gg 1$, la suma finita toma la forma:
+
+$$ \sum_{n=1}^m \sqrt{n} = \zeta(-1/2) + \frac{2}{3}m^{3/2} + \frac{1}{2}m^{1/2} + \mathcal{O}(m^{-1/2}) $$
+
+Al sustituir $m'$ en la expresión de $\Omega(B + \delta B, m')$, expandir en potencias de $\delta B$ y restar $\Omega(B, m)$, la diferencia $\Delta\Omega(B, m)$ contiene términos que divergen con $m$ (proporcionales a $m^{3/2}$ y $m^{1/2}$). Para que la magnetización $M(B) = -\lim_{\delta B \to 0} \frac{\Delta\Omega(B, m)}{\delta B}$ esté bien definida y sea independiente del corte $m$ cuando $m \to \infty$, estos términos divergentes deben anularse exactamente.
+
+Al igualar a cero los coeficientes de las potencias positivas de $m$ en la diferencia finita, se encuentra que la condición de cancelación exige que el parámetro $x$ dependa de $m$ de la siguiente manera:
+
+$$ x = \frac{4m + 3}{4m + 1} $$
+
+Con esta elección precisa de $x$, todos los términos divergentes desaparecen mágicamente. El término restante en el corchete de la expansión converge estrictamente a $\frac{3}{2}\zeta(-1/2)$. Al dividir por $\delta B$ y tomar el límite, se recupera exactamente la magnetización correcta, la cual es proporcional a $\zeta(-1/2)$. 
+
+\subsection{Aplicación al efecto Casimir}
+
+El mismo procedimiento se aplica a la fuerza de Casimir. En lugar de restar la energía del vacío continuo $V(0)$, definimos la fuerza mediante la diferencia finita entre dos cavidades de anchos ligeramente diferentes, $d$ y $d' = d + \delta d$:
+
+$$ F_C = - \lim_{\delta d \to 0} \frac{V(d + \delta d, m') - V(d, m)}{\delta d} $$
+
+Ambos estados están cuantizados. La condición de consistencia para los cortes $m$ y $m'$ es que correspondan al mismo vector de onda máximo $k_{\text{max}} = \frac{m\pi}{d}$:
+
+$$ \frac{m\pi}{d} = \frac{m'\pi}{d + \delta d} \implies m' = \left(1 + x \frac{\delta d}{d}\right) m $$
+
+Nuevamente, introducimos el parámetro $x$ para alinear los cortes. La energía de punto cero con corte $m$ involucra la suma $\sum_{n=0}^m n^3$, la cual se expresa mediante la función zeta como:
+
+$$ \sum_{n=0}^m n^3 = \zeta(-3) + \frac{m^4}{4} + \frac{m^3}{2} + \frac{m^2}{2} + \mathcal{O}(m^{-1}) $$
+
+Al calcular la diferencia finita $\Delta V(d, m) = V(d + \delta d, m') - V(d, m)$, expandir a primer orden en $\delta d$ y sustituir la expansión asintótica de la suma, aparecen términos divergentes proporcionales a $m^4$, $m^3$ y $m^2$. 
+
+Para que la fuerza de Casimir sea finita e independiente del corte $m$, exigimos que estos términos se anulen. La condición de cancelación determina el parámetro $x$ como una función racional de $m$:
+
+$$ x = \frac{3m^2 + 2m + 3}{2(2m^2 + m + 1)} $$
+
+Al insertar este valor de $x$ en la diferencia finita, los términos divergentes $m^4$, $m^3$ y $m^2$ se cancelan exactamente. El término constante restante en la expansión es $-3\zeta(-3)$. Al dividir por $\delta d$ y tomar el límite $\delta d \to 0$, obtenemos directamente la fuerza de Casimir regularizada:
+
+$$ F_C = - \frac{3C}{d^4} \zeta(-3) $$
+
+donde $C = \frac{L^2 \pi^2 \hbar c}{6}$. Sustituyendo $\zeta(-3) = 1/120$, se recupera la fórmula clásica de Casimir.
+
+\subsection{Equivalencia analítica y significado físico}
+
+La derivación alternativa mediante diferencias finitas y cortes cuantizados establece una equivalencia analítica profunda con el método de sustracción del estado de referencia continuo. 
+
+\begin{itemize}
+    \item \textbf{El papel del parámetro $x$:} En el método continuo, $x$ representaba el desplazamiento fraccionario en el límite superior de la integral de referencia (por ejemplo, $x=1/2$ en la integral $\int_0^{m+x} n^3 dn$). En el método de diferencias finitas, $x$ representa el ajuste fraccionario en el corte discreto $m'$ para mantener la energía máxima constante. En ambos casos, $x$ actúa como un \textit{contra-término} generado por la estructura de la fórmula de sumación de Euler-Maclaurin, cuya única función es compensar la diferencia entre la suma de Riemann discreta y la aproximación continua.
+    \item \textbf{Independencia del procedimiento:} El hecho de que ambos métodos --sustracción de un fondo continuo y diferencia finita de dos sistemas cuantizados-- conduzcan exactamente al mismo valor regularizado $\zeta(-k)$ demuestra que la regularización zeta no es un artefacto dependiente de la elección del esquema de renormalización. 
+    \item \textbf{La función zeta como invariante espectral:} Los valores $\zeta(-k)$ emergen como los únicos residuos finitos que sobreviven a la cancelación de las divergencias ultravioletas, independientemente de si la referencia se construye integrando sobre una densidad de estados continua o tomando la pendiente entre dos configuraciones cuantizadas adyacentes.
+\end{itemize}
+
+Esta equivalencia cierra la justificación física de la Clase 2: la regularización zeta no es una "trampa" matemática para ignorar infinitos, sino la manifestación algebraica exacta de cómo las diferencias de energías cuantizadas, cuando se aíslan adecuadamente de sus divergencias dependientes del corte, revelan las propiedades topológicas y geométricas subyacentes del espectro del operador.
