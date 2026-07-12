@@ -1,0 +1,136 @@
+\documentclass[12pt,a4paper]{article}
+
+% Paquetes básicos
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+
+% Configuración de márgenes
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% Definición de entornos
+\newtheorem{problem}{Problema}
+\newtheorem{sol}{Solución}
+\newcommand{\Res}{\operatorname{Res}}
+
+\title{\textbf{Formalismo de Zeta-Regularización en el Caso Singular: Polo en el Origen}}
+\author{Análisis Complejo y Física Matemática}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Enunciado del Problema}
+
+\begin{problem}
+Sea $\Lambda = \{\lambda_n\}_{n=1}^\infty$ una sucesión de números complejos no nulos cuya función de conteo espectral satisface $N(x) = \mathcal{O}(x^\alpha)$ para algún $\alpha > 0$. La función zeta espectral asociada se define mediante la serie de Dirichlet:
+\begin{equation}
+    \zeta_{\Lambda}(s) = \sum_{n=1}^{\infty} \lambda_n^{-s}, \quad \text{para } \Re(s) > \sigma_c
+\end{equation}
+donde $\sigma_c > 0$ es la abscisa de convergencia. Asumimos que $\zeta_{\Lambda}(s)$ admite una continuación meromorfa a todo el plano complejo $\mathbb{C}$.
+
+En el formalismo estándar de Zeta-Regularización, si $s=0$ es un punto regular (es decir, $\zeta_{\Lambda}(s)$ es holomorfa en $s=0$), el producto regularizado de la sucesión se define como $\prod^* \lambda_n = \exp(-\zeta_{\Lambda}'(0))$. 
+
+Sin embargo, suponga que para esta sucesión $\Lambda$ en particular, la continuación meromorfa de $\zeta_{\Lambda}(s)$ presenta un \textbf{polo de orden $k \ge 1$ en $s=0$}. En este caso, la derivada estándar $\zeta_{\Lambda}'(0)$ no está definida y el formalismo clásico colapsa.
+
+Responda los siguientes ítems de manera constructiva para desarrollar el formalismo generalizado:
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{El "término lineal" generalizado:} Dado que $\zeta_{\Lambda}(s)$ es meromorfa en $s=0$, esta admite una expansión en serie de Laurent en un entorno perforado del origen. En el caso regular ($k=0$), el coeficiente $c_1$ de la serie de Taylor es exactamente $\zeta_{\Lambda}'(0)$. Analice la expansión de Laurent para el caso singular y determine qué coeficiente $c_m$ debe tomar el papel de $\zeta_{\Lambda}'(0)$ para definir el producto regularizado. Justifique su respuesta.
+    
+    \item \textbf{La necesidad y aplicación del Residuo:} Para extraer analíticamente el coeficiente identificado en el ítem (a) sin depender de la derivada clásica, considere la función auxiliar $f(s) = \frac{\zeta_{\Lambda}(s)}{s^2}$. 
+    \begin{enumerate}[label=\roman*)]
+        \item Escriba la expansión en serie de Laurent de $f(s)$ alrededor de $s=0$.
+        \item Calcule el residuo de $f(s)$ en $s=0$, es decir, $\Res_{s=0} f(s)$.
+        \item Concluya demostrando que el cálculo de este residuo es la herramienta analítica exacta y necesaria para extraer el coeficiente requerido en el ítem (a), salvando así la indefinición de $\zeta_{\Lambda}'(0)$.
+    \end{enumerate}
+    
+    \item \textbf{La Fórmula Maestra Generalizada:} Con base en los resultados de los ítems anteriores, escriba la "Fórmula Maestra" que define rigurosamente el producto Zeta-regularizado generalizado (a menudo llamado \textit{producto dotted}, denotado como $\prod^* \lambda_n$) para una sucesión cuya función zeta tiene un polo en $s=0$.
+    
+    \item \textbf{Aplicación numérica:} Suponga que para una cierta sucesión $\Lambda$, la continuación meromorfa de su función zeta en un entorno de $s=0$ está dada por:
+    \begin{equation}
+        \zeta_{\Lambda}(s) = \frac{3}{s^2} - \frac{1}{s} + 4 + 7s + \mathcal{O}(s^2)
+    \end{equation}
+    Utilizando la fórmula maestra generalizada que dedujo en el ítem (c), calcule el valor del producto Zeta-regularizado generalizado $\prod^* \lambda_n$ para esta sucesión.
+\end{enumerate}
+\end{problem}
+
+\vspace{1cm}
+\hrule
+\vspace{1cm}
+
+\section*{Solución Detallada}
+
+\begin{sol}
+
+\textbf{Resolución del ítem (a):}
+Como $\zeta_{\Lambda}(s)$ tiene un polo de orden $k \ge 1$ en $s=0$, su expansión en serie de Laurent en un entorno perforado $0 < |s| < R$ es:
+\begin{equation}
+    \zeta_{\Lambda}(s) = \sum_{n=-k}^{\infty} c_n s^n = \frac{c_{-k}}{s^k} + \dots + \frac{c_{-1}}{s} + c_0 + c_1 s + c_2 s^2 + \dots
+\end{equation}
+En el caso regular (holomorfo, $k=0$), la serie se reduce a una serie de Taylor: $\zeta_{\Lambda}(s) = c_0 + c_1 s + c_2 s^2 + \dots$, donde por definición de la derivada en el origen, $c_1 = \zeta_{\Lambda}'(0)$. 
+Por lo tanto, en el caso singular, el coeficiente que debe tomar el papel de la "derivada en el origen" es \textbf{el coeficiente del término lineal $c_1$}. Este coeficiente representa la tasa de cambio lineal de la parte meromorfa de la función alrededor del origen, y es el único término que generaliza consistentemente la heurística $\prod \lambda_n = \exp(-\zeta_{\Lambda}'(0))$.
+
+\vspace{0.3cm}
+\textbf{Resolución del ítem (b):}
+Para extraer $c_1$ de manera sistemática usando teoría de residuos, definimos $f(s) = \frac{\zeta_{\Lambda}(s)}{s^2}$.
+
+\textit{i) Expansión de Laurent de $f(s)$:}
+Sustituimos la serie de $\zeta_{\Lambda}(s)$ en $f(s)$:
+\begin{equation}
+    f(s) = \frac{1}{s^2} \left( \frac{c_{-k}}{s^k} + \dots + \frac{c_{-1}}{s} + c_0 + c_1 s + c_2 s^2 + \dots \right)
+\end{equation}
+Distribuyendo el $\frac{1}{s^2}$, obtenemos:
+\begin{equation}
+    f(s) = \frac{c_{-k}}{s^{k+2}} + \dots + \frac{c_{-1}}{s^3} + \frac{c_0}{s^2} + \frac{c_1}{s} + c_2 + c_3 s + \dots
+\end{equation}
+
+\textit{ii) Cálculo del residuo:}
+Por definición, el residuo de una función en un polo aislado es el coeficiente que acompaña al término $\frac{1}{s}$ (es decir, $s^{-1}$) en su expansión de Laurent. Observando la serie anterior:
+\begin{equation}
+    \Res_{s=0} f(s) = \Res_{s=0} \frac{\zeta_{\Lambda}(s)}{s^2} = c_1
+\end{equation}
+
+\textit{iii) Conclusión:}
+Hemos demostrado que al dividir la función zeta espectral por $s^2$ y calcular el residuo en $s=0$, el operador de residuo "filtra" y extrae exactamente el coeficiente $c_1$. Esto es matemáticamente necesario porque la derivada clásica $\zeta_{\Lambda}'(0)$ no existe (la función diverge en $s=0$). El residuo de $\frac{\zeta_{\Lambda}(s)}{s^2}$ actúa como una derivada regularizada, aislando el término lineal de la expansión independientemente del orden del polo $k$.
+
+\vspace{0.3cm}
+\textbf{Resolución del ítem (c):}
+Sustituyendo el resultado del ítem (b) en la fórmula maestra original $\prod \lambda_n = \exp(-\zeta_{\Lambda}'(0))$, obtenemos la Fórmula Maestra Generalizada para el caso con polo en el origen:
+\begin{equation}
+    \prod_{n=1}^{\infty} \lambda_n := \exp\left( - \Res_{s=0} \frac{\zeta_{\Lambda}(s)}{s^2} \right)
+\end{equation}
+
+\vspace{0.3cm}
+\textbf{Resolución del ítem (d) - Aplicación Numérica:}
+Se nos proporciona la expansión:
+\begin{equation}
+    \zeta_{\Lambda}(s) = \frac{3}{s^2} - \frac{1}{s} + 4 + 7s + \mathcal{O}(s^2)
+\end{equation}
+Identificamos los coeficientes de la serie de Laurent: $c_{-2} = 3$, $c_{-1} = -1$, $c_0 = 4$, y el coeficiente del término lineal es $c_1 = 7$.
+
+Podemos resolverlo de dos formas equivalentes:
+\begin{itemize}
+    \item \textbf{Método directo:} Sabemos que el valor a extraer es $c_1 = 7$.
+    \item \textbf{Método del residuo:} Construimos $f(s) = \frac{\zeta_{\Lambda}(s)}{s^2}$:
+    \begin{equation}
+        f(s) = \frac{3}{s^4} - \frac{1}{s^3} + \frac{4}{s^2} + \frac{7}{s} + \mathcal{O}(1)
+    \end{equation}
+    El residuo en $s=0$ es el coeficiente de $1/s$, que es claramente $7$.
+\end{itemize}
+
+Finalmente, aplicamos la Fórmula Maestra Generalizada:
+\begin{equation}
+    \prod_{n=1}^{\infty} \lambda_n = \exp(-7) = e^{-7}
+\end{equation}
+El producto Zeta-regularizado generalizado para esta sucesión es $\boldsymbol{e^{-7}}$.
+
+\end{sol}
+
+\section*{Fundamentos Analíticos: Holomorfía, Meromorfía y Extensión Analítica}
+Sea $f \in \mathcal{O}(U) := \{ f: U \to \mathbb{C} \mid f \text{ es holomorfa en } U \}$ una función holomorfa en un abierto $U \subseteq \mathbb{C}$, lo cual significa que $\forall z \in U, \exists \lim_{h \to 0} \frac{f(z+h)-f(z)}{h} \in \mathbb{C}$, condición equivalente a que satisfaga las ecuaciones de Cauchy-Riemann $\partial_{\bar{z}}f = 0$; si además $U = \mathbb{C}$, entonces $f$ es una función entera. Por otro lado, una función meromorfa $h \in \mathcal{M}(V)$ se estructura como el cociente $h = f/g$ con $f, g \in \mathcal{O}(V)$ y $g \not\equiv 0$, presentando un conjunto discreto de polos $Z = \{z \in V \mid g(z) = 0\}$ donde, en una vecindad perforada $\mathring{B}(z_0, r) = B(z_0, r) \setminus \{z_0\}$, admite una expansión de Laurent $h(z) = \sum_{n=-\infty}^{\infty} c_n (z-z_0)^n$. Es precisamente en el análisis de estas singularidades donde la teoría de residuos resulta indispensable, pues el operador $\text{Res}_{z=z_0} h(z) = \frac{1}{2\pi i} \oint_{\gamma} h(z)dz = c_{-1}$ permite extraer coeficientes críticos de la parte principal; por ejemplo, para regularizar una función zeta espectral $\zeta_\Lambda(s)$ con un polo en $s=0$, se utiliza $\text{Res}_{s=0} \frac{\zeta_\Lambda(s)}{s^2} = c_1$ para aislar analíticamente el término lineal. Esta capacidad para caracterizar singularidades mediante residuos es el mecanismo exacto que posibilita la continuación analítica: dados $f_1 \in \mathcal{O}(U_1)$ y $f_2 \in \mathcal{O}(U_2)$ con $U_1 \cap U_2 \neq \emptyset$ conexo, si $f_1 \equiv f_2$ en $U_1 \cap U_2$, entonces $f_2$ es la continuación analítica de $f_1$ a $U_1 \cup U_2$, logrando así su extensión analítica a regiones más amplias del plano complejo, trascendiendo la abscisa de convergencia original $\Re(s) > \sigma_c$ y fundamentando el formalismo de la regularización zeta.
+
+\end{document}
