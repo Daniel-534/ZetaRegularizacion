@@ -1,488 +1,316 @@
-\chapter{Secuencias automáticas, combinatoria y ecuaciones funcionales}
+\chapter{Funciones superzeta, Geometría Espectral y Anomalías Multiplicativas}
 
-\section{Números Odiosos y Malvados (Evil numbers)}
+\section{Funciones Superzeta (Voros, Friedman, Jorgenson)}
 
-Hasta ahora, la Zeta-Regularización se ha aplicado a secuencias con una estructura aritmética clásica: progresiones aritméticas (números naturales, enteros desplazados), secuencias multiplicativas (números primos) o espectros de operadores diferenciales. Sin embargo, el poder de la regularización analítica se extiende mucho más allá de la teoría de números tradicional, adentrándose en la combinatoria y la teoría de la información. En esta sección, introducimos dos conjuntos de enteros definidos no por sus propiedades de divisibilidad, sino por la estructura de su representación en base 2: los números odiosos y los números malvados (evil numbers). Estos conjuntos son el puente natural hacia el estudio de las \textit{series de Dirichlet automáticas}.
+El estudio de los productos infinitos sobre los ceros de funciones trascendentales constituye una de las generalizaciones más profundas de la Zeta-Regularización clásica. Mientras que en las clases anteriores regularizamos productos sobre secuencias aritméticas o espectros de operadores, el formalismo de las \textit{funciones Superzeta}, desarrollado sistemáticamente por Voros y posteriormente refinado por Friedman, Jorgenson y Smajlović, permite regularizar productos construidos directamente sobre los ceros (y polos) de otras funciones zeta o funciones enteras de orden finito. Este marco teórico es la llave para abordar problemas de geometría espectral en variedades no compactas y para evaluar productos trigonométricos sobre los ceros de la función Zeta de Riemann.
 
-\subsection{Definición aritmética y partición de los enteros}
+\subsection{Definición y contexto de las funciones Superzeta}
 
-Sea $s_2(n)$ la función que cuenta la suma de los dígitos de la expansión binaria de un entero no negativo $n$. Esta función es ampliamente conocida en teoría de números y combinatoria como el \textit{peso de Hamming} de $n$. Basándonos en la paridad de $s_2(n)$, clasificamos los enteros no negativos en dos conjuntos disjuntos:
+Sea $f$ una función entera de orden finito $\kappa \ge 1$. Por el teorema de Hadamard, $f$ posee una secuencia de ceros $\Lambda = \{y_k\}_{k=1}^{\infty}$, contados con sus respectivas multiplicidades, que satisface la condición de crecimiento $\#\{k : |y_k| < T\} = \mathcal{O}(T^\kappa)$. 
 
-\begin{itemize}
-    \item \textbf{Números Odiosos ($O$):} Son aquellos enteros positivos cuya expansión binaria contiene un número \textit{impar} de unos. Formalmente,
-    $$ O = \{n \in \mathbb{N} : s_2(n) \equiv 1 \pmod 2\} $$
-    Los primeros elementos de este conjunto son: $1, 2, 4, 7, 8, 11, 13, 14, 16, 19, 21, 22, 25, 26, 28, 31, \dots$
+Para un número complejo $z$ que no coincida con ningún cero de $f$ (es decir, $z \notin \Lambda$), y para $s \in \mathbb{C}$, definimos la \textbf{función Superzeta} asociada a los ceros de $f$ como la serie de Dirichlet shiftada:
+
+$$ Z_f(s, z) = \sum_{k=1}^{\infty} (z - y_k)^{-s} $$
+
+donde la potencia compleja se define utilizando la rama principal del logaritmo. Dado que la función de conteo de ceros crece como $T^\kappa$, la serie converge absoluta y uniformemente en el semiplano derecho $\Re(s) > \kappa$, definiendo allí una función holomorfa en ambas variables $s$ y $z$.
+
+El objetivo central de este formalismo es definir el \textit{producto regularizado} de la secuencia shiftada $z - \Lambda$. Siguiendo la filosofía de la fórmula maestra de la Zeta-Regularización, si logramos continuar analíticamente $Z_f(s, z)$ a un entorno de $s=0$ de manera que sea holomorfa en dicho punto, definimos el determinante regularizado (o producto ddotted) como:
+
+$$ D_f(z) = \prod_{k=1}^{\infty} (z - y_k) := \exp\left( -\left. \frac{d}{ds} Z_f(s, z) \right|_{s=0} \right) $$
+
+El desafío analítico radica en que, para la mayoría de las funciones de interés (como la función Zeta de Riemann o la función Zeta de Selberg), el orden $\kappa$ es estrictamente mayor que 1, por lo que $s=0$ se encuentra profundamente en la región de divergencia clásica de la serie.
+
+\subsection{El producto de Hadamard y la derivada logarítmica}
+
+Para superar la barrera de la abscisa de convergencia, debemos explotar la estructura analítica global de $f$. Sea $m = \lfloor \kappa \rfloor$ la parte entera del orden de $f$. El producto de Hadamard nos permite escribir $f(z)$ (salvo por un factor exponencial polinómico) como:
+
+$$ f(z) = e^{g(z)} z^r \prod_{k=1}^{\infty} \left(1 - \frac{z}{y_k}\right) \exp\left( \frac{z}{y_k} + \dots + \frac{1}{m}\left(\frac{z}{y_k}\right)^m \right) $$
+
+La conexión fundamental entre la función Superzeta y la función original $f$ surge al tomar la derivada logarítmica. Si derivamos $\log f(z)$ exactamente $m+1$ veces con respecto a $z$, los términos polinómicos del exponente de Hadamard se aniquilan, y obtenemos una serie que converge absolutamente. Específicamente, se cumple la identidad exacta:
+
+$$ Z_f(m+1, z) = \sum_{k=1}^{\infty} (z - y_k)^{-(m+1)} = \frac{(-1)^m}{m!} \frac{d^{m+1}}{dz^{m+1}} \log f(z) $$
+
+Esta ecuación es el puente crucial. Nos dice que la función Superzeta evaluada en un entero grande ($m+1$) es proporcional a la derivada $(m+1)$-ésima de la derivada logarítmica de $f$. Esta relación nos permite reescribir $Z_f(s, z)$ no como una suma discreta sobre los ceros, sino como una transformada integral continua que involucra a $f'/f$, abriendo la puerta a la continuación analítica.
+
+\subsection{Continuación meromorfa mediante transformadas de Mellin}
+
+El teorema central del formalismo de Friedman, Jorgenson y Smajlović establece que la función Superzeta $Z_f(s, z)$ admite una continuación meromorfa (y de hecho entera, si $f$ es entera) a todo el plano complejo $s \in \mathbb{C}$, expresada rigurosamente como una transformada de Mellin de la derivada logarítmica de $f$.
+
+\begin{enumerate}[a)]
+    \item \textbf{Representación integral inicial:} Partiendo de la identidad para $Z_f(m+1, z+y)$ y aplicando la fórmula de la transformada de Mellin para la potencia $(z+y-y_k)^{-(m+1)}$, se puede demostrar que para $\kappa < \Re(s) < m+1$, la función Superzeta admite la representación integral:
+    $$ Z_f(s, z) = \frac{(-1)^m \Gamma(m+1-s)\Gamma(s)}{\pi} \int_0^{\infty} \frac{d^{m+1}}{dy^{m+1}} (\log f(z+y)) y^{m-s} \, dy $$
     
-    \item \textbf{Números Malvados ($E$):} Son aquellos enteros positivos cuya expansión binaria contiene un número \textit{par} de unos. Formalmente,
-    $$ E = \{n \in \mathbb{N} : s_2(n) \equiv 0 \pmod 2\} $$
-    Los primeros elementos de este conjunto son: $3, 5, 6, 9, 10, 12, 15, 17, 18, 20, 23, 24, 27, 29, 30, \dots$
-\end{itemize}
-
-Es evidente que ambos conjuntos forman una partición exacta de los enteros positivos: $O \sqcup E = \mathbb{N}$. A diferencia de los números primos, cuya distribución está gobernada por el Teorema de los Números Primos y posee una densidad asintótica nula, los números odiosos y malvados tienen una densidad asintótica exactamente igual a $1/2$. Es decir, la función de conteo espectral para ambos conjuntos satisface $N_O(x) \sim x/2$ y $N_E(x) \sim x/2$. 
-
-Esta densidad lineal implica que las series de Dirichlet asociadas a estos conjuntos tendrán una abscisa de convergencia $\sigma_c = 1$, al igual que la función Zeta de Riemann. Sin embargo, la ausencia de una estructura multiplicativa (el producto de dos números odiosos no es necesariamente odioso) obliga a desarrollar nuevas herramientas analíticas para estudiar sus funciones zeta.
-
-\subsection{La función característica y la Secuencia de Thue-Morse}
-
-Para analizar analíticamente los conjuntos $O$ y $E$, es fundamental introducir sus funciones características y conectarlas con una de las secuencias automáticas más famosas de las matemáticas: la secuencia de Thue-Morse.
-
-Definimos la función característica de los números odiosos, $a(n)$, como:
-$$ a(n) = \begin{cases} 1 & \text{si } n \in O \text{ (suma de dígitos impar)} \\ 0 & \text{si } n \in E \text{ (suma de dígitos par)} \end{cases} $$
-
-A partir de $a(n)$, construimos la sucesión $\varepsilon_n$ mediante la transformación algebraica:
-$$ \varepsilon_n = (-1)^{a(n)} = 1 - 2a(n) $$
-
-Esta transformación mapea el conjunto $\{0, 1\}$ al conjunto $\{-1, +1\}$. Analicemos el comportamiento de $\varepsilon_n$:
-\begin{enumerate}[a)]
-    \item Si $n \in E$, entonces $a(n) = 0$, lo que implica $\varepsilon_n = 1$.
-    \item Si $n \in O$, entonces $a(n) = 1$, lo que implica $\varepsilon_n = -1$.
-\end{enumerate}
-
-La secuencia resultante $(\varepsilon_n)_{n \ge 0}$ comienza con los valores:
-$$ 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, \dots $$
-
-Esta es, exactamente, la célebre \textbf{secuencia de Thue-Morse} sobre el alfabeto $\{-1, +1\}$. La secuencia de Thue-Morse posee una propiedad de autosimilitud o recurrencia fractal profunda. Si denotamos el bloque de $2^k$ términos iniciales como $T_k$, la secuencia se construye mediante la regla de sustitución $T_{k+1} = T_k \overline{T_k}$, donde $\overline{T_k}$ es el bloque complementario (intercambiando $1$ por $-1$ y viceversa). 
-
-Esta propiedad combinatoria es la clave que sustituye a la multiplicatividad en el análisis de estas secuencias. Mientras que la función Zeta de Riemann explota la propiedad multiplicativa de los enteros a través del Producto de Euler, las series de Dirichlet construidas sobre la secuencia de Thue-Morse explotarán su \textit{autosimilitud recursiva} para obtener ecuaciones funcionales.
-
-\subsection{Descomposición de las Series de Dirichlet}
-
-El objetivo final de esta sección es preparar el terreno para calcular el producto Zeta-regularizado de todos los números odiosos y malvados. Para ello, debemos construir sus funciones zeta asociadas y demostrar que su continuación analítica depende enteramente de la secuencia de Thue-Morse.
-
-Definimos las series de Dirichlet para los conjuntos $O$ y $E$ como:
-$$ \zeta_O(s) = \sum_{n \in O} \frac{1}{n^s}, \qquad \zeta_E(s) = \sum_{n \in E} \frac{1}{n^s} $$
-
-Dado que $O$ y $E$ particionan $\mathbb{N}$, la suma de ambas series debe recuperar la función Zeta de Riemann:
-$$ \zeta_O(s) + \zeta_E(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \zeta(s) $$
-
-Por otro lado, consideremos la diferencia entre ambas series. Utilizando la función característica $a(n)$ y la relación $\varepsilon_n = 1 - 2a(n)$, podemos reescribir la diferencia de la siguiente manera:
-$$ \zeta_O(s) - \zeta_E(s) = \sum_{n=1}^{\infty} \frac{1 - 2a(n)}{n^s} - \sum_{n=1}^{\infty} \frac{2a(n)}{n^s} \quad \text{(Ajustando los índices)} $$
-Más directamente, notando que $a(n) = 1$ para $n \in O$ y $0$ para $n \in E$, y recordando que $\varepsilon_n = -1$ para $n \in O$ y $1$ para $n \in E$, tenemos que $a(n) = \frac{1 - \varepsilon_n}{2}$. Sustituyendo esto en la definición de $\zeta_O(s)$:
-
-$$ \zeta_O(s) = \sum_{n=1}^{\infty} \frac{a(n)}{n^s} = \sum_{n=1}^{\infty} \frac{1 - \varepsilon_n}{2n^s} = \frac{1}{2} \zeta(s) - \frac{1}{2} g(s) $$
-
-Donde hemos definido la \textbf{Serie de Dirichlet de Thue-Morse} como:
-$$ g(s) = \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^s} $$
-
-De manera completamente análoga, para los números malvados obtenemos:
-$$ \zeta_E(s) = \sum_{n=1}^{\infty} \frac{1 - a(n)}{n^s} = \frac{1}{2} \zeta(s) + \frac{1}{2} g(s) $$
-
-\subsubsection{El problema de la continuación analítica}
-
-Las ecuaciones anteriores son el corazón analítico del problema. Nos revelan que la continuación analítica de $\zeta_O(s)$ y $\zeta_E(s)$ está condicionada exclusivamente a la continuación analítica de la serie $g(s)$. 
-
-La función $\zeta(s)$ es meromorfa en todo el plano complejo, con un polo simple en $s=1$. Por lo tanto, el comportamiento de $\zeta_O(s)$ y $\zeta_E(s)$ depende de si $g(s)$ puede ser continuada analíticamente. A diferencia de las series de Dirichlet multiplicativas, la serie $g(s)$ no posee un Producto de Euler. Sin embargo, la naturaleza \textit{automática} de la secuencia de Thue-Morse (su regla de sustitución $T_{k+1} = T_k \overline{T_k}$) permite traducir la autosimilitud combinatoria en una \textbf{ecuación funcional infinita} para $g(s)$. 
-
-Esta ecuación funcional, que relaciona $g(s)$ con evaluaciones de la misma función en $s+k$ para $k \in \mathbb{N}$, es la herramienta que permite demostrar que $g(s)$ admite una continuación meromorfa a todo el plano complejo $\mathbb{C}$, y que es holomorfa en $s=0$. Este hecho garantiza que $\zeta_O(s)$ y $\zeta_E(s)$ están bien definidas en el origen, abriendo la puerta a la aplicación de la fórmula maestra $\prod \lambda_i = \exp(-\zeta_\Lambda'(0))$ para calcular los productos infinitos de estos conjuntos exóticos.
-
-\section{Series de Dirichlet para secuencias automáticas}
-
-Hasta este punto, la Zeta-Regularización se ha aplicado fundamentalmente a secuencias definidas por propiedades aritméticas clásicas (progresiones, números primos) o espectros de operadores diferenciales. En todos esos casos, la estructura multiplicativa subyacente permitía el uso de herramientas poderosas como el Producto de Euler. Sin embargo, al adentrarnos en la combinatoria y la teoría de la información, nos encontramos con subconjuntos de los enteros definidos por la estructura de sus dígitos en una base dada. Estos conjuntos carecen de multiplicatividad, lo que obliga a reformular nuestro enfoque analítico. En esta sección, construiremos rigurosamente las series de Dirichlet asociadas a los números odiosos y malvados, y demostraremos cómo su destino analítico queda íntimamente ligado a la función Zeta de Riemann a través de la secuencia de Thue-Morse.
-
-\subsection{Construcción de las funciones zeta $\zeta_O(s)$ y $\zeta_E(s)$}
-
-Recordemos que los enteros positivos se particionan en dos conjuntos disjuntos basados en la paridad de la suma de sus dígitos en base 2 (el peso de Hamming): el conjunto de los números odiosos $O$ (suma impar de unos) y el conjunto de los números malvados $E$ (suma par de unos). Dado que $O \sqcup E = \mathbb{N}$, las series de Dirichlet asociadas a estos conjuntos, definidas inicialmente para $\Re(s) > 1$, deben satisfacer la propiedad de aditividad espectral que establecimos en la Clase 1:
-
-$$ \zeta_O(s) + \zeta_E(s) = \sum_{n \in O} \frac{1}{n^s} + \sum_{n \in E} \frac{1}{n^s} = \sum_{n=1}^{\infty} \frac{1}{n^s} = \zeta(s) $$
-
-Para estudiar $\zeta_O(s)$ y $\zeta_E(s)$ de manera individual, necesitamos herramientas algebraicas que nos permitan filtrar los elementos de cada conjunto. Para ello, introducimos la función característica de los números odiosos, $a(n)$, definida como:
-
-$$ a(n) = \begin{cases} 1 & \text{si } n \in O \\ 0 & \text{si } n \in E \end{cases} $$
-
-A partir de $a(n)$, construimos la sucesión auxiliar $\varepsilon_n$ mediante la transformación lineal $\varepsilon_n = (-1)^{a(n)} = 1 - 2a(n)$. Esta transformación mapea el conjunto $\{0, 1\}$ al conjunto $\{-1, +1\}$, de modo que $\varepsilon_n = -1$ si $n$ es odioso, y $\varepsilon_n = +1$ si $n$ es malvado. La secuencia $(\varepsilon_n)_{n \ge 0}$ es, salvo por el primer término (donde $\varepsilon_0 = 1$), la célebre secuencia de Thue-Morse.
-
-Podemos expresar la función característica $a(n)$ directamente en términos de $\varepsilon_n$ como $a(n) = \frac{1 - \varepsilon_n}{2}$. Sustituyendo esto en la definición de $\zeta_O(s)$, obtenemos:
-
-$$ \zeta_O(s) = \sum_{n=1}^{\infty} \frac{a(n)}{n^s} = \sum_{n=1}^{\infty} \frac{1 - \varepsilon_n}{2n^s} = \frac{1}{2} \sum_{n=1}^{\infty} \frac{1}{n^s} - \frac{1}{2} \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^s} $$
-
-De manera completamente análoga, para los números malvados, cuya función característica es $1 - a(n) = \frac{1 + \varepsilon_n}{2}$, tenemos:
-
-$$ \zeta_E(s) = \sum_{n=1}^{\infty} \frac{1 - a(n)}{n^s} = \frac{1}{2} \sum_{n=1}^{\infty} \frac{1}{n^s} + \frac{1}{2} \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^s} $$
-
-\subsection{La función zeta de Thue-Morse $g(s)$}
-
-Las ecuaciones anteriores revelan que el análisis de $\zeta_O(s)$ y $\zeta_E(s)$ se reduce al estudio de dos componentes: la función Zeta de Riemann $\zeta(s)$, y una nueva función que codifica exclusivamente la secuencia de Thue-Morse. Definimos esta última como la \textbf{función zeta de Thue-Morse}:
-
-$$ g(s) = \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^s} $$
-
-Con esta definición, las relaciones fundamentales que vinculan las funciones zeta de los números odiosos y malvados con la función Zeta de Riemann y la función de Thue-Morse toman una forma compacta y elegante:
-
-\begin{itemize}
-    \item $\zeta_O(s) = \frac{1}{2} \zeta(s) - \frac{1}{2} g(s)$
-    \item $\zeta_E(s) = \frac{1}{2} \zeta(s) + \frac{1}{2} g(s)$
-    \item $\zeta_E(s) - \zeta_O(s) = g(s)$
-\end{itemize}
-
-Estas identidades son exactas y válidas en el semiplano de convergencia absoluta $\Re(s) > 1$. Sin embargo, su verdadero poder analítico reside en que proporcionan el puente para la continuación analítica. Dado que $\zeta(s)$ es una función meromorfa en todo el plano complejo $\mathbb{C}$ (con un único polo simple en $s=1$), el comportamiento analítico de $\zeta_O(s)$ y $\zeta_E(s)$ queda dictado \textit{exclusivamente} por la capacidad de continuar analíticamente la función $g(s)$.
-
-\subsection{Relación con la función Zeta de Riemann y el desafío analítico}
-
-La descomposición $\zeta_O(s) = \frac{1}{2}\zeta(s) - \frac{1}{2}g(s)$ es el corazón del problema de regularización para secuencias automáticas. En los casos anteriores (como los números naturales o los primos), la estructura multiplicativa de la secuencia permitía factorizar la función zeta en un Producto de Euler, lo que facilitaba enormemente la continuación analítica mediante técnicas de la teoría analítica de números. 
-
-Los conjuntos $O$ y $E$, al estar definidos por la paridad de la suma de dígitos en base 2, carecen por completo de estructura multiplicativa. Por ejemplo, $2 \in O$ y $3 \in O$, pero su producto $6 \in E$. Esta ruptura de la multiplicatividad significa que $g(s)$ no admite un Producto de Euler. No podemos factorizar $g(s)$ en un producto sobre números primos. 
-
-Por lo tanto, nos enfrentamos a un desafío analítico de una naturaleza completamente distinta:
-
-\begin{enumerate}[a)]
-    \item \textbf{La abscisa de convergencia de $g(s)$:} A diferencia de $\zeta(s)$, cuyos coeficientes de Dirichlet son todos $1$, los coeficientes de $g(s)$ son $\varepsilon_n \in \{-1, 1\}$. Las sumas parciales de la secuencia de Thue-Morse no crecen linealmente, sino que están acotadas por potencias fraccionarias (relacionadas con la dimensión fractal de la secuencia). Esto implica que la serie de Dirichlet $g(s)$ converge en una región diferente, pero el punto crítico sigue siendo cómo extenderla a $s=0$.
-    \item \textbf{El polo en $s=1$:} Dado que la densidad asintótica de los números odiosos y malvados es exactamente $1/2$, ambas funciones $\zeta_O(s)$ y $\zeta_E(s)$ heredan el polo simple de $\zeta(s)$ en $s=1$ con residuo $1/2$. Esto es consistente con el hecho de que $g(s)$ es holomorfa en $s=1$ (de hecho, $g(1) = 0$ por la cancelación alternante de la serie de Thue-Morse).
-    \item \textbf{La evaluación en $s=0$:} Para calcular el producto Zeta-regularizado de los números odiosos mediante la fórmula maestra $\prod_{n \in O} n = \exp(-\zeta_O'(0))$, necesitamos evaluar $\zeta_O'(0)$. Según nuestra descomposición, esto requiere calcular $\zeta'(0)$ (que ya conocemos: $-\frac{1}{2}\log(2\pi)$) y $g'(0)$. 
-\end{enumerate}
-
-El problema de calcular el producto de todos los números odiosos se ha transformado, gracias a esta relación con la función Zeta de Riemann, en el problema de evaluar la derivada en el origen de la función zeta de Thue-Morse, $g'(0)$. Dado que $g(s)$ carece de multiplicatividad, su continuación analítica y la evaluación de $g'(0)$ no pueden abordarse con las herramientas clásicas de Euler o Riemann. En su lugar, debemos explotar la única propiedad estructural que posee la secuencia: su \textit{autosimilitud combinatoria} (la regla de sustitución de Thue-Morse). Esta propiedad fractal es la que nos permitirá derivar ecuaciones funcionales infinitas para $g(s)$, las cuales serán la llave para su continuación analítica y la posterior evaluación de los productos exóticos.
-
-\section{Ecuaciones funcionales infinitas}
-
-En las secciones anteriores, establecimos que las series de Dirichlet asociadas a los números odiosos y malvados, $\zeta_O(s)$ y $\zeta_E(s)$, pueden descomponerse en términos de la función Zeta de Riemann $\zeta(s)$ y la función zeta de Thue-Morse $g(s) = \sum_{n=1}^{\infty} \varepsilon_n n^{-s}$. Dado que $\zeta(s)$ es meromorfa en todo el plano complejo, el destino analítico de $\zeta_O(s)$ y $\zeta_E(s)$ depende exclusivamente de nuestra capacidad para continuar analíticamente $g(s)$.
-
-A diferencia de las secuencias multiplicativas como los números naturales o los primos, la secuencia de Thue-Morse carece de estructura multiplicativa, lo que imposibilita el uso del Producto de Euler. Sin embargo, la secuencia de Thue-Morse posee una propiedad combinatoria profunda: es una secuencia \textit{2-automática}. Esto significa que sus términos están gobernados por reglas de recurrencia fractal basadas en la expansión binaria de los índices. En esta sección, demostraremos cómo esta autosimilitud combinatoria se traduce directamente en una \textbf{ecuación funcional infinita} que permite la continuación analítica de $g(s)$ a todo el plano complejo.
-
-\subsection{Derivación de la ecuación funcional}
-
-Para derivar la ecuación funcional, partimos de la definición de la serie de Dirichlet de Thue-Morse, válida inicialmente para $\Re(s) > 1$:
-
-$$ g(s) = \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^s} $$
-
-La estrategia consiste en aprovechar las propiedades de paridad de la secuencia de Thue-Morse. Recordemos que $\varepsilon_n = (-1)^{s_2(n)}$, donde $s_2(n)$ es la suma de los dígitos binarios de $n$. De esto se deducen dos relaciones de recurrencia fundamentales:
-\begin{itemize}
-    \item $\varepsilon_{2n} = \varepsilon_n$ (multiplicar por 2 en binario solo añade un cero al final, no cambia la suma de los dígitos).
-    \item $\varepsilon_{2n+1} = -\varepsilon_n$ (sumar 1 a un número par cambia el último bit de 0 a 1, aumentando la suma en 1 y cambiando el signo).
-\end{itemize}
-
-Utilizamos estas propiedades para dividir la serie $g(s)$ en sus partes de índices pares e impares. Dado que $\varepsilon_0 = 1$ (la suma de dígitos de 0 es 0, que es par), podemos escribir:
-
-$$ g(s) = \sum_{n=1}^{\infty} \frac{\varepsilon_{2n}}{(2n)^s} + \sum_{n=0}^{\infty} \frac{\varepsilon_{2n+1}}{(2n+1)^s} $$
-
-Sustituyendo las relaciones de recurrencia:
-
-$$ g(s) = \frac{1}{2^s} \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^s} - \sum_{n=0}^{\infty} \frac{\varepsilon_n}{(2n+1)^s} $$
-
-El primer término es exactamente $2^{-s} g(s)$. En el segundo término, extraemos el índice $n=0$, que contribuye con $\varepsilon_0 / 1^s = 1$. Así, obtenemos:
-
-$$ g(s) = 2^{-s} g(s) - 1 - \sum_{n=1}^{\infty} \frac{\varepsilon_n}{(2n+1)^s} $$
-
-Reorganizando para aislar $g(s)$:
-
-$$ (1 - 2^{-s}) g(s) = -1 - \sum_{n=1}^{\infty} \varepsilon_n (2n+1)^{-s} $$
-
-El paso analítico crucial es expandir el término $(2n+1)^{-s}$ para relacionarlo con potencias de $n$. Factorizamos $(2n)^{-s}$:
-
-$$ (2n+1)^{-s} = (2n)^{-s} \left(1 + \frac{1}{2n}\right)^{-s} $$
-
-Dado que $\left| \frac{1}{2n} \right| < 1$ para $n \ge 1$, podemos aplicar el teorema del binomio generalizado:
-
-$$ \left(1 + \frac{1}{2n}\right)^{-s} = \sum_{k=0}^{\infty} \binom{-s}{k} \left(\frac{1}{2n}\right)^k = \sum_{k=0}^{\infty} (-1)^k \binom{s+k-1}{k} \frac{1}{(2n)^k} $$
-
-Sustituyendo esta expansión en la suma sobre $n$:
-
-$$ \sum_{n=1}^{\infty} \varepsilon_n (2n+1)^{-s} = \sum_{n=1}^{\infty} \varepsilon_n \sum_{k=0}^{\infty} (-1)^k \binom{s+k-1}{k} \frac{1}{(2n)^{s+k}} $$
-
-Dado que la serie converge absolutamente para $\Re(s) > 1$, podemos intercambiar el orden de las sumatorias:
-
-$$ \sum_{n=1}^{\infty} \varepsilon_n (2n+1)^{-s} = \sum_{k=0}^{\infty} (-1)^k \binom{s+k-1}{k} \frac{1}{2^{s+k}} \left( \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^{s+k}} \right) $$
-
-Reconocemos que la suma interna es precisamente $g(s+k)$. Por lo tanto:
-
-$$ (1 - 2^{-s}) g(s) = -1 - \sum_{k=0}^{\infty} (-1)^k \binom{s+k-1}{k} \frac{g(s+k)}{2^{s+k}} $$
-
-Para simplificar, extraemos el término $k=0$ de la sumatoria. Para $k=0$, el coeficiente binomial es $\binom{s-1}{0} = 1$, y el término es $2^{-s} g(s)$. Al restar este término de ambos lados, los $2^{-s} g(s)$ se cancelan mágicamente, dejando:
-
-$$ g(s) = -1 - \sum_{k=1}^{\infty} (-1)^k \binom{s+k-1}{k} \frac{g(s+k)}{2^{s+k}} $$
-
-Absorbiendo el signo negativo en la sumatoria, llegamos a la \textbf{ecuación funcional infinita} para la función zeta de Thue-Morse:
-
-$$ g(s) = -1 + \sum_{k=1}^{\infty} (-1)^{k+1} \binom{s+k-1}{k} \frac{g(s+k)}{2^{s+k}} $$
-
-\subsection{Continuación analítica a todo el plano complejo}
-
-La ecuación funcional derivada no es solo una curiosidad algebraica; es la llave maestra para la continuación analítica. Analicemos su estructura:
-
-\begin{enumerate}[a)]
-    \item \textbf{Desplazamiento del argumento:} La función $g(s)$ en el lado izquierdo está evaluada en $s$. En el lado derecho, la función $g$ aparece evaluada en $s+k$ para $k \ge 1$. Esto significa que la ecuación expresa el valor de $g(s)$ en términos de sus valores en regiones con parte real estrictamente mayor.
-    \item \textbf{Mecanismo de continuación:} Supongamos que $g(s)$ es analítica en un semiplano derecho $\Re(s) > \sigma_0$. La serie original converge absolutamente en esta región. La ecuación funcional nos permite definir $g(s)$ para $\Re(s) > \sigma_0 - 1$, ya que los términos $g(s+k)$ en el lado derecho caerán en la región $\Re(s+k) > \sigma_0 + k - 1 \ge \sigma_0$, donde la función ya está bien definida y es analítica.
-    \item \textbf{Convergencia de la serie infinita:} Para un $s$ fijo, el coeficiente binomial $\binom{s+k-1}{k} = \frac{(s+k-1)(s+k-2)\dots s}{k!}$ crece asintóticamente como $\frac{k^{s-1}}{\Gamma(s)}$ para $k$ grande. Sin embargo, el factor $2^{s+k}$ en el denominador proporciona un decaimiento exponencial $2^{-k}$. Esto garantiza que la serie infinita sobre $k$ converge absoluta y uniformemente en cualquier subconjunto compacto del plano complejo $\mathbb{C}$.
-\end{enumerate}
-
-Dado que el lado derecho de la ecuación es una suma uniformemente convergente de funciones analíticas (asumiendo que $g(s+k)$ es analítica), el lado derecho es una función entera. Por el principio de identidad analítica, esto demuestra que $g(s)$ puede ser continuada analíticamente a una \textbf{función entera}, es decir, $g(s)$ es holomorfa en todo el plano complejo $\mathbb{C}$, sin ningún polo ni singularidad.
-
-En consecuencia, las funciones $\zeta_O(s) = \frac{1}{2}\zeta(s) - \frac{1}{2}g(s)$ y $\zeta_E(s) = \frac{1}{2}\zeta(s) + \frac{1}{2}g(s)$ heredan esta propiedad, siendo meromorfas en todo $\mathbb{C}$ con un único polo simple en $s=1$ (proveniente de $\zeta(s)$), y siendo perfectamente regulares (holomorfas) en el origen $s=0$.
-
-\subsection{Evaluación en el origen: $g(0)$ y $g'(0)$}
-
-Para aplicar la fórmula maestra de la Zeta-Regularización a los números odiosos y malvados, necesitamos evaluar $g(s)$ y su derivada en $s=0$. La ecuación funcional infinita nos permite hacer esto de manera exacta y rigurosa.
-
-\subsubsection*{Cálculo de $g(0)$}
-
-Evaluamos la ecuación funcional directamente en $s=0$:
-
-$$ g(0) = -1 + \sum_{k=1}^{\infty} (-1)^{k+1} \binom{k-1}{k} \frac{g(k)}{2^k} $$
-
-El coeficiente binomial $\binom{k-1}{k}$ es igual a $\frac{(k-1)(k-2)\dots(0)}{k!} = 0$ para todo entero $k \ge 1$. Por lo tanto, toda la sumatoria se anula idénticamente, y obtenemos:
-
-$$ g(0) = -1 $$
-
-Este es un resultado fundamental. Significa que la función zeta de Thue-Morse no se anula en el origen, sino que toma el valor entero $-1$.
-
-\subsubsection*{Cálculo de $g'(0)$}
-
-Para encontrar $g'(0)$, derivamos la ecuación funcional con respecto a $s$ y evaluamos en $s=0$. Sea $T_k(s)$ el término general de la sumatoria:
-
-$$ T_k(s) = (-1)^{k+1} \binom{s+k-1}{k} \frac{g(s+k)}{2^{s+k}} $$
-
-Recordemos que $\binom{s+k-1}{k} = \frac{s(s+1)\dots(s+k-1)}{k!}$. Este polinomio en $s$ tiene una raíz en $s=0$. Por lo tanto, $T_k(0) = 0$ para todo $k \ge 1$. Al aplicar la regla del producto para derivar $T_k(s)$, el único término que no se anula al evaluar en $s=0$ es aquel donde la derivada actúa sobre el factor $s$ del coeficiente binomial, mientras que los demás factores se evalúan en $s=0$.
-
-La derivada del coeficiente binomial en $s=0$ es:
-
-$$ \left. \frac{d}{ds} \frac{s(s+1)\dots(s+k-1)}{k!} \right|_{s=0} = \frac{1 \cdot 2 \dots (k-1)}{k!} = \frac{(k-1)!}{k!} = \frac{1}{k} $$
-
-Los demás factores de $T_k(s)$ evaluados en $s=0$ son simplemente $2^{-k} g(k)$. Por lo tanto, la derivada del término general en el origen es:
-
-$$ T_k'(0) = (-1)^{k+1} \frac{1}{k} \frac{g(k)}{2^k} $$
-
-Sumando sobre todos los $k \ge 1$, obtenemos la derivada de la función completa:
-
-$$ g'(0) = \sum_{k=1}^{\infty} (-1)^{k+1} \frac{g(k)}{k 2^k} $$
-
-\subsubsection*{Conexión con un producto infinito convergente}
-
-Aunque la expresión anterior para $g'(0)$ es una serie numéricamente convergente, podemos transformarla en una forma más reveladora expandiendo $g(k)$ usando su definición original $g(k) = \sum_{n=1}^{\infty} \varepsilon_n n^{-k}$:
-
-$$ g'(0) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k 2^k} \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^k} $$
-
-Dado que las series convergen absolutamente, intercambiamos el orden de sumación:
-
-$$ g'(0) = \sum_{n=1}^{\infty} \varepsilon_n \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} \left(\frac{1}{2n}\right)^k $$
-
-Reconocemos la suma interna como la expansión en serie de Taylor de la función logaritmo natural, $\log(1+x) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} x^k$, evaluada en $x = \frac{1}{2n}$. Por lo tanto:
-
-$$ g'(0) = \sum_{n=1}^{\infty} \varepsilon_n \log\left(1 + \frac{1}{2n}\right) = \sum_{n=1}^{\infty} \varepsilon_n \log\left(\frac{2n+1}{2n}\right) $$
-
-Utilizando las propiedades de los logaritmos, esto se puede escribir como el logaritmo de un producto infinito:
-
-$$ g'(0) = \log \prod_{n=1}^{\infty} \left(\frac{2n+1}{2n}\right)^{\varepsilon_n} $$
-
-Si definimos la constante $Q$ como el producto infinito inverso:
-
-$$ Q = \prod_{n=1}^{\infty} \left(\frac{2n}{2n+1}\right)^{\varepsilon_n} $$
-
-Entonces, hemos demostrado rigurosamente que:
-
-$$ g'(0) = -\log Q $$
-
-\subsection{Significado analítico de la ecuación funcional}
-
-La derivación de $g'(0) = -\log Q$ a través de la ecuación funcional infinita es un triunfo del análisis de secuencias automáticas. Hemos logrado lo siguiente:
-
-\begin{itemize}
-    \item \textbf{Sustituto del Producto de Euler:} La ecuación funcional infinita juega exactamente el mismo papel que el Producto de Euler para la función Zeta de Riemann. Mientras que el Producto de Euler explota la multiplicatividad para factorizar $\zeta(s)$, la ecuación funcional explota la 2-automaticidad para relacionar $g(s)$ consigo misma en argumentos desplazados.
-    \item \textbf{Regularidad en el Origen:} Hemos probado que $g(s)$ es una función entera, lo que garantiza que $\zeta_O(s)$ y $\zeta_E(s)$ no tienen singularidades patológicas en $s=0$. La fórmula maestra $\prod \lambda_i = \exp(-\zeta_\Lambda'(0))$ es perfectamente aplicable.
-    \item \textbf{Reducción a Constantes Exóticas:} El problema analítico de calcular el producto de todos los números odiosos (o malvados) se ha reducido completamente a evaluar la constante $Q$. 
-\end{itemize}
-
-La ecuación funcional infinita nos ha llevado hasta la puerta de la regularización exótica. Con $g(0) = -1$ y $g'(0) = -\log Q$ en mano, estamos en posición de calcular explícitamente $\zeta_O'(0)$ y $\zeta_E'(0)$, lo que nos dará los productos Zeta-regularizados de los números odiosos y malvados. La evaluación final de $Q$ y la aparición de constantes fundamentales como la constante de Euler-Mascheroni $\gamma$ y la constante de Flajolet-Martin $\phi$ será el tema central de la siguiente sección.
-
-
-\section{Cálculo de productos regulados exóticos}
-
-Habiendo establecido la continuación analítica de la función zeta de Thue-Morse $g(s)$ y su derivada en el origen mediante la ecuación funcional infinita, poseemos todas las herramientas necesarias para abordar el cálculo explícito de los productos Zeta-regularizados de los números odiosos y malvados. Este cálculo no solo arroja valores numéricos sorprendentes, sino que revela una conexión profunda entre la combinatoria de las secuencias automáticas y las constantes fundamentales del análisis clásico, como la constante de Euler-Mascheroni y la constante de Flajolet-Martin.
-
-\subsection{Evaluación del producto de todos los números odiosos}
-
-El objetivo central es evaluar el producto Zeta-regularizado de todos los números odiosos, el cual se define formalmente mediante la fórmula maestra como:
-
-$$ \prod_{n \in O}^{\text{reg}} n := \exp(-\zeta_O'(0)) $$
-
-En la sección anterior, demostramos que la función zeta de los números odiosos se descompone como $\zeta_O(s) = \frac{1}{2}\zeta(s) - \frac{1}{2}g(s)$. Derivando esta expresión respecto a $s$ y evaluando en $s=0$, obtenemos la relación fundamental:
-
-$$ \zeta_O'(0) = \frac{1}{2}\zeta'(0) - \frac{1}{2}g'(0) $$
-
-El primer término es un resultado clásico y rigurosamente establecido de la función Zeta de Riemann: $\zeta'(0) = -\frac{1}{2}\log(2\pi)$. El desafío analítico reside por completo en evaluar $g'(0)$. 
-
-Para calcular $g'(0)$, partimos de la ecuación funcional infinita derivada previamente para la función zeta de Thue-Morse:
-
-$$ g(s) = -1 + \sum_{k=1}^{\infty} (-1)^{k+1} \binom{s+k-1}{k} \frac{g(s+k)}{2^{s+k}} $$
-
-Derivamos ambos lados respecto a $s$. Dado que el coeficiente binomial $\binom{s+k-1}{k} = \frac{s(s+1)\dots(s+k-1)}{k!}$ tiene una raíz en $s=0$, su valor en $s=0$ es cero para todo $k \ge 1$. Al aplicar la regla del producto, el único término que sobrevive al evaluar en $s=0$ es aquel donde la derivada actúa sobre el factor $s$ del numerador del coeficiente binomial. La derivada de este coeficiente evaluada en $s=0$ es exactamente $\frac{1}{k}$. Por lo tanto, la derivada de la serie en el origen se simplifica drásticamente a:
-
-$$ g'(0) = \sum_{k=1}^{\infty} (-1)^{k+1} \frac{1}{k} \frac{g(k)}{2^k} $$
-
-Para llevar esta expresión a una forma cerrada, expandimos $g(k)$ usando su definición original como serie de Dirichlet, $g(k) = \sum_{n=1}^{\infty} \varepsilon_n n^{-k}$, y sustituimos en la ecuación:
-
-$$ g'(0) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k 2^k} \sum_{n=1}^{\infty} \frac{\varepsilon_n}{n^k} $$
-
-Dado que las series involucradas convergen absolutamente, podemos intercambiar el orden de las sumatorias sin alterar el resultado:
-
-$$ g'(0) = \sum_{n=1}^{\infty} \varepsilon_n \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} \left(\frac{1}{2n}\right)^k $$
-
-Reconocemos inmediatamente que la suma interna es la expansión en serie de Taylor de la función logaritmo natural, $\log(1+x) = \sum_{k=1}^{\infty} \frac{(-1)^{k+1}}{k} x^k$, evaluada en $x = \frac{1}{2n}$. Esto nos permite colapsar la suma infinita en una expresión logarítmica exacta:
-
-$$ g'(0) = \sum_{n=1}^{\infty} \varepsilon_n \log\left(1 + \frac{1}{2n}\right) = \sum_{n=1}^{\infty} \varepsilon_n \log\left(\frac{2n+1}{2n}\right) $$
-
-Utilizando las propiedades de los logaritmos, esta suma se puede reescribir como el logaritmo de un producto infinito. Definimos la constante exótica $Q$ como el producto infinito inverso:
-
-$$ Q := \prod_{n=1}^{\infty} \left(\frac{2n}{2n+1}\right)^{\varepsilon_n} $$
-
-Por lo tanto, hemos demostrado rigurosamente que $g'(0) = -\log Q$. 
-
-Sustituyendo este resultado y el valor de $\zeta'(0)$ en nuestra ecuación para $\zeta_O'(0)$, obtenemos:
-
-$$ \zeta_O'(0) = \frac{1}{2}\left(-\frac{1}{2}\log(2\pi)\right) - \frac{1}{2}(-\log Q) = -\frac{1}{4}\log(2\pi) + \frac{1}{2}\log Q $$
-
-Finalmente, aplicamos la fórmula maestra para obtener el producto regularizado de los números odiosos:
-
-$$ \prod_{n \in O}^{\text{reg}} n = \exp\left( \frac{1}{4}\log(2\pi) - \frac{1}{2}\log Q \right) = (2\pi)^{1/4} Q^{-1/2} $$
-
-De manera completamente análoga, para los números malvados, cuya función zeta es $\zeta_E(s) = \frac{1}{2}\zeta(s) + \frac{1}{2}g(s)$, la derivada en el origen es $\zeta_E'(0) = -\frac{1}{4}\log(2\pi) - \frac{1}{2}\log Q$, lo que arroja su producto regularizado:
-
-$$ \prod_{n \in E}^{\text{reg}} n = (2\pi)^{1/4} Q^{1/2} $$
-
-\subsection{Aparición de la constante de Euler-Mascheroni y la constante de Flajolet-Martin}
-
-El resultado anterior es analíticamente satisfactorio, pero deja abierta la pregunta sobre la naturaleza de la constante $Q$. ¿Existe una forma cerrada para este producto infinito ponderado por la secuencia de Thue-Morse? La respuesta nos conecta con dos de las constantes más fascinantes de la teoría analítica de números y el análisis combinatorio.
-
-La constante $Q$ está íntimamente ligada a la \textbf{constante de Flajolet-Martin}, denotada por $\phi$. Esta constante surge originalmente en el análisis de algoritmos probabilísticos de conteo en bases de datos (específicamente en el algoritmo de conteo de elementos distintos de Flajolet-Martin), pero su estructura analítica la vincula directamente con la secuencia de Thue-Morse. La constante de Flajolet-Martin se define mediante un producto infinito similar a $Q$, pero con una estructura de bloques de 4:
-
-$$ \phi := 2^{-1/2} e^\gamma \prod_{n=1}^{\infty} \left( \frac{(4n+1)(4n+2)}{4n(4n+3)} \right)^{\varepsilon_n} \approx 0.77351\dots $$
-
-donde $\gamma \approx 0.57721\dots$ es la célebre \textbf{constante de Euler-Mascheroni}. 
-
-A través de manipulaciones algebraicas de los productos infinitos y utilizando las propiedades de la secuencia de Thue-Morse, se puede demostrar la siguiente relación exacta entre $Q$, $\gamma$ y $\phi$:
-
-$$ \phi = \frac{2^{-1/2} e^\gamma}{Q} \implies Q = \frac{2^{-1/2} e^\gamma}{\phi} $$
-
-Esta identidad es el puente que permite expresar los productos de los números odiosos y malvados puramente en términos de constantes matemáticas fundamentales. Sustituyendo $Q$ en las fórmulas derivadas previamente, obtenemos los resultados finales y cerrados:
-
-\begin{itemize}
-    \item \textbf{Producto de los números odiosos:}
-    $$ \prod_{n \in O}^{\text{reg}} n = (2\pi)^{1/4} \left( \frac{2^{-1/2} e^\gamma}{\phi} \right)^{-1/2} = \pi^{1/4} \sqrt{2} \, \phi^{1/2} e^{-\gamma/2} $$
+    \item \textbf{Integración por partes sucesiva:} El núcleo de la demostración consiste en integrar por partes exactamente $m$ veces. Dado que las derivadas de $\log f(z+y)$ decaen suficientemente rápido cuando $y \to \infty$ (gracias a la representación de $f$ como serie de Dirichlet generalizada o por su orden finito), los términos de frontera en el infinito se anulan. Al trasladar las $m$ derivadas desde $\log f(z+y)$ hacia el peso $y^{m-s}$, la integral se simplifica drásticamente.
     
-    \item \textbf{Producto de los números malvados:}
-    $$ \prod_{n \in E}^{\text{reg}} n = (2\pi)^{1/4} \left( \frac{2^{-1/2} e^\gamma}{\phi} \right)^{1/2} = \pi^{1/4} \frac{e^{\gamma/2}}{\sqrt{2} \, \phi^{1/2}} $$
-\end{itemize}
-
-\subsubsection*{La prueba definitiva de consistencia: La Fórmula de Lerch}
-
-La belleza de la Zeta-Regularización radica en su coherencia algebraica interna. Dado que los números odiosos $O$ y los números malvados $E$ forman una partición exacta de los números naturales $\mathbb{N}$ (es decir, $O \sqcup E = \mathbb{N}$), la propiedad de multiplicatividad por particiones de conjuntos (establecida en la Clase 1) exige que el producto de todos los números naturales sea igual al producto de los odiosos multiplicado por el producto de los malvados. 
-
-Verifiquemos si nuestros resultados exóticos satisfacen esta exigencia algebraica:
-
-$$ \prod_{n \in O}^{\text{reg}} n \times \prod_{n \in E}^{\text{reg}} n = \left( (2\pi)^{1/4} Q^{-1/2} \right) \times \left( (2\pi)^{1/4} Q^{1/2} \right) $$
-
-Al multiplicar ambas expresiones, las dependencias de la constante exótica $Q$ (y por ende, de $\phi$ y $\gamma$) se cancelan mágicamente:
-
-$$ \prod_{n \in \mathbb{N}}^{\text{reg}} n = (2\pi)^{1/4 + 1/4} Q^{-1/2 + 1/2} = (2\pi)^{1/2} Q^0 = \sqrt{2\pi} $$
-
-Hemos recuperado exactamente la Fórmula de Lerch clásica para el producto de todos los números naturales. Esta cancelación no es una coincidencia; es la manifestación de que la Zeta-Regularización preserva rigurosamente la estructura aditiva y multiplicativa de los conjuntos subyacentes, incluso cuando los productos individuales involucran constantes trascendentales complejas como $\gamma$ y $\phi$.
-
-\subsubsection*{Significado analítico}
-
-La aparición de la constante de Euler-Mascheroni $\gamma$ y la constante de Flajolet-Martin $\phi$ en el producto de los números odiosos es un fenómeno analítico profundo. En la regularización de los números naturales, el producto $\sqrt{2\pi}$ surge de la función Gamma y la ecuación funcional de Riemann. Sin embargo, al restringir el producto a un subconjunto definido por la paridad de los dígitos binarios, la estructura multiplicativa clásica se rompe y es reemplazada por la autosimilitud fractal de la secuencia de Thue-Morse. 
-
-La ecuación funcional infinita actúa como un "Producto de Euler" para secuencias no multiplicativas, y al evaluarla en el origen, la suma de las series logarítmicas resultantes cristaliza en la constante $Q$. La relación $Q = 2^{-1/2} e^\gamma / \phi$ demuestra que la constante de Flajolet-Martin no es solo una curiosidad de la informática teórica, sino que es la constante analítica natural que gobierna la regularización de productos sobre conjuntos definidos por propiedades de base 2. La Zeta-Regularización, por lo tanto, unifica la combinatoria digital, el análisis complejo y la teoría de números en un solo marco coherente.
-
-\section{Generalizaciones y secuencias desplazadas}
-
-El estudio de los números odiosos y malvados nos ha proporcionado un marco robusto para regularizar productos infinitos sobre conjuntos definidos por propiedades combinatorias de sus dígitos binarios. Sin embargo, la verdadera potencia y flexibilidad de la Zeta-Regularización se pone a prueba cuando sometemos a estos conjuntos a transformaciones algebraicas elementales, como los desplazamientos aditivos. En esta sección, analizaremos rigurosamente los conjuntos desplazados $OS = \{n+1 \mid n \in O\}$ y $ES = \{n+1 \mid n \in E\}$. Este ejercicio no solo generaliza los resultados anteriores, sino que introduce de manera natural una función analítica fundamental: la función $f(s)$ de Hurwitz generalizada, la cual codifica la secuencia de Thue-Morse desplazada.
-
-\subsection{Definición de los conjuntos desplazados y partición de los enteros}
-
-Consideremos los conjuntos de los números odiosos $O$ y malvados $E$, los cuales particionan los enteros positivos $\mathbb{N} = \{1, 2, 3, \dots\}$. Al aplicar un desplazamiento aditivo de $+1$ a cada elemento, obtenemos los nuevos conjuntos:
-
-\begin{itemize}
-    \item $OS = \{n+1 \mid n \in O\} = \{2, 3, 5, 8, 9, 12, 14, 15, 17, 20, 22, 23, 26, 27, 29, 32, \dots\}$
-    \item $ES = \{n+1 \mid n \in E\} = \{4, 6, 7, 10, 11, 13, 16, 18, 19, 21, 24, 25, 28, 30, 31, \dots\}$
-\end{itemize}
-
-Es inmediato verificar que $OS$ y $ES$ forman una partición exacta de los enteros mayores o iguales a 2. Es decir, $OS \sqcup ES = \{2, 3, 4, \dots\} = \mathbb{N} \setminus \{1\}$. 
-
-El objetivo analítico es calcular los productos Zeta-regularizados de estos nuevos conjuntos:
-$$ \prod_{n \in OS}^{\text{reg}} n := \exp(-\zeta'_{OS}(0)), \qquad \prod_{n \in ES}^{\text{reg}} n := \exp(-\zeta'_{ES}(0)) $$
-
-Para lograrlo, debemos construir las funciones zeta asociadas $\zeta_{OS}(s)$ y $\zeta_{ES}(s)$ y demostrar cómo se relacionan con la función Zeta de Riemann y la nueva función $f(s)$.
-
-\subsection{Construcción de $\zeta_{OS}(s)$ y la función $f(s)$}
-
-Por definición, la función zeta asociada al conjunto desplazado $OS$ es:
-$$ \zeta_{OS}(s) = \sum_{n \in O} \frac{1}{(n+1)^s} = \sum_{n=1}^{\infty} \frac{a(n)}{(n+1)^s} $$
-donde $a(n)$ es la función característica de los números odiosos. Utilizando la relación $a(n) = \frac{1 - \varepsilon_n}{2}$, donde $\varepsilon_n = (-1)^{a(n)}$ es la secuencia de Thue-Morse, podemos reescribir la serie como:
-$$ \zeta_{OS}(s) = \frac{1}{2} \sum_{n=1}^{\infty} \frac{1}{(n+1)^s} - \frac{1}{2} \sum_{n=1}^{\infty} \frac{\varepsilon_n}{(n+1)^s} $$
-
-Analicemos cada sumatoria por separado. La primera sumatoria es simplemente la función Zeta de Riemann a la que se le ha extraído el primer término ($n=1$):
-$$ \sum_{n=1}^{\infty} \frac{1}{(n+1)^s} = \sum_{m=2}^{\infty} \frac{1}{m^s} = \zeta(s) - 1 $$
-
-Para la segunda sumatoria, introducimos la \textbf{función $f(s)$ de Hurwitz generalizada para la secuencia de Thue-Morse}, la cual se define incluyendo el término $n=0$ (recordando que $\varepsilon_0 = 1$):
-$$ f(s) := \sum_{n=0}^{\infty} \frac{\varepsilon_n}{(n+1)^s} = 1 + \sum_{n=1}^{\infty} \frac{\varepsilon_n}{(n+1)^s} $$
-De aquí se deduce que $\sum_{n=1}^{\infty} \frac{\varepsilon_n}{(n+1)^s} = f(s) - 1$.
-
-Sustituyendo ambas expresiones en la ecuación de $\zeta_{OS}(s)$, obtenemos una cancelación exacta de los términos constantes:
-$$ \zeta_{OS}(s) = \frac{1}{2} (\zeta(s) - 1) - \frac{1}{2} (f(s) - 1) = \frac{1}{2} \zeta(s) - \frac{1}{2} f(s) $$
-
-De manera completamente análoga, para el conjunto desplazado de los números malvados $ES$, cuya función característica es $1 - a(n) = \frac{1 + \varepsilon_n}{2}$, la función zeta es:
-$$ \zeta_{ES}(s) = \sum_{n=1}^{\infty} \frac{1 - a(n)}{(n+1)^s} = \frac{1}{2} (\zeta(s) - 1) + \frac{1}{2} (f(s) - 1) = \frac{1}{2} \zeta(s) + \frac{1}{2} f(s) - 1 $$
-
-\subsection{Continuación analítica y evaluación de $f'(0)$}
-
-La función $f(s)$ es una serie de Dirichlet cuyos coeficientes son la secuencia de Thue-Morse desplazada. Al igual que la función $g(s)$ estudiada en la sección anterior, la 2-automaticidad de la secuencia de Thue-Morse garantiza que $f(s)$ admite una continuación analítica a todo el plano complejo $\mathbb{C}$ mediante una ecuación funcional infinita adaptada al desplazamiento.
-
-Para calcular el producto regularizado, necesitamos evaluar la derivada de $f(s)$ en el origen, $f'(0)$. Por definición:
-$$ f'(0) = -\sum_{n=0}^{\infty} \varepsilon_n \log(n+1) $$
-
-A través del análisis de la ecuación funcional infinita para la secuencia desplazada (desarrollado en la literatura de series de Dirichlet automáticas por Allouche y Cohen), se demuestra rigurosamente que el desplazamiento aditivo introduce un factor de escala asintótico que modifica el valor de la derivada en el origen. El resultado exacto es:
-$$ f'(0) = \frac{\log 2}{2} $$
-
-Este valor es fundamental: refleja la asimetría combinatoria introducida al desplazar la secuencia. Mientras que la función $g(s)$ (sin desplazar) satisfacía $g(0) = -1$ y $g'(0) = -\log Q$, la función desplazada $f(s)$ absorbe las fluctuaciones del primer término, resultando en una derivada puramente logarítmica y racional.
-
-\subsection{Cálculo de los productos regularizados exóticos}
-
-Con las descomposiciones de $\zeta_{OS}(s)$ y $\zeta_{ES}(s)$, y el valor de $f'(0)$, estamos en posición de calcular los productos regularizados.
-
-\subsubsection*{Producto de los números odiosos desplazados ($OS$)}
-
-Derivamos la función $\zeta_{OS}(s) = \frac{1}{2}\zeta(s) - \frac{1}{2}f(s)$ y evaluamos en $s=0$:
-$$ \zeta'_{OS}(0) = \frac{1}{2}\zeta'(0) - \frac{1}{2}f'(0) $$
-
-Sustituimos los valores clásicos $\zeta'(0) = -\frac{1}{2}\log(2\pi)$ y $f'(0) = \frac{\log 2}{2}$:
-$$ \zeta'_{OS}(0) = \frac{1}{2}\left(-\frac{1}{2}\log(2\pi)\right) - \frac{1}{2}\left(\frac{\log 2}{2}\right) = -\frac{1}{4}\log(2\pi) - \frac{1}{4}\log 2 $$
-
-Utilizando las propiedades de los logaritmos, combinamos los términos:
-$$ \zeta'_{OS}(0) = -\frac{1}{4}(\log(2\pi) + \log 2) = -\frac{1}{4}\log(4\pi) $$
-
-Aplicando la fórmula maestra, el producto regularizado de $OS$ es:
-$$ \prod_{n \in OS}^{\text{reg}} n = \exp(-\zeta'_{OS}(0)) = \exp\left(\frac{1}{4}\log(4\pi)\right) = (4\pi)^{1/4} = \sqrt{2}\pi^{1/4} $$
-
-\subsubsection*{Producto de los números malvados desplazados ($ES$)}
-
-Para $ES$, derivamos $\zeta_{ES}(s) = \frac{1}{2}\zeta(s) + \frac{1}{2}f(s) - 1$. Notamos que la derivada de la constante $-1$ es cero, por lo que:
-$$ \zeta'_{ES}(0) = \frac{1}{2}\zeta'(0) + \frac{1}{2}f'(0) $$
-
-Sustituyendo los mismos valores:
-$$ \zeta'_{ES}(0) = -\frac{1}{4}\log(2\pi) + \frac{1}{4}\log 2 = -\frac{1}{4}(\log(2\pi) - \log 2) = -\frac{1}{4}\log(\pi) $$
-
-El producto regularizado de $ES$ es entonces:
-$$ \prod_{n \in ES}^{\text{reg}} n = \exp(-\zeta'_{ES}(0)) = \exp\left(\frac{1}{4}\log(\pi)\right) = \pi^{1/4} $$
-
-\subsection{Verificación de consistencia algebraica: La Fórmula de Lerch}
-
-Como en toda la teoría de la Zeta-Regularización, los resultados deben ser coherentes con las propiedades algebraicas de los conjuntos subyacentes. Dado que $OS$ y $ES$ son disjuntos y su unión es $\{2, 3, 4, \dots\}$, la propiedad de multiplicatividad por particiones de conjuntos exige que:
-$$ \prod_{n \in OS}^{\text{reg}} n \times \prod_{n \in ES}^{\text{reg}} n = \prod_{n=2}^{\infty} n $$
-
-Verifiquemos si nuestros resultados exóticos satisfacen esta condición:
-$$ \left( \sqrt{2}\pi^{1/4} \right) \times \left( \pi^{1/4} \right) = \sqrt{2} \pi^{1/2} = \sqrt{2\pi} $$
-
-Por otro lado, el producto regularizado de todos los enteros a partir de 2 se obtiene directamente de la Fórmula de Lerch clásica, dividiendo el producto de todos los naturales entre el primer elemento (que es 1):
-$$ \prod_{n=2}^{\infty} n = \frac{\prod_{n=1}^{\infty} n}{1} = \frac{\sqrt{2\pi}}{1} = \sqrt{2\pi} $$
-
-La coincidencia es exacta. Esta verificación no es trivial; confirma que la introducción de la función $f(s)$ y el desplazamiento aditivo no rompen la estructura analítica subyacente, sino que la preservan de manera rigurosa.
-
-\subsection{Significado analítico de los desplazamientos}
-
-El análisis de los conjuntos $OS$ y $ES$ revela una propiedad profunda de la Zeta-Regularización: la sensibilidad a la estructura fina de la secuencia. 
-
-\begin{enumerate}[a)]
-    \item \textbf{El papel de $f(s)$:} La función $f(s)$ actúa como un "potencial de desplazamiento". Mientras que la función $g(s)$ codifica la oscilación pura de la secuencia de Thue-Morse, $f(s)$ absorbe el impacto de alterar el índice de la serie. El valor $f'(0) = \frac{\log 2}{2}$ es la huella analítica de este desplazamiento.
-    \item \textbf{Modificación de las constantes exóticas:} A diferencia de los conjuntos originales $O$ y $E$, cuyos productos dependían de la constante de Flajolet-Martin $\phi$ (y por ende de la constante $Q$), los productos de los conjuntos desplazados $OS$ y $ES$ son notablemente más "simples" en su forma cerrada ($\sqrt{2}\pi^{1/4}$ y $\pi^{1/4}$). Esto sugiere que el desplazamiento aditivo, al alinear la secuencia de Thue-Morse con los polos de la función Zeta de Hurwitz, cancela las contribuciones más complejas de la constante $Q$, dejando solo raíces de números enteros y $\pi$.
-    \item \textbf{Robustez del formalismo:} El hecho de que podamos calcular productos sobre progresiones aritméticas, primos, secuencias automáticas y sus desplazamientos, manteniendo en todos los casos la coherencia con la Fórmula de Lerch, demuestra que la Zeta-Regularización es un marco unificado y autosuficiente. No requiere ajustes ad hoc; la continuación analítica y las ecuaciones funcionales se encargan de extraer el valor finito correcto, respetando siempre la aritmética subyacente del conjunto regularizado.
+    \item \textbf{La fórmula maestra de Mellin:} Tras las integraciones por partes y utilizando la identidad de reflexión de la función Gamma, $\Gamma(s)\Gamma(1-s) = \pi / \sin(\pi s)$, se llega a la fórmula fundamental:
+    $$ Z_f(s, z) = \frac{\sin(\pi s)}{\pi} \int_0^{\infty} \frac{f'(z+y)}{f(z+y)} y^{-s} \, dy $$
 \end{enumerate}
 
-Con este análisis de secuencias desplazadas, cerramos el estudio de las aplicaciones combinatorias y automáticas de la Zeta-Regularización, habiendo demostrado su capacidad para asignar valores finitos y algebraicamente consistentes a las estructuras más irregulares y fractales de los números enteros.
+Esta ecuación es de una elegancia y potencia analítica extraordinarias. La integral $I(s, z) = \int_0^{\infty} \frac{f'(z+y)}{f(z+y)} y^{-s} \, dy$ es la transformada de Mellin de la derivada logarítmica shiftada. 
 
+\subsection{Análisis de los polos y la regularidad en $s=0$}
+
+Para que la fórmula maestra del producto regularizado $D_f(z) = \exp(-Z_f'(0, z))$ sea válida, es imperativo que $Z_f(s, z)$ sea holomorfa en $s=0$. Analicemos el comportamiento de la integral de Mellin $I(s, z)$ cerca del origen.
+
+Al expandir $\frac{f'(z+y)}{f(z+y)}$ en serie de Taylor alrededor de $y=0$, los términos de la forma $y^{n-1}$ generan, al ser integrados contra $y^{-s}$, polos simples en la transformada de Mellin. Específicamente, la integral $I(s, z)$ converge absolutamente para $\Re(s) < 1$ y admite una continuación meromorfa a todo el plano complejo con polos simples en los enteros positivos $s = 1, 2, 3, \dots$. 
+
+Los residuos de $I(s, z)$ en estos polos están dados exactamente por las derivadas de la derivada logarítmica:
+
+$$ \text{Res}_{s=n} I(s, z) = -\frac{1}{(n-1)!} \frac{d^n}{dz^n} \log f(z) $$
+
+Aquí es donde el factor trigonométrico $\frac{\sin(\pi s)}{\pi}$ juega su papel redentor. La función $\sin(\pi s)$ tiene ceros simples exactamente en todos los números enteros $s = 0, \pm 1, \pm 2, \dots$. Al multiplicar la integral $I(s, z)$ por $\frac{\sin(\pi s)}{\pi}$, los polos simples de la integral en $s = 1, 2, 3, \dots$ son \textit{cancelados exactamente} por los ceros del seno.
+
+Como consecuencia directa de esta cancelación milagrosa:
+
+\begin{itemize}
+    \item La función $Z_f(s, z)$ es \textbf{entera} en la variable $s$ (asumiendo que $f$ es entera y no tiene polos que introduzcan singularidades no canceladas).
+    \item En particular, $Z_f(s, z)$ es \textbf{holomorfa en $s=0$}. No hay polos ni singularidades logarítmicas que obstaculicen la evaluación.
+    \item La derivada $Z_f'(0, z)$ está perfectamente definida y puede calcularse derivando la representación integral respecto a $s$ y evaluando en $s=0$.
+\end{itemize}
+
+Este resultado generaliza y simplifica enormemente el enfoque de Voros. Mientras que el método original de Voros requería analizar minuciosamente la expansión asintótica de $\log f(z)$ para extraer los coeficientes que regularizan el producto, la fórmula de la transformada de Mellin de Friedman y Jorgenson encapsula todo el proceso en una sola integral. La continuación analítica ya no depende de la búsqueda laboriosa de términos de corrección, sino que emerge naturalmente de la estructura de polos y ceros de la transformada de Mellin y la función $\sin(\pi s)$.
+
+Con este formalismo establecido, estamos en posesión de la herramienta analítica definitiva para calcular productos infinitos sobre los ceros de funciones trascendentales, lo cual nos permitirá, en las siguientes secciones, abordar el cálculo de determinantes en variedades hiperbólicas no compactas y la evaluación de productos trigonométricos sobre los ceros no triviales de la función Zeta de Riemann.
+
+
+\section{Aplicación a la Función Zeta de Selberg}
+
+La teoría de las funciones Superzeta, desarrollada sistemáticamente por Voros y refinada por Friedman, Jorgenson y Smajlović, encuentra una de sus aplicaciones más profundas y necesarias en la geometría espectral de variedades hiperbólicas no compactas. En el caso de variedades compactas, el espectro del Laplaciano es puramente discreto y la Zeta-Regularización estándar (basada en la traza del núcleo de calor) es suficiente para definir el determinante funcional del operador. Sin embargo, cuando la variedad posee volumen finito pero no es compacta (es decir, posee \textit{cúspides}), el espectro contiene una componente continua. La Zeta-Regularización clásica colapsa o requiere modificaciones ad hoc. El formalismo Superzeta resuelve este problema de manera elegante al construir funciones zeta sobre los ceros de la Función Zeta de Selberg, la cual codifica tanto el espectro discreto como la matriz de dispersión del espectro continuo.
+
+\subsection{Variedades hiperbólicas de volumen finito con cúspides}
+
+Sea $X_\Gamma = \Gamma \backslash G / K$ una variedad hiperbólica real de dimensión $d$, donde $G = SO_0(d,1)$, $K = SO(d)$, y $\Gamma$ es un subgrupo discreto, libre de torsión, tal que el volumen de $X_\Gamma$ es finito. La no compacidad de $X_\Gamma$ implica la presencia de cúspides, lo que altera drásticamente la estructura espectral del Laplaciano de Hodge $\Delta_k$ actuando sobre $k$-formas.
+
+El espectro de $\Delta_k$ ya no es puramente discreto; se descompone en:
+\begin{itemize}
+    \item \textbf{Espectro discreto:} Valores propios $\lambda_j^{(k)}$ de multiplicidad finita, que corresponden a formas $L^2$.
+    \item \textbf{Espectro continuo:} Asociado a las cúspides, descrito analíticamente por la matriz de dispersión automorfa (scattering matrix) $C_\chi^k(s)$. La medida espectral continua está gobernada por el determinante de esta matriz, $\det C_\chi^k(s)$.
+\end{itemize}
+
+La Función Zeta de Selberg $Z_\chi(\sigma_k, s)$, definida inicialmente para $\Re(s) > d-1$ mediante un producto infinito sobre las clases de conjugación de elementos hiperbólicos de $\Gamma$, admite una continuación meromorfa a todo el plano complejo $\mathbb{C}$. El divisor de $Z_\chi(\sigma_k, s)$ (el conjunto de sus ceros y polos) captura la totalidad de la información espectral:
+
+\begin{enumerate}[a)]
+    \item \textbf{Ceros no triviales:} Están ubicados en $s = \frac{d-1}{2} \pm i\lambda_j^{(k)}$, donde $\lambda_j^{(k)}$ están relacionados con los valores propios del espectro discreto del Laplaciano. También incluyen los polos de $\det C_\chi^k(s)$ en la región $\Re(s) < \frac{d-1}{2}$.
+    \item \textbf{Ceros triviales y Polos:} Dependen de la paridad de la dimensión $d$. Incluyen polos de la matriz de dispersión en regiones específicas y una secuencia de ceros/polos en enteros negativos o semienteros, los cuales son artefactos de la geometría asintótica de las cúspides.
+\end{enumerate}
+
+Dado que $Z_\chi(\sigma_k, s)$ es una función de tipo zeta (admite una representación en serie de Dirichlet generalizada para $\Re(s)$ grande), es el candidato perfecto para aplicar la maquinaria de las funciones Superzeta.
+
+\subsection{Evaluación de productos regulados sobre ceros y polos}
+
+El objetivo es calcular el producto regularizado sobre los ceros no triviales de la Función Zeta de Selberg. Definimos la función Superzeta asociada exclusivamente a los ceros no triviales (NT) como:
+$$ Z^{NT}(s, z) = \sum_{\rho \in \text{NT}} \text{ord}(\rho) (z - \rho)^{-s} $$
+donde la suma incluye tanto los ceros provenientes del espectro discreto ($s = \frac{d-1}{2} \pm i\lambda_j$) como los polos de la matriz de dispersión en el semiplano izquierdo.
+
+Para continuar meromórficamente $Z^{NT}(s, z)$, utilizamos la descomposición fundamental:
+$$ Z_f(s, z) = Z^{NT}(s, z) + Z^T(s, z) - Z^P(s, z) $$
+donde $Z^T$ y $Z^P$ son las funciones Superzeta asociadas a los ceros triviales y a los polos de $Z_\chi(\sigma_k, s)$, respectivamente. 
+
+El teorema central (Theorem 4 en la literatura de Friedman-Jorgenson-Smajlović) establece que, mediante la representación integral de Mellin de la derivada logarítmica:
+$$ Z_f(s, z) = \frac{\sin(\pi s)}{\pi} \int_0^{\infty} \frac{Z_\chi'}{Z_\chi}(z+y) y^{-s} \, dy $$
+la función $Z^{NT}(s, z)$ admite una continuación meromorfa a todo el plano complejo $s \in \mathbb{C}$. 
+
+La estructura de los polos de $Z^{NT}(s, z)$ revela la huella analítica de las cúspides:
+\begin{itemize}
+    \item \textbf{Dimensión impar ($d = 2n+1$):} $Z^{NT}(s, z)$ es meromorfa con un único polo simple en $s=1$. El residuo en este polo es proporcional a $d_c(\chi)d(\sigma_k)$, una cantidad que depende estrictamente del número de cúspides y de la representación $\chi$.
+    \item \textbf{Dimensión par ($d = 2n$):} $Z^{NT}(s, z)$ posee polos simples en $s = 1, 2, \dots, 2n$. Los residuos en estos polos involucran la característica de Euler de la variedad $E(X_\Gamma)$ y los datos de la matriz de dispersión.
+\end{itemize}
+
+Para evaluar el producto regularizado (el determinante), debemos calcular $-\frac{d}{ds} Z^{NT}(s, z) \big|_{s=0}$. Dado que los ceros triviales y los polos de $Z_\chi$ están formados por progresiones aritméticas, sus funciones Superzeta $Z^T$ y $Z^P$ se evalúan exactamente en términos de la función Zeta de Hurwitz $\zeta_H(s, z)$ (o funciones Zeta de Hurwitz múltiples $\zeta_{2n}(s, z)$ en dimensión par).
+
+Al tomar la derivada en $s=0$ y utilizar la identidad fundamental $\frac{d}{ds}\zeta_H(s, z)\big|_{s=0} = \log \Gamma(z) - \frac{1}{2}\log(2\pi)$, el producto regularizado sobre los ceros no triviales se expresa como:
+
+$$ \exp\left( -\left. \frac{d}{ds} Z^{NT}(s, z) \right|_{s=0} \right) = Z_\chi(\sigma_k, z) \cdot \prod_{q_j} (z - \rho_{q_j})^{d(\sigma_k)b_j} \cdot \left( \frac{\Gamma(z - n + 1)}{\sqrt{2\pi}} \right)^{-\beta} \cdot \mathcal{M}(z) $$
+
+donde:
+\begin{itemize}
+    \item $Z_\chi(\sigma_k, z)$ es la propia Función Zeta de Selberg evaluada en $z$.
+    \item El producto sobre $q_j$ corresponde a los polos de la matriz de dispersión.
+    \item El factor Gamma proviene de la regularización de los ceros triviales (asociados a las cúspides).
+    \item $\mathcal{M}(z)$ representa factores adicionales que, en dimensión par, involucran funciones Gamma múltiples $\Gamma_{2n}(z)$ derivadas de la función Zeta de Hurwitz múltiple, codificando la complejidad geométrica de las cúspides en dimensiones pares.
+\end{itemize}
+
+Esta fórmula es extraordinaria: demuestra que el producto regularizado sobre los ceros no triviales no es más que la Función Zeta de Selberg misma, ``vestida'' con factores correctivos que provienen exclusivamente de la matriz de dispersión y de la topología de las cúspides.
+
+\subsection{Determinantes regularizados del Laplaciano y el operador de dispersión de Lax-Phillips}
+
+La evaluación de estos productos Superzeta tiene una interpretación física y geométrica de largo alcance a través de la teoría de dispersión de Lax-Phillips. En esta teoría, la evolución de las ondas en la variedad hiperbólica $X_\Gamma$ se describe mediante un grupo de operadores, y la información del espectro continuo se encapsula en el \textit{operador de dispersión de Lax-Phillips}, $S$.
+
+Los polos de la matriz de dispersión automorfa $\det C_\chi^k(s)$ corresponden exactamente a los valores propios complejos del generador infinitesimal del semigrupo de Lax-Phillips. Por lo tanto, el conjunto $\Lambda$ que forma el divisor de la Función Zeta de Selberg (ceros no triviales del espectro discreto + polos de la matriz de dispersión) puede verse como el espectro generalizado del operador de Lax-Phillips.
+
+\begin{enumerate}[a)]
+    \item \textbf{El Determinante del Operador de Dispersión:} El producto regularizado Superzeta sobre los ceros no triviales, $\exp(-\frac{d}{ds}Z^{NT}(s,z)|_{s=0})$, proporciona exactamente la definición rigurosa del \textit{determinante regularizado del operador de dispersión de Lax-Phillips}. La fórmula derivada muestra que este determinante se factoriza en el determinante del Laplaciano (codificado en $Z_\chi$) y un término de corrección puramente dispersivo (los polos de $C_\chi^k$).
+    \item \textbf{Superación del Núcleo de Calor:} En variedades con cúspides, la traza del núcleo de calor $\text{Tr}(e^{-t\Delta})$ diverge debido al volumen infinito de las cúspides, lo que invalida la definición clásica de Ray-Singer de la torsión analítica. El enfoque Superzeta evita por completo el núcleo de calor. Al trabajar directamente con la derivada logarítmica de $Z_\chi(s)$ y su transformada de Mellin, la regularización aísla la contribución del volumen de las cúspides (que se cancela analíticamente) y extrae el determinante funcional finito.
+    \item \textbf{Fórmula del Límite Central:} En el caso de superficies hiperbólicas ($d=2$), esta construcción generaliza la segunda fórmula límite de Kronecker. Mientras que en genus uno el determinante del Laplaciano se expresa mediante la función theta de Riemann, en genus superior no compacto, el determinante se expresa mediante la Función Zeta de Selberg y el determinante de la matriz de dispersión evaluado en el punto central $s=1/2$.
+\end{enumerate}
+
+En resumen, la aplicación de las funciones Superzeta a la Función Zeta de Selberg demuestra que la Zeta-Regularización no es una herramienta exclusiva para espectros discretos. Al elevar el objeto de regularización de los valores propios a los ceros de una función zeta que incluye datos de dispersión, el formalismo logra unificar el espectro discreto y continuo en una sola entidad analítica. El determinante regularizado resultante no solo define la torsión analítica de Ray-Singer para variedades no compactas de volumen finito, sino que establece un puente directo entre la geometría hiperbólica, la teoría de números (a través de las longitudes de geodésicas cerradas en $Z_\chi$) y la teoría de operadores de dispersión.
+
+\section{Productos Trigonométricos sobre los Ceros de Riemann}
+
+El estudio de los productos infinitos sobre los ceros no triviales de la función Zeta de Riemann representa una de las fronteras más profundas de la Zeta-Regularización. A diferencia de los productos sobre enteros o primos, donde la secuencia subyacente posee una estructura aritmética clara, los ceros de Riemann $\rho = \frac{1}{2} + i\tau$ están distribuidos de manera compleja en el plano crítico. En esta sección, abordaremos la regularización de productos trigonométricos de la forma $\prod\prod \sin(\alpha_k \rho - z_k)$, una generalización de los famosos productos de Kimoto-Wakayama. Para lograrlo, introduciremos las funciones trascendentales de Cramér, $V(s)$ y $\phi(s)$, las cuales actúan como funciones generadoras de los ceros y permiten transformar sumas sobre $\rho$ en objetos analíticamente continuables.
+
+\subsection{Las funciones de Cramér $V(s)$ y $\phi(s)$}
+
+Para regularizar productos sobre los ceros no triviales $\rho$ de $\zeta(s)$, necesitamos herramientas que codifiquen la distribución de estos ceros en el semiplano superior. Harald Cramér introdujo dos funciones fundamentales que cumplen este propósito.
+
+Definimos la función $V(s)$ como la suma sobre los ceros con parte imaginaria positiva:
+$$ V(s) = \sum_{\text{Im}(\rho)>0} e^{s\rho}, \qquad \text{Im}(s) > 0 $$
+
+Dado que $\rho = \frac{1}{2} + i\tau$, podemos definir la función $\phi(s)$ como la suma sobre las partes imaginarias $\tau > 0$:
+$$ \phi(s) = \sum_{\text{Re}(\tau)>0} e^{-s\tau}, \qquad \text{Re}(s) > 0 $$
+
+La relación entre ambas funciones es inmediata mediante un cambio de variable:
+$$ V(iz) = \sum_{\text{Im}(\rho)>0} e^{iz(\frac{1}{2} + i\tau)} = e^{iz/2} \sum_{\tau>0} e^{-z\tau} = e^{iz/2} \phi(z) $$
+
+El poder analítico de estas funciones reside en sus propiedades de continuación. Cramér demostró que la función $V(s)$, aunque definida inicialmente solo para $\text{Im}(s) > 0$, puede ser analíticamente continuada a todo el plano complejo. Específicamente, la función:
+$$ V(s) - \frac{1}{2\pi i} \left( \frac{\log s}{1 - e^{-s}} + \frac{\gamma + \log 2\pi - \pi i/2}{s} \right) $$
+es holomorfa en todo el plano complejo, donde $\gamma$ es la constante de Euler-Mascheroni. 
+
+Para nuestros propósitos de regularización en $s=0$, es más útil trabajar con la función $\phi(s)$ escalada. Definimos $\phi_\alpha(s) = \phi(\alpha s)$ para $\alpha > 0$. La parte meromorfa de $\phi_\alpha(s)$ en el origen, denotada como $\phi_\alpha(s)$, admite la siguiente expansión de Laurent:
+$$ \phi_\alpha(s) = c_{-1}s^{-1} + c_0 + c_1 s + \mathcal{O}(s^2) $$
+
+Los coeficientes de esta expansión son fundamentales para extraer el término lineal en los productos regularizados:
+\begin{itemize}
+    \item $c_{-1} = -\frac{\gamma + \log 2\pi\alpha}{2\pi\alpha}$
+    \item $c_0 = \frac{7}{8}$
+    \item $c_1$ es una constante compleja que depende de la distribución fina de los ceros.
+\end{itemize}
+
+Estos coeficientes encapsulan la densidad asintótica de los ceros de Riemann (a través de $c_{-1}$) y correcciones de orden superior, permitiendo que la maquinaria de la Zeta-Regularización opere sobre ellos.
+
+\subsection{El producto "ddotted" y la función zeta asociada}
+
+En la literatura especializada, para distinguir los productos regularizados sobre ceros de funciones zeta de los productos regulares, se utiliza la notación de producto \textit{ddotted} (doble punteado). Para una secuencia regularizable $\Lambda = \{\lambda_n\}$ con función zeta asociada $\zeta_\Lambda(s)$, el producto ddotted se define como:
+$$ \prod\prod_{n \in I} \lambda_n = \exp\left( -\text{LT}_{s=0} \zeta_\Lambda(s) \right) $$
+donde $\text{LT}_{s=0}$ denota el \textit{término lineal} de $\zeta_\Lambda(s)$ en $s=0$, extraído mediante el residuo de la parte meromorfa dividida por $s^2$.
+
+Nuestro objetivo es evaluar el producto ddotted trigonométrico generalizado:
+$$ S(z; \alpha) = \prod\prod_{\text{Im}(\rho)>0} \prod_{k=1}^n \sin(\alpha_k \rho - z_k) $$
+donde $\alpha_k > 0$ y $z_k \in \mathbb{C}$ satisfacen ciertas condiciones de convergencia.
+
+Para aplicar la regularización, construimos la función zeta asociada a esta secuencia:
+$$ L(s; z, \alpha) = \sum_{\text{Im}(\rho)>0} \prod_{k=1}^n \left( \sin(\alpha_k \rho - z_k) \right)^{-s} $$
+
+Es crucial notar que esta función es analíticamente equivalente a la función zeta estándar $\ell(s; z, \alpha) = \sum (\prod \sin(\dots))^{-s}$ siempre que se cumpla la condición de argumento:
+$$ -\pi < \sum_{k=1}^n \arg\left( i e^{-i(\alpha_k \text{Re}(\rho) - \text{Re}(z_k))} \right) < \pi $$
+para todos menos un número finito de ceros $\rho$. Esta condición asegura que no haya cruces de ramas del logaritmo complejo que alteren el valor regularizado.
+
+\subsection{Evaluación analítica y el Teorema de los Productos Trigonométricos}
+
+La evaluación de $S(z; \alpha)$ requiere transformar la función $L(s; z, \alpha)$ en términos de las funciones de Cramér. El paso analítico central es reescribir la función seno usando exponenciales complejas:
+$$ \sin(\alpha_k \rho - z_k) = \frac{e^{i(\alpha_k \rho - z_k)} - e^{-i(\alpha_k \rho - z_k)}}{2i} = -i e^{i(\alpha_k \rho - z_k)} \left( 1 - e^{2i(\alpha_k \rho - z_k)} \right) $$
+
+Sustituyendo esto en $L(s; z, \alpha)$ y factorizando, obtenemos:
+$$ L(s; z, \alpha) = (-2i)^{ns} e^{-isz} \sum_{\text{Im}(\rho)>0} e^{i\alpha s \rho} \prod_{k=1}^n \left( 1 - e^{2i(\alpha_k \rho - z_k)} \right)^{-s} $$
+
+Dado que $|e^{2i(\alpha_k \rho - z_k)}| < 1$, podemos aplicar el teorema del binomio generalizado a cada factor del producto:
+$$ \left( 1 - e^{2i(\alpha_k \rho - z_k)} \right)^{-s} = \sum_{m=0}^{\infty} (-1)^m \binom{-s}{m} e^{2im(\alpha_k \rho - z_k)} $$
+
+Al multiplicar estas series para $k=1, \dots, n$ e intercambiar el orden de las sumatorias (justificado por la convergencia absoluta en la región de interés), la dependencia en $\rho$ se agrupa en exponenciales de la forma $e^{Q \rho}$. Esto permite expresar la suma sobre los ceros directamente en términos de la función $V(s)$ de Cramér:
+$$ L(s; z, \alpha) = (-2i)^{ns} e^{-isz} \sum_{m=0}^{\infty} s^m P_m(z, \alpha) V(Q_m(z, \alpha) + i\alpha s) $$
+donde $P_m$ y $Q_m$ son constantes que dependen de los parámetros $z_k$ y $\alpha_k$.
+
+Para extraer el término lineal $\text{LT}_{s=0} L(s; z, \alpha)$, aislamos los términos de orden $\mathcal{O}(s)$ en la expansión. El coeficiente binomial $(-1)^m \binom{-s}{m}$ contribuye con $s/m + \mathcal{O}(s^2)$ para $m \ge 1$. Tras una cuidadosa manipulación algebraica y utilizando la relación $V(iz) = e^{iz/2}\phi(z)$, la función $L(s; z, \alpha)$ se reduce a:
+$$ L(s; z, \alpha) = e^{s(-iz + n \log(-2i) + i\alpha/2)} \left( V(i\alpha s) + s \sum_{k=1}^n f(k) + \mathcal{O}(s^2) \right) $$
+donde $f(k) = \sum_{m=1}^\infty \frac{V(2im\alpha_k) e^{-2imz_k}}{m}$.
+
+Definiendo la constante $A = -iz + n \log(-2i) + i\frac{\alpha}{2}$, el término lineal se extrae aplicando la expansión de la parte meromorfa de $\phi_\alpha(s)$:
+$$ \text{LT}_{s=0} L(s; z, \alpha) = \text{LT}_{s=0} \left( e^{sA} \phi(\alpha s) \right) + \sum_{k=1}^n f(k) $$
+$$ = \frac{A^2 c_{-1}}{2} + A c_0 + c_1 + \sum_{k=1}^n f(k) $$
+
+Sustituyendo los valores de $c_{-1}$ y $c_0$, definimos el polinomio cuadrático $F(z; \alpha)$:
+$$ F(z; \alpha) = -\frac{\gamma + \log 2\pi\alpha}{4\pi\alpha} \left( n \log(-2i) - iz + i\frac{\alpha}{2} \right)^2 + \frac{7}{8} \left( n \log(-2i) - iz + i\frac{\alpha}{2} \right) + c_1 $$
+
+Finalmente, al exponenciar el término $\sum f(k)$ y revertir la expansión en serie, este se colapsa exactamente en un producto infinito sobre los ceros, el cual se identifica con el \textit{símbolo de Pochhammer zeta}:
+$$ (x; q)_\zeta = \prod_{\text{Im}(\rho)>0} (1 - x q^{-\rho}) $$
+
+\subsubsection*{Resultado Final}
+
+El teorema de evaluación para productos trigonométricos ddotted sobre los ceros de Riemann establece que, bajo las condiciones de argumento mencionadas, el producto regularizado es:
+
+$$ S(z; \alpha) = e^{-F(z; \alpha)} \prod_{k=1}^n (e^{-2iz_k}; e^{-2i\alpha_k})_\zeta $$
+
+Este resultado es de una elegancia analítica extraordinaria. Demuestra que el producto regularizado de funciones trigonométricas evaluadas en los ceros de Riemann no es un objeto caótico, sino que se factoriza en:
+\begin{enumerate}[a)]
+    \item Un factor exponencial $e^{-F(z; \alpha)}$, donde $F$ es un polinomio cuadrático que codifica la densidad asintótica de los ceros (a través de $\gamma$ y $\log 2\pi\alpha$) y correcciones de orden superior.
+    \item Un producto de símbolos de Pochhammer zeta, que representan la estructura multiplicativa discreta de los ceros, análoga a los productos de Weierstrass para funciones enteras clásicas.
+\end{enumerate}
+
+Esta evaluación no solo generaliza los resultados de Kimoto y Wakayama, sino que proporciona la base analítica necesaria para estudiar las discrepancias algebraicas que surgen al multiplicar estos productos, un fenómeno conocido como anomalía multiplicativa, el cual conecta la regularización espectral con las propiedades más profundas de la hipótesis de Riemann.
+
+\section{La Anomalía Multiplicativa}
+
+Uno de los fenómenos más contraintuitivos y analíticamente profundos en la teoría de la Zeta-Regularización es la ruptura de la propiedad de multiplicatividad. En el análisis clásico, el producto de una secuencia de productos es igual al producto de los productos individuales. Sin embargo, en el régimen regularizado, la extracción del valor finito mediante la continuación analítica introduce una discrepancia algebraica conocida como la \textit{Anomalía Multiplicativa}. Esta anomalía no es un defecto del formalismo, sino una característica estructural que codifica información geométrica y espectral oculta, llegando a tener conexiones especulativas pero rigurosas con los problemas más profundos de la teoría de números, como la Hipótesis de Riemann.
+
+\subsection{Definición de la discrepancia $F$ y la ruptura de la multiplicatividad}
+
+Para comprender el origen de la anomalía, recordemos que el producto regularizado (o producto \textit{ddotted}) de una secuencia $\Lambda = \{\lambda_n\}$ se define mediante el término lineal de su función zeta asociada en el origen:
+$$ \prod\prod_{n \in I} \lambda_n = \exp\left( -\text{LT}_{s=0} \zeta_\Lambda(s) \right) $$
+donde $\text{LT}_{s=0} \zeta_\Lambda(s)$ denota el coeficiente del término lineal en la expansión de la parte meromorfa de $\zeta_\Lambda(s)$ alrededor de $s=0$.
+
+Sean $\Lambda_k = \{\lambda_{n,k}\}_{n \in I}$ para $k=1, \dots, m$ secuencias regularizables, y sea $\Lambda = \{\lambda_{n,1}\lambda_{n,2} \cdots \lambda_{n,m}\}_{n \in I}$ su producto puntual. La función zeta asociada al producto puntual no es la suma de las funciones zeta individuales, sino una entidad analítica distinta. La \textbf{discrepancia} o anomalía multiplicativa $F$ se define como el logaritmo de la razón entre el producto regularizado de los productos y el producto de los productos regularizados:
+
+$$ F = F(\Lambda_1, \Lambda_2, \dots, \Lambda_m) = \log \frac{\prod\prod_{n \in I} \left( \prod_{k=1}^m \lambda_{n,k} \right)}{\prod_{k=1}^m \left( \prod\prod_{n \in I} \lambda_{n,k} \right)} $$
+
+Aplicando la definición del producto regularizado en términos del término lineal $\text{LT}_{s=0}$, la discrepancia se expresa puramente en términos de las funciones zeta:
+
+$$ F = \sum_{k=1}^m \text{LT}_{s=0} \zeta_{\Lambda_k}(s) - \text{LT}_{s=0} \zeta_{\Lambda}(s) $$
+
+\begin{itemize}
+    \item \textbf{Origen Analítico:} La anomalía surge porque la operación de tomar el término lineal en $s=0$ no es lineal respecto a la multiplicación de secuencias. Mientras que $\zeta_{\Lambda_k}(s) = \sum \lambda_{n,k}^{-s}$, la función $\zeta_\Lambda(s) = \sum (\prod \lambda_{n,k})^{-s} = \sum \prod \lambda_{n,k}^{-s}$. La interacción cruzada de los términos en la expansión asintótica de estas sumas cuando se continúa analíticamente a $s=0$ genera residuos finitos que no se cancelan, dando lugar a $F \neq 0$.
+    \item \textbf{Interpretación Física:} En geometría espectral y teoría cuántica de campos, esta discrepancia está directamente relacionada con la no conmutatividad de ciertos operadores o con la topología del espacio subyacente. La anomalía $F$ actúa como un invariante que mide la "interferencia" entre los espectros de las diferentes secuencias al ser regularizados conjuntamente.
+\end{itemize}
+
+\subsection{Cálculo de discrepancias para secuencias trigonométricas}
+
+El cálculo explícito de la anomalía multiplicativa es notoriamente difícil para secuencias aritméticas generales. Sin embargo, cuando las secuencias están construidas sobre los ceros no triviales $\rho$ de la función Zeta de Riemann, y los términos son funciones trigonométricas, la estructura analítica de las funciones de Cramér $V(s)$ y $\phi(s)$ permite un cálculo exacto y cerrado.
+
+Consideremos las secuencias $\Lambda_k = \{\sin(\alpha_k \rho - z_k)\}_{\text{Im}(\rho)>0}$ para $k=1, \dots, n$, donde $\alpha_k > 0$ y $z_k \in \mathbb{C}$ satisfacen ciertas condiciones de convergencia. El producto regularizado de la secuencia puntual $\Lambda = \{\prod_{k=1}^n \sin(\alpha_k \rho - z_k)\}$ fue evaluado previamente utilizando el símbolo de Pochhammer zeta $(x; q)_\zeta$ y un polinomio cuadrático $F(z; \alpha)$, donde $z = \sum_{k=1}^n z_k$ y $\alpha = \sum_{k=1}^n \alpha_k$.
+
+El polinomio $F(z; \alpha)$, que captura el término lineal de la función zeta asociada, está dado por:
+
+$$ F(z; \alpha) = -\frac{\gamma + \log(2\pi\alpha)}{4\pi\alpha} \left( n \log(-2i) - iz + i\frac{\alpha}{2} \right)^2 + \frac{7(2n \log(-2i) - 2iz + i\alpha)}{16} + c_1 $$
+
+donde $\gamma$ es la constante de Euler-Mascheroni y $c_1$ es una constante derivada de la expansión de la función $\phi(s)$.
+
+Dado que el producto regularizado individual de cada secuencia $\Lambda_k$ involucra el polinomio $F(z_k; \alpha_k)$ (evaluado con $n=1$), la discrepancia multiplicativa $F$ para estas secuencias trigonométricas se calcula restando el término lineal del producto total menos la suma de los términos lineales individuales:
+
+$$ F = \sum_{k=1}^n F(z_k; \alpha_k) - F(z; \alpha) $$
+
+\begin{enumerate}[a)]
+    \item \textbf{Estructura de la Anomalía:} Al realizar la resta, los términos constantes y las dependencias de $c_1$ se cancelan parcialmente. Lo que sobrevive es un polinomio cuadrático exacto en las variables $z_k$ y $\alpha_k$. 
+    \item \textbf{Naturaleza Geométrica:} El hecho de que la discrepancia $F$ sea un polinomio cuadrático (y no una serie infinita o una función trascendental compleja) es un resultado extraordinario. Demuestra que la anomalía multiplicativa en este contexto está gobernada puramente por la densidad asintótica de los ceros de Riemann (codificada en $\gamma$ y $\log(2\pi\alpha)$) y por las fases relativas de las funciones trigonométricas.
+    \item \textbf{Generalización:} Este método se extiende fácilmente a secuencias de la forma $(e^{-i(\alpha_k \rho - z_k)} - \omega_k)$. La discrepancia $\tilde{F}$ resultante también es un polinomio cuadrático en $z$ y $\alpha$, demostrando que la anomalía es una característica universal de la regularización sobre los ceros de funciones zeta, independiente de la función trigonométrica específica elegida.
+\end{enumerate}
+
+\subsection{Conexión con la Hipótesis de Riemann y la conjetura 1/4 de Selberg}
+
+La Anomalía Multiplicativa no es solo una curiosidad algebraica; en el contexto de los ceros de la función Zeta de Riemann, se convierte en un "detector" analítico de la distribución de dichos ceros. Específicamente, existe una conexión profunda y especulativa entre la magnitud de los productos regularizados trigonométricos y la Hipótesis de Riemann (HR).
+
+Para entender esta conexión, debemos considerar el producto regularizado del \textit{valor absoluto} de la función trigonométrica, $\prod\prod_{\text{Im}(\rho)>0} |\sin \alpha(\rho - x)|$, y compararlo con el valor absoluto del producto regularizado complejo, $\left| \prod\prod_{\text{Im}(\rho)>0} \sin \alpha(\rho - x) \right|$. En el análisis clásico, ambas cantidades serían idénticas. En la regularización, la anomalía multiplicativa (o la fase extraída durante la continuación analítica) genera una diferencia exponencial entre ambas.
+
+Se ha establecido el siguiente teorema de equivalencia (basado en los trabajos de Kimoto-Wakayama y extendido por Gürel):
+
+\begin{enumerate}[a)]
+    \item \textbf{Condición 1 (Igualdad de Productos):} La igualdad
+    $$ \prod\prod_{\text{Im}(\rho)>0} |\sin \alpha(\rho - x)| = e^{-R_\alpha(\text{Re}(x))} \left| \prod\prod_{\text{Im}(\rho)>0} \sin \alpha(\rho - x) \right| $$
+    se cumple para dos valores distintos de $\alpha > 0$, donde $R_\alpha(x)$ es un polinomio cuadrático específico que depende de $\gamma$ y $\log(2\pi\alpha)$.
+    
+    \item \textbf{Condición 2 (Fórmula Asintótica Débil):} La suma sobre los ceros no triviales satisface la cota asintótica:
+    $$ \sum_{\text{Im}(\rho)>0} \left(\text{Re}(\rho) - \frac{1}{2}\right)^2 e^{-t \text{Im}(\rho)} = \mathcal{O}(\log t) \quad \text{cuando } t \to 0^+ $$
+\end{enumerate}
+
+\subsubsection*{El significado de la equivalencia}
+
+La Condición 2 es una \textbf{forma débil de la Hipótesis de Riemann}. Si la HR es verdadera, entonces $\text{Re}(\rho) = 1/2$ para todos los ceros no triviales, lo que hace que el término $\left(\text{Re}(\rho) - 1/2\right)^2$ sea exactamente cero, y la suma sea trivialmente $\mathcal{O}(\log t)$. 
+
+La equivalencia nos dice que la Anomalía Multiplicativa (que es la responsable de que el producto de los valores absolutos difiera del valor absoluto del producto por el factor $e^{-R_\alpha}$) está controlada exactamente por la desviación de los ceros respecto a la línea crítica $\text{Re}(s) = 1/2$. Si los ceros se desvían de la línea crítica, la anomalía crece de manera medible. Por lo tanto, el estudio de la fase y la magnitud de los productos regularizados trigonométricos ofrece una vía analítica alternativa para acotar la distribución de los ceros.
+
+\subsubsection*{Extensión a la Conjetura 1/4 de Selberg}
+
+Esta fenomenología no se limita a la función Zeta de Riemann. Al trasladar el formalismo a la \textbf{Función Zeta de Selberg} $Z(s)$ asociada a subgrupos de congruencia de $PSL_2(\mathbb{R})$, los ceros no triviales de $Z(s)$ están relacionados con los valores propios $\lambda_j$ del Laplaciano hiperbólico mediante $\lambda_j = s_j(1-s_j)$.
+
+De manera análoga a lo ocurrido con Riemann, se puede construir un producto regularizado trigonométrico sobre los ceros de la función Zeta de Selberg. Se ha demostrado que un criterio similar al de la Condición 1, pero que en este caso \textit{solo necesita cumplirse para un único valor de $\alpha > 0$}, es \textbf{directamente equivalente a la Conjetura 1/4 de Selberg}. 
+
+Esta conjetura postula que el primer valor propio no nulo del Laplaciano para estas superficies hiperbólicas cumple $\lambda_1 \ge 1/4$. Nuevamente, la Anomalía Multiplicativa actúa como un puente: la discrepancia algebraica en la regularización de productos infinitos sobre el espectro geométrico se traduce en una cota analítica estricta sobre el gap espectral del Laplaciano. Esto ilustra el poder supremo de la Zeta-Regularización: transformar problemas de divergencia infinita en invariantes algebraicos (anomalías) que codifican las verdades más fundamentales de la geometría y la teoría de números.
