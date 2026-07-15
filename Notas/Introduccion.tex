@@ -786,9 +786,6 @@ Desde una perspectiva geométrica y algebraica, las funciones meromorfas en $D$ 
     \draw[->,thick] (-0.2,-1.55) -- (-0.2,1.9) node[above] {$|f(z)|$};
     \draw[->,thick] (-1.55,-1.25) -- (2.65,-1.25) node[right] {$z\to p_j$};
 
-    \draw[regular] (-1.15,-0.55) rectangle (0.95,0.65);
-    \node[align=center,font=\small] at (-0.1,0.05) {comportamiento\\finito};
-
     \draw[red!70!black,very thick,domain=0.35:1.85,samples=100,smooth]
       plot (\x,{0.25/(\x-0.18)+0.15});
     \draw[dashed,red!60!black] (0.25,-1.25) -- (0.25,1.75);
@@ -939,7 +936,7 @@ Como corolario directo, la continuación analítica de una función, si existe, 
 
     \draw[red!65!black,dashed,thick] (zstar) circle (0.62);
     \draw[red!65!black,dashed,thick] (zstar) circle (1.05);
-    \node[font=\scriptsize,red!65!black,align=center] at (1.25,-1.15)
+    \node[font=\scriptsize,red!65!black,align=center,text width=2.7cm] at (-1.45,1.15)
       {todo entorno de $z_0$\\contiene ceros de $f-g$};
 
     \node[infobox,text width=5.4cm] at (0,-2.75)
@@ -991,7 +988,7 @@ Un caso de estudio paradigmático es el de las series de Dirichlet. Una serie co
       {La serie de Dirichlet define aquí una función analítica por convergencia.};
   \end{scope}
 
-  \draw[->,very thick,limitblue] (-0.9,0.1) -- (0.9,0.1)
+  \draw[->,very thick,limitblue] (-0.9,0.72) -- (0.9,0.72)
     node[midway,above,font=\small,align=center] {extensión\\analítica};
 
   \begin{scope}[shift={(3.9,0)}]
