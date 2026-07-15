@@ -680,7 +680,7 @@ Utilizando el Producto de Euler para la función Zeta de Riemann $\zeta(s) = \pr
 3. Concluya que la suma de los recíprocos de los números primos, $\sum_p \frac{1}{p}$, diverge.
 
 \textbf{Parte C (Factores Primarios de Weierstrass):}
-En la construcción de la función Gamma de Euler y en el teorema general de Weierstrass, se utilizan los "factores primarios" definidos como:
+En la construcción de la función Gamma de Euler y en el teorema general de Weierstrass, se utilizan los «factores primarios» definidos como:
 $$ E_k(u) = (1 - u) \exp\left( u + \frac{u^2}{2} + \dots + \frac{u^k}{k} \right) $$
 Considere el producto infinito de funciones $\prod_{n=1}^{\infty} E_1\left(\frac{z}{n}\right)$, donde $E_1(u) = (1-u)e^u$.
 1. Demuestre que para $|u| \leq 1/2$, existe una constante $C > 0$ tal que $|\ln(1-u) + u| \leq C|u|^2$.
@@ -753,7 +753,7 @@ Una función $f$ se dice que es \textit{meromorfa} en un dominio $D \subseteq \m
 
 Un punto $z_0$ es un polo de orden $m \geq 1$ si el límite $\lim_{z \to z_0} |f(z)| = \infty$ y, equivalentemente, si la función $g(z) = (z - z_0)^m f(z)$ es holomorfa en un entorno de $z_0$ y $g(z_0) \neq 0$. En las cercanías de un polo de orden $m$, la función puede expandirse en una serie de Laurent con un número finito de términos con potencias negativas:
 $$ f(z) = \sum_{k=-m}^{\infty} a_k (z - z_0)^k, \quad \text{con } a_{-m} \neq 0 $$
-Desde una perspectiva geométrica y algebraica, las funciones meromorfas en $D$ son exactamente aquellas que pueden expresarse localmente como el cociente de dos funciones holomorfas, $f(z) = \frac{h(z)}{g(z)}$, donde $g$ no es idénticamente cero. En la esfera de Riemann (el plano complejo extendido $\mathbb{C} \cup \{\infty\}$), una función meromorfa puede verse como una función holomorfa que toma valores en la esfera de Riemann, donde los polos de $f$ son simplemente los puntos que se mapean al "infinito" ($\infty$).
+Desde una perspectiva geométrica y algebraica, las funciones meromorfas en $D$ son exactamente aquellas que pueden expresarse localmente como el cociente de dos funciones holomorfas, $f(z) = \frac{h(z)}{g(z)}$, donde $g$ no es idénticamente cero. En la esfera de Riemann (el plano complejo extendido $\mathbb{C} \cup \{\infty\}$), una función meromorfa puede verse como una función holomorfa que toma valores en la esfera de Riemann, donde los polos de $f$ son simplemente los puntos que se mapean al «infinito» ($\infty$).
 
 \begin{figure}[H]
 \centering
@@ -885,7 +885,7 @@ El teorema fundamental garantiza que $F(z)$ es analítica en todo el dominio $D_
     \node[font=\scriptsize] at (2.0,-0.78) {$f_2$};
 
     \node[labelbox,text width=5.9cm] at (0.35,-2.45)
-      {Si las funciones coinciden en la zona común, se ``pegan'' sin contradicción.};
+      {Si las funciones coinciden en la zona común, se «pegan» sin contradicción.};
   \end{scope}
 
   \draw[->,very thick,limitblue] (-0.65,0.1) -- (0.95,0.1)
@@ -897,13 +897,18 @@ El teorema fundamental garantiza que $F(z)$ es analítica en todo el dominio $D_
     \draw[epsgreen!65!black,very thick,dashed] (0.55,0.05) ellipse (2.2 and 1.35);
     \node[font=\small,limitblue] at (-0.2,2.18) {$D_1\cup D_2$};
 
-    \node[labelbox,fill=yellow!15,text width=5.3cm] at (-0.2,0.35)
-      {$F(z)=\begin{cases}f_1(z),&z\in D_1,\\ f_2(z),&z\in D_2,\end{cases}$};
-    \node[font=\small,align=center] at (-0.2,-1.15)
-      {$F$ es analítica en todo el dominio unido.};
+    \node[font=\scriptsize,limitblue] at (-1.55,0.75) {$D_1$};
+    \node[font=\scriptsize,epsgreen!55!black] at (1.55,0.72) {$D_2$};
+    \node[font=\small,align=center] at (-0.2,-0.15)
+      {$F$ es analítica\\en el dominio unido};
 
-    \draw[->,thick,seqorange!80!black] (-1.75,-1.75) -- (-0.7,-1.15);
-    \draw[->,thick,seqorange!80!black] (1.55,-1.75) -- (0.45,-1.15);
+    \node[labelbox,fill=yellow!15,text width=5.3cm] (formulaF) at (-0.2,-2.65)
+      {$F(z)=\begin{cases}f_1(z),&z\in D_1,\\ f_2(z),&z\in D_2.\end{cases}$};
+
+    \draw[->,thick,seqorange!80!black] (-1.55,-2.05) -- (-1.45,0.45)
+      node[midway,left,font=\scriptsize,seqorange!80!black] {usa $f_1$};
+    \draw[->,thick,seqorange!80!black] (1.25,-2.05) -- (1.35,0.42)
+      node[midway,right,font=\scriptsize,seqorange!80!black] {usa $f_2$};
   \end{scope}
 \end{tikzpicture}
 \caption{Visualización de la continuación analítica: dos definiciones locales $f_1$ y $f_2$ que coinciden en la intersección $D_1\cap D_2$ se combinan en una única función analítica $F$ sobre $D_1\cup D_2$.}
@@ -1072,7 +1077,7 @@ Considere la función $f(z) = \sqrt{z^2 - 1}$.
 
 \section{Puntos de acumulación}
 
-En topología y análisis complejo, el concepto de \textit{punto de acumulación} (también conocido como punto límite) es una noción fundamental para entender la estructura de los conjuntos, la convergencia de sucesiones y, de manera crucial, la rigidez de las funciones analíticas. En textos clásicos de análisis complejo, como el de Churchill y Brown, los puntos de acumulación son el ingrediente esencial en el enunciado del Principio de Identidad (o Teorema de Unicidad), el cual dicta que las funciones analíticas están completamente determinadas por sus valores en conjuntos suficientemente "densos".
+En topología y análisis complejo, el concepto de \textit{punto de acumulación} (también conocido como punto límite) es una noción fundamental para entender la estructura de los conjuntos, la convergencia de sucesiones y, de manera crucial, la rigidez de las funciones analíticas. En textos clásicos de análisis complejo, como el de Churchill y Brown, los puntos de acumulación son el ingrediente esencial en el enunciado del Principio de Identidad (o Teorema de Unicidad), el cual dicta que las funciones analíticas están completamente determinadas por sus valores en conjuntos suficientemente «densos».
 
 \subsection*{Definición Formal mediante Entornos}
 Sea $S$ un subconjunto del plano complejo $\mathbb{C}$ (o de un espacio métrico general), y sea $z_0 \in \mathbb{C}$ un punto (que puede o no pertenecer a $S$). Definimos el \textit{entorno} de radio $\epsilon > 0$ centrado en $z_0$ como el disco abierto:
@@ -1112,7 +1117,7 @@ A continuación, se presentan ejemplos que ilustran la identificación de puntos
 Sea $S$ el disco abierto unitario en el plano complejo:
 $$ S = \{ z \in \mathbb{C} : |z| < 1 \} $$
 Para cualquier punto $z_0$ con $|z_0| < 1$, es evidente que cualquier entorno reducido contiene puntos de $S$, por lo que $S \subseteq S'$. 
-Para un punto $z_0$ en la frontera, es decir, $|z_0| = 1$, cualquier entorno $N_\epsilon(z_0)$ (por pequeño que sea $\epsilon$) se "adentra" en el disco abierto, conteniendo infinitos puntos de $S$. Por lo tanto, la frontera también consiste en puntos de acumulación.
+Para un punto $z_0$ en la frontera, es decir, $|z_0| = 1$, cualquier entorno $N_\epsilon(z_0)$ (por pequeño que sea $\epsilon$) se «adentra» en el disco abierto, conteniendo infinitos puntos de $S$. Por lo tanto, la frontera también consiste en puntos de acumulación.
 Si $|z_0| > 1$, podemos elegir $\epsilon = |z_0| - 1 > 0$, de modo que $N_\epsilon(z_0)$ está completamente fuera de $S$, por lo que no hay intersección.
 El conjunto derivado es el disco cerrado:
 $$ S' = \{ z \in \mathbb{C} : |z| \leq 1 \} $$
@@ -1149,7 +1154,7 @@ Sea $f(z)$ una función analítica en el disco abierto $D = \{ z \in \mathbb{C} 
 2. \textbf{Caso 2:} $f\left(1 - \frac{1}{n}\right) = 0$ para todo $n = 2, 3, 4, \dots$
 
 \textbf{Parte C (Racionales de Gauss y Densidad):}
-Sea $S$ el conjunto de los "Racionales de Gauss" en el plano complejo, definido como:
+Sea $S$ el conjunto de los «Racionales de Gauss» en el plano complejo, definido como:
 $$ S = \{ x + iy \in \mathbb{C} : x \in \mathbb{Q} \text{ y } y \in \mathbb{Q} \} $$
 1. Determine el conjunto derivado $S'$ y la clausura $\bar{S}$.
 2. Demuestre formalmente su afirmación utilizando la propiedad de densidad de los números racionales $\mathbb{Q}$ en los números reales $\mathbb{R}$ (es decir, que entre dos números reales cualesquiera existe un número racional).
