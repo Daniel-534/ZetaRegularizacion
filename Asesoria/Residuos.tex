@@ -1,0 +1,170 @@
+\documentclass[12pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}
+
+\geometry{margin=2.5cm}
+
+\newtheorem{teorema}{Teorema}
+\newtheorem{definicion}{Definición}
+\newtheorem*{ejemplo}{Ejemplo}
+\newtheorem*{tarea}{Tarea}
+
+\title{\bfseries Teorema del Residuo\\ \large y su aplicación a funciones zeta espectrales}
+\author{Notas de clase}
+\date{}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\vspace{1cm}
+
+\section{Motivación}
+
+En análisis complejo, cuando una función $f(z)$ es holomorfa salvo en un número finito de puntos aislados (sus \textbf{polos}), es posible calcular integrales de contorno cerradas sin necesidad de parametrizar el camino de integración: basta con conocer el comportamiento local de $f$ alrededor de cada polo. Esta idea es la base del \textbf{teorema del residuo}, una de las herramientas más poderosas del análisis complejo.
+
+Más adelante en esta clase usaremos esta misma maquinaria para estudiar \textbf{funciones zeta espectrales}, que generalizan la función zeta de Riemann a los autovalores de un operador diferencial (como el Laplaciano).
+
+\section{El teorema del residuo}
+
+\begin{definicion}[Residuo]
+Si $f(z)$ tiene un polo aislado en $z_0$, el \textbf{residuo} de $f$ en $z_0$, denotado $\mathrm{Res}(f,z_0)$, es el coeficiente $a_{-1}$ de la serie de Laurent de $f$ alrededor de $z_0$:
+\[
+f(z) = \sum_{n=-\infty}^{\infty} a_n (z-z_0)^n, \qquad \mathrm{Res}(f,z_0) := a_{-1}.
+\]
+\end{definicion}
+
+\begin{teorema}[Teorema del residuo]
+Sea $f(z)$ una función meromorfa en un dominio que contiene un contorno cerrado simple $\omega$ (orientado positivamente), con polos $z_0, z_1, \dots, z_n$ \textbf{en el interior} de $\omega$ y sin singularidades sobre $\omega$. Entonces:
+\[
+\oint_{\omega} f(z)\,dz \;=\; 2\pi i \sum_{k} \mathrm{Res}(f, z_k).
+\]
+\end{teorema}
+
+\noindent \textbf{Idea:} en vez de integrar directamente, "sumamos'' la contribución de cada singularidad encerrada, multiplicada por $2\pi i$.
+
+\subsection{Cómo calcular un residuo}
+
+En la práctica no siempre queremos escribir la serie de Laurent completa. Hay fórmulas directas según el \textbf{orden del polo}.
+
+\begin{itemize}[leftmargin=1.2cm]
+    \item \textbf{Polo simple (orden 1) en $z_0$:}
+    \[
+    \mathrm{Res}(f, z_0) = \lim_{z \to z_0} (z - z_0)\, f(z).
+    \]
+
+    \item \textbf{Polo de orden $k$ en $z_0$:}
+    \[
+    \mathrm{Res}(f, z_0) = \frac{1}{(k-1)!} \lim_{z \to z_0} \frac{d^{\,k-1}}{dz^{\,k-1}} \Big[ (z - z_0)^k f(z) \Big].
+    \]
+\end{itemize}
+
+La fórmula de polo simple es, de hecho, el caso $k=1$ de la fórmula general.
+
+\section{Ejemplo resuelto}
+
+\begin{ejemplo}
+Calcular
+\[
+\oint_{C} \frac{e^z}{z(z-1)^2}\,dz,
+\]
+donde $C$ es un contorno cerrado que encierra a los dos polos de la función: $z=0$ y $z=1$.
+\end{ejemplo}
+
+\noindent \textbf{Paso 1. Identificar los polos.}
+La función
+\[
+f(z) = \frac{e^z}{z(z-1)^2}
+\]
+tiene:
+\begin{itemize}
+    \item un polo \textbf{simple} en $z_0 = 0$ (el factor $z$ aparece una sola vez), y
+    \item un polo de \textbf{orden 2} en $z_1 = 1$ (el factor $(z-1)^2$).
+\end{itemize}
+
+\noindent \textbf{Paso 2. Residuo en $z=0$ (polo simple).}
+\[
+\mathrm{Res}(f,0) = \lim_{z \to 0} z \cdot \frac{e^z}{z(z-1)^2} = \left.\frac{e^z}{(z-1)^2}\right|_{z=0} = \frac{e^0}{(0-1)^2} = \frac{1}{1} = 1.
+\]
+
+\noindent \textbf{Paso 3. Residuo en $z=1$ (polo de orden 2).}
+Usamos la fórmula con $k=2$:
+\[
+\mathrm{Res}(f,1) = \frac{1}{(2-1)!}\lim_{z \to 1} \frac{d}{dz}\left[ (z-1)^2 \cdot \frac{e^z}{z(z-1)^2} \right] = \lim_{z\to 1} \frac{d}{dz}\left[\frac{e^z}{z}\right].
+\]
+Derivamos con la regla del cociente:
+\[
+\frac{d}{dz}\left[\frac{e^z}{z}\right] = \frac{e^z \cdot z - e^z \cdot 1}{z^2} = \frac{e^z (z-1)}{z^2}.
+\]
+Evaluamos el límite en $z=1$:
+\[
+\lim_{z\to 1} \frac{e^z(z-1)}{z^2} = \frac{e^1 \cdot (1-1)}{1^2} = \frac{e \cdot 0}{1} = 0.
+\]
+Por lo tanto $\mathrm{Res}(f,1) = 0$.
+
+\noindent \textbf{Paso 4. Aplicar el teorema del residuo.}
+\[
+\oint_C \frac{e^z}{z(z-1)^2}\,dz = 2\pi i \big[\mathrm{Res}(f,0) + \mathrm{Res}(f,1)\big] = 2\pi i (1 + 0) = \boxed{2\pi i}.
+\]
+
+\section{La función zeta de Riemann: ecuación funcional}
+
+Antes de definir la función zeta espectral, recordamos la función zeta de Riemann $\zeta(s)$, definida originalmente para $\mathrm{Re}(s) > 1$ por
+\[
+\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s},
+\]
+y luego extendida (por continuación analítica) a todo el plano complejo salvo un polo simple en $s=1$. Esta extensión satisface la célebre \textbf{ecuación funcional}:
+\[
+\zeta(s) = 2^{s}\, \pi^{s-1} \, \sin\!\left(\frac{\pi s}{2}\right) \, \Gamma(1-s)\, \zeta(1-s).
+\]
+
+Esta identidad relaciona el valor de $\zeta$ en $s$ con su valor en $1-s$, y es la que permite estudiar $\zeta(s)$ fuera de la región original de convergencia $\mathrm{Re}(s)>1$.
+
+\section{Funciones zeta espectrales}
+
+La misma idea de "sumar sobre un espectro'' se puede aplicar a operadores diferenciales, no solo a los números naturales.
+
+\begin{definicion}[Espectro discreto]
+Sea $\Delta$ un operador (por ejemplo, el Laplaciano) cuyo espectro es \textbf{discreto}, es decir, sus autovalores forman un conjunto numerable
+\[
+\Lambda = \{\lambda_n\}_{n=1}^{\infty}, \qquad 0 < |\lambda_1| \leq |\lambda_2| \leq |\lambda_3| \leq \cdots
+\]
+\end{definicion}
+
+\begin{definicion}[Función zeta espectral]
+Se define la función zeta asociada al espectro $\Lambda$ como
+\[
+\zeta_{\Delta}(s) = \sum_{n=1}^{\infty} \frac{1}{\lambda_n^{s}} = \sum_{n=1}^{\infty} \lambda_n^{-s}.
+\]
+\end{definicion}
+
+Esta serie converge para $\mathrm{Re}(s)$ suficientemente grande (de forma análoga a $\zeta(s) = \sum n^{-s}$), y define una función holomorfa en esa región. La pregunta natural —planteada en clase— es si $\zeta_\Delta(s)$ admite también una extensión (continuación analítica) más allá de su región de convergencia, y si esa extensión debe interpretarse como un \textbf{valor principal}.
+
+Se introdujo además la notación
+\[
+\xi = \sigma + i t
+\]
+para la variable compleja, y se señaló una \textbf{abscisa de convergencia} $a_c = 1$: el valor de $\mathrm{Re}(\xi)$ a partir del cual la serie que define a $\zeta_\Delta$ converge.
+
+\section{Tarea}
+
+\begin{tarea}
+¿Cuál es el residuo (o el polo) de $\zeta_{\Lambda}(s)$?
+\end{tarea}
+
+\noindent \textit{Sugerencia:} recordar que $\zeta(s)$ de Riemann tiene un único polo, simple, en $s=1$, con residuo
+\[
+\mathrm{Res}(\zeta, 1) = 1.
+\]
+La tarea consiste en investigar si $\zeta_\Lambda(s)$ tiene un comportamiento análogo: ¿tiene un polo simple?, ¿en qué valor de $s$?, ¿cuál es su residuo, y qué información geométrica o espectral codifica ese residuo?
+
+\end{document}
