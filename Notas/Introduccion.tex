@@ -1082,17 +1082,256 @@ En topología y análisis complejo, el concepto de \textit{punto de acumulación
 \subsection*{Definición Formal mediante Entornos}
 Sea $S$ un subconjunto del plano complejo $\mathbb{C}$ (o de un espacio métrico general), y sea $z_0 \in \mathbb{C}$ un punto (que puede o no pertenecer a $S$). Definimos el \textit{entorno} de radio $\epsilon > 0$ centrado en $z_0$ como el disco abierto:
 $$ N_\epsilon(z_0) = \{ z \in \mathbb{C} : |z - z_0| < \epsilon \} $$
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Latex,scale=0.95]
+  \begin{scope}[shift={(-3.8,0)}]
+    \draw[->,thick] (-0.8,0) -- (6.0,0) node[right] {$\operatorname{Re} z$};
+    \draw[->,thick] (0,-2.6) -- (0,3.0) node[above] {$\operatorname{Im} z$};
+
+    \coordinate (z0) at (2.45,0.35);
+    \def\rad{1.85}
+    \fill[limitblue!13] (z0) circle (\rad);
+    \draw[limitblue,very thick,dashed] (z0) circle (\rad);
+
+    \fill[seqorange] (z0) circle (2.8pt);
+    \node[below left,font=\small] at (z0) {$z_0$};
+
+    \coordinate (z) at ($(z0)+(28:\rad)$);
+    \fill[epsgreen!65!black] (z) circle (2.6pt);
+    \node[above right,font=\small,epsgreen!50!black] at (z) {$z$};
+    \draw[->,very thick,seqorange!85!black] (z0) -- (z)
+      node[midway,above left,font=\small] {$|z-z_0|$};
+
+    \coordinate (b) at ($(z0)+(135:\rad)$);
+    \fill[white] (b) circle (2.7pt);
+    \draw[limitblue,thick] (b) circle (2.7pt);
+    \node[above=4pt,font=\scriptsize,limitblue] at (b) {frontera no incluida};
+
+    \draw[<->,thick,limitblue] ($(z0)+(0,-0.12)$) -- ($(z0)+(\rad,-0.12)$)
+      node[midway,below,font=\small] {$\epsilon$};
+    \node[limitblue,font=\small] at ($(z0)+(0,1.25)$) {$N_\epsilon(z_0)$};
+  \end{scope}
+
+  \begin{scope}[shift={(4.0,0)}]
+    \node[draw,rounded corners,very thick,limitblue,fill=limitblue!7,
+      align=left,text width=5.4cm,inner sep=8pt] at (0,1.5)
+      {\textbf{Lectura geométrica}\\[3pt]
+       $N_\epsilon(z_0)$ contiene exactamente los puntos cuya distancia a $z_0$ es menor que $\epsilon$.};
+
+    \node[draw,rounded corners,thick,epsgreen!60!black,fill=epsgreen!8,
+      align=center,text width=5.4cm,inner sep=8pt] at (0,-0.75)
+      {$z\in N_\epsilon(z_0)$\\[2pt]
+       $\Updownarrow$\\[-1pt]
+       $|z-z_0|<\epsilon$};
+
+    \node[align=center,font=\small,text width=5.2cm] at (0,-2.2)
+      {La circunferencia discontinua representa la igualdad $|z-z_0|=\epsilon$ y no forma parte del disco abierto.};
+  \end{scope}
+\end{tikzpicture}
+\caption{Interpretación geométrica del entorno abierto $N_\epsilon(z_0)$ en el plano complejo: el radio mide distancia, no dirección.}
+\end{figure}
+
 El \textit{entorno reducido} (o disco perforado) se define excluyendo el centro:
 $$ N_\epsilon^*(z_0) = \{ z \in \mathbb{C} : 0 < |z - z_0| < \epsilon \} $$
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Latex,scale=0.94]
+  \begin{scope}[shift={(-3.7,0)}]
+    \draw[->,thick] (-0.8,0) -- (6.0,0) node[right] {$\operatorname{Re} z$};
+    \draw[->,thick] (0,-2.7) -- (0,3.0) node[above] {$\operatorname{Im} z$};
+
+    \coordinate (z0) at (2.45,0.25);
+    \def\rad{1.9}
+    \fill[epsgreen!13] (z0) circle (\rad);
+    \draw[epsgreen!65!black,very thick,dashed] (z0) circle (\rad);
+
+    \fill[white] (z0) circle (5.2pt);
+    \draw[red!75!black,very thick] (z0) circle (5.2pt);
+    \draw[red!75!black,thick] ($(z0)+(-0.12,-0.12)$) -- ($(z0)+(0.12,0.12)$);
+    \draw[red!75!black,thick] ($(z0)+(-0.12,0.12)$) -- ($(z0)+(0.12,-0.12)$);
+    \node[below=7pt,font=\small,red!70!black] at (z0) {$z_0$ excluido};
+
+    \foreach \ang/\frac in {18/0.55,52/0.78,105/0.47,156/0.72,215/0.60,268/0.82,325/0.42} {
+      \fill[seqorange] ($(z0)+(\ang:{\frac*\rad})$) circle (2.35pt);
+    }
+
+    \coordinate (w) at ($(z0)+(52:{0.78*\rad})$);
+    \draw[->,thick,limitblue] (z0) -- (w)
+      node[midway,left,font=\scriptsize] {$|z-z_0|>0$};
+    \node[epsgreen!55!black,font=\small] at ($(z0)+(0,1.35)$) {$N_\epsilon^*(z_0)$};
+  \end{scope}
+
+  \begin{scope}[shift={(4.0,0)}]
+    \node[draw,rounded corners,very thick,epsgreen!65!black,fill=epsgreen!7,
+      align=left,text width=5.45cm,inner sep=8pt] at (0,1.5)
+      {\textbf{Una sola diferencia}\\[3pt]
+       El entorno reducido conserva todos los puntos del disco abierto excepto su centro $z_0$.};
+
+    \node[draw,rounded corners,thick,seqorange!85!black,fill=seqorange!9,
+      align=center,text width=5.45cm,inner sep=8pt] at (0,-0.75)
+      {$z\in N_\epsilon^*(z_0)$\\[2pt]
+       $\Updownarrow$\\[-1pt]
+       $0<|z-z_0|<\epsilon$};
+
+    \node[align=center,font=\small,text width=5.3cm] at (0,-2.2)
+      {La perforación no elimina una región alrededor del centro: elimina únicamente el punto $z_0$.};
+  \end{scope}
+\end{tikzpicture}
+\caption{Entorno reducido o disco perforado: el centro se excluye para detectar puntos de $S$ distintos de $z_0$.}
+\end{figure}
 
 Se dice que $z_0$ es un \textit{punto de acumulación} de $S$ si y solo si todo entorno reducido de $z_0$ contiene al menos un punto de $S$. Formalmente:
 $$ \forall \epsilon > 0, \quad N_\epsilon^*(z_0) \cap S \neq \emptyset $$
 Esto significa que, sin importar cuán pequeño sea el radio $\epsilon$, siempre podremos encontrar un punto de $S$ (distinto de $z_0$) arbitrariamente cerca de $z_0$.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Latex,scale=0.93]
+  \begin{scope}[shift={(-3.8,0)}]
+    \draw[->,thick] (-0.8,0) -- (6.1,0) node[right] {$\operatorname{Re} z$};
+    \draw[->,thick] (0,-2.8) -- (0,3.1) node[above] {$\operatorname{Im} z$};
+
+    \coordinate (z0) at (2.55,0.2);
+    \fill[limitblue!5] (z0) circle (2.15);
+    \fill[limitblue!8] (z0) circle (1.55);
+    \fill[limitblue!13] (z0) circle (0.92);
+    \draw[limitblue!55,dashed,thick] (z0) circle (2.15);
+    \draw[limitblue!75,dashed,thick] (z0) circle (1.55);
+    \draw[limitblue,very thick,dashed] (z0) circle (0.92);
+
+    \node[font=\scriptsize,limitblue!65!black] at ($(z0)+(18:2.42)$) {$\epsilon_1$};
+    \node[font=\scriptsize,limitblue!75!black] at ($(z0)+(18:1.79)$) {$\epsilon_2$};
+    \node[font=\scriptsize,limitblue] at ($(z0)+(18:1.15)$) {$\epsilon_3$};
+
+    \foreach \ang/\dist in {165/2.55,138/2.0,205/1.72,112/1.35,238/1.08,76/0.78,285/0.57,342/0.38,40/0.24} {
+      \fill[seqorange] ($(z0)+(\ang:\dist)$) circle (2.5pt);
+    }
+    \node[seqorange!85!black,font=\small] at (0.85,2.35) {puntos de $S$};
+    \draw[->,seqorange!85!black,thick] (1.15,2.15) -- ($(z0)+(138:2.0)$);
+
+    \fill[white] (z0) circle (4.4pt);
+    \draw[red!75!black,very thick] (z0) circle (4.4pt);
+    \node[below right,font=\small,red!70!black] at (z0) {$z_0$};
+
+    \node[epsgreen!55!black,font=\scriptsize,align=center] at (0.9,-1.55)
+      {intersección\\no vacía};
+    \draw[->,thick,epsgreen!65!black] (1.35,-1.35) -- ($(z0)+(285:0.57)$);
+  \end{scope}
+
+  \begin{scope}[shift={(4.05,0)}]
+    \node[draw,rounded corners,very thick,limitblue,fill=limitblue!7,
+      align=center,text width=5.55cm,inner sep=8pt] at (0,1.55)
+      {\textbf{Prueba visual de acumulación}\\[4pt]
+       Al reducir el radio, siempre queda algún punto de $S$ distinto de $z_0$ dentro del disco.};
+
+    \node[draw,rounded corners,thick,epsgreen!60!black,fill=epsgreen!8,
+      align=center,text width=5.55cm,inner sep=8pt] at (0,-0.75)
+      {$\epsilon_1>\epsilon_2>\epsilon_3>0$\\[3pt]
+       $N_{\epsilon_j}^*(z_0)\cap S\neq\emptyset$\\
+       para cada radio mostrado};
+
+    \node[align=center,font=\small,text width=5.35cm] at (0,-2.3)
+      {La definición exige esta intersección para \emph{todo} $\epsilon>0$, no solo para los tres radios dibujados.};
+  \end{scope}
+\end{tikzpicture}
+\caption{Punto de acumulación: los entornos reducidos pueden hacerse arbitrariamente pequeños y continúan intersectando al conjunto $S$.}
+\end{figure}
+
 \subsection*{Caracterización Secuencial}
 Una forma equivalente y altamente útil de definir los puntos de acumulación, especialmente en espacios métricos como $\mathbb{C}$, es a través de sucesiones. Un punto $z_0$ es punto de acumulación de $S$ si y solo si existe una sucesión $\{z_n\}_{n=1}^{\infty}$ de puntos en $S$ tales que $z_n \neq z_0$ para todo $n$, y:
 $$ \lim_{n \to \infty} z_n = z_0 $$
 Esta caracterización conecta directamente el concepto topológico con el análisis de límites y series.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Latex,scale=0.91]
+  \begin{scope}[shift={(-3.7,0.65)}]
+    \node[font=\small] at (3.05,2.75) {\textbf{Sucesión en el plano complejo}};
+    \draw[->,thick] (-0.25,0) -- (5.65,0) node[right] {$\operatorname{Re} z$};
+    \draw[->,thick] (0,-2.25) -- (0,2.3) node[above left] {$\operatorname{Im} z$};
+
+    \fill[limitblue!7,rounded corners=18pt]
+      (0.35,-1.65) .. controls (0.2,-0.3) and (0.65,1.85) .. (2.2,2.1)
+      .. controls (3.9,2.35) and (5.2,1.2) .. (5.05,-0.45)
+      .. controls (4.7,-1.85) and (1.8,-2.0) .. (0.35,-1.65) -- cycle;
+    \draw[limitblue!55,thick]
+      (0.35,-1.65) .. controls (0.2,-0.3) and (0.65,1.85) .. (2.2,2.1)
+      .. controls (3.9,2.35) and (5.2,1.2) .. (5.05,-0.45)
+      .. controls (4.7,-1.85) and (1.8,-2.0) .. (0.35,-1.65);
+    \node[limitblue,font=\large] at (4.65,1.7) {$S$};
+
+    \coordinate (z0) at (2.55,0.15);
+    \coordinate (z1) at (0.65,1.55);
+    \coordinate (z2) at (4.25,1.35);
+    \coordinate (z3) at (4.05,-1.15);
+    \coordinate (z4) at (1.2,-1.15);
+    \coordinate (z5) at (1.45,0.85);
+    \coordinate (z6) at (3.25,0.8);
+    \coordinate (z7) at (3.05,-0.35);
+    \coordinate (z8) at (2.35,-0.05);
+
+    \draw[->,very thick,seqorange!75!black]
+      plot[smooth,tension=0.62] coordinates
+      {(z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z0)};
+
+    \foreach \p in {z1,z2,z3,z4,z5,z6,z7,z8}
+      \fill[seqorange] (\p) circle (2.7pt);
+
+    \node[above left,font=\scriptsize] at (z1) {$z_1$};
+    \node[above right,font=\scriptsize] at (z2) {$z_2$};
+    \node[below left,font=\scriptsize] at (z4) {$z_4$};
+    \node[below left,font=\scriptsize] at (z8) {$z_8$};
+
+    \fill[white] (z0) circle (4.3pt);
+    \draw[red!75!black,very thick] (z0) circle (4.3pt);
+    \node[above right,font=\small,red!70!black] at (z0) {$z_0$};
+
+    \draw[<->,thick,epsgreen!65!black] (z0) -- (z5)
+      node[midway,below left,font=\scriptsize] {$|z_5-z_0|$};
+    \node[align=center,font=\scriptsize,seqorange!85!black] at (3.65,-1.75)
+      {$z_n\in S$, $z_n\neq z_0$\\los puntos se acercan a $z_0$};
+  \end{scope}
+
+  \begin{scope}[shift={(3.55,0.65)}]
+    \node[font=\small] at (3.15,2.75) {\textbf{Distancia al punto límite}};
+    \draw[->,thick] (0,0) -- (5.75,0) node[right] {$n$};
+    \draw[->,thick] (0,0) -- (0,2.35);
+    \node[rotate=90,font=\small] at (-0.35,1.25) {$|z_n-z_0|$};
+
+    \fill[epsgreen!10] (3.05,0) rectangle (5.45,0.62);
+    \draw[epsgreen!65!black,dashed,thick] (0,0.62) -- (5.45,0.62)
+      node[right,font=\scriptsize] {$\epsilon$};
+    \draw[gray!65,densely dotted,thick] (3.05,0) -- (3.05,2.25);
+    \node[below,font=\scriptsize] at (3.05,0) {$N$};
+
+    \draw[limitblue,very thick]
+      plot[smooth] coordinates
+      {(0.55,2.15) (1.15,1.72) (1.75,1.38) (2.35,1.05)
+       (2.95,0.76) (3.55,0.48) (4.15,0.3) (4.75,0.17) (5.3,0.09)};
+
+    \foreach \x/\y in {0.55/2.15,1.15/1.72,1.75/1.38,2.35/1.05,2.95/0.76,3.55/0.48,4.15/0.3,4.75/0.17,5.3/0.09}
+      \fill[seqorange] (\x,\y) circle (2.5pt);
+
+    \node[epsgreen!55!black,font=\scriptsize,align=center] at (4.25,-0.38)
+      {si $n>N$, entonces $|z_n-z_0|<\epsilon$};
+
+    \node[draw,rounded corners,thick,limitblue,fill=limitblue!7,
+      align=center,text width=5.15cm,inner sep=7pt] at (2.7,-1.55)
+      {$z_n\longrightarrow z_0$\\[3pt]
+       $\Updownarrow$\\[-1pt]
+       $|z_n-z_0|\longrightarrow 0$};
+  \end{scope}
+
+  \node[draw,rounded corners,very thick,epsgreen!65!black,fill=epsgreen!7,
+    align=center,text width=12.4cm,inner sep=7pt] at (0,-3.35)
+    {Para cada $\epsilon>0$ existe $N\in\mathbb{N}$ tal que $n>N$ implica
+     $z_n\in N_\epsilon^*(z_0)$; por eso $z_0$ es un punto de acumulación de $S$.};
+\end{tikzpicture}
+\caption{Caracterización secuencial de un punto de acumulación: una sucesión de puntos distintos de $z_0$ converge a él exactamente cuando sus distancias a $z_0$ tienden a cero.}
+\end{figure}
 
 \subsection*{Propiedades Topológicas y Conjunto Derivado}
 Una consecuencia inmediata de la definición es que si $z_0$ es un punto de acumulación de $S$, entonces \textit{todo} entorno de $z_0$ contiene \textit{infinitos} puntos de $S$. (Si un entorno contuviera solo un número finito de puntos de $S$ distintos de $z_0$, podríamos elegir un $\epsilon$ lo suficientemente pequeño para evitar esos puntos finitos, contradiciendo la definición).
@@ -1102,7 +1341,129 @@ El \textit{clausura} (o cierre) de $S$, denotada como $\bar{S}$, es la unión de
 $$ \bar{S} = S \cup S' $$
 Un conjunto $S$ se dice \textit{cerrado} si contiene todos sus puntos de acumulación, es decir, si $S' \subseteq S$, lo que equivale a decir que $S = \bar{S}$.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Latex,scale=0.9,
+  settitle/.style={font=\small,align=center},
+  setnote/.style={draw,rounded corners,align=center,font=\scriptsize,inner sep=5pt}]
+
+  \begin{scope}[shift={(-5.0,0.45)}]
+    \node[settitle] at (0,2.35) {\textbf{Conjunto original}\\$S$};
+    \fill[limitblue!13] (0,0) ellipse (2.05 and 1.45);
+    \draw[limitblue,very thick] (0,0) ellipse (2.05 and 1.45);
+
+    \foreach \x/\y in {-1.25/0.45,-0.85/-0.65,-0.25/0.75,0.35/-0.45,0.95/0.6}
+      \fill[limitblue] (\x,\y) circle (2.2pt);
+    \fill[seqorange] (2.65,-0.75) circle (3pt);
+    \node[seqorange!85!black,font=\scriptsize,below] at (2.65,-0.82) {punto aislado};
+
+    \node[setnote,fill=limitblue!6,text width=3.7cm] at (0,-2.05)
+      {Contiene sus puntos ordinarios y puede contener puntos aislados.};
+  \end{scope}
+
+  \node[font=\Large] at (-1.8,0.45) {$+$};
+
+  \begin{scope}[shift={(0,0.45)}]
+    \node[settitle] at (0,2.35) {\textbf{Conjunto derivado}\\$S'$};
+    \fill[epsgreen!14] (0.15,0.05) ellipse (2.15 and 1.5);
+    \draw[epsgreen!65!black,very thick,dashed] (0.15,0.05) ellipse (2.15 and 1.5);
+
+    \foreach \x/\y in {-1.35/0.15,-0.8/0.85,-0.25/-0.55,0.45/0.65,1.05/-0.25}
+      \fill[epsgreen!65!black] (\x,\y) circle (2.2pt);
+    \fill[red!70!black] (2.55,0.75) circle (3pt);
+    \node[red!70!black,font=\scriptsize,above] at (2.55,0.82) {acumulación externa};
+
+    \node[setnote,fill=epsgreen!7,text width=3.7cm] at (0,-2.05)
+      {Reúne todos los puntos de acumulación, pertenezcan o no a $S$.};
+  \end{scope}
+
+  \node[font=\Large] at (3.15,0.45) {$=$};
+
+  \begin{scope}[shift={(5.05,0.45)}]
+    \node[settitle] at (0,2.35) {\textbf{Clausura}\\$\bar S=S\cup S'$};
+    \fill[limitblue!10] (-0.35,0) ellipse (1.95 and 1.4);
+    \fill[epsgreen!12] (0.45,0.12) ellipse (1.95 and 1.4);
+    \draw[limitblue,very thick] (-0.35,0) ellipse (1.95 and 1.4);
+    \draw[epsgreen!65!black,very thick,dashed] (0.45,0.12) ellipse (1.95 and 1.4);
+
+    \fill[seqorange] (2.45,-0.72) circle (3pt);
+    \fill[red!70!black] (2.45,0.78) circle (3pt);
+    \draw[purple!70!black,very thick,rounded corners=18pt]
+      (-2.45,-1.55) rectangle (2.85,1.62);
+    \node[purple!70!black,font=\scriptsize] at (0.2,1.9)
+      {todo lo que pertenece a $S$ o a $S'$};
+
+    \node[setnote,fill=purple!7,text width=3.9cm] at (0,-2.05)
+      {Añade a $S$ todos sus puntos de acumulación faltantes.};
+  \end{scope}
+
+  \node[draw,rounded corners,very thick,limitblue,fill=limitblue!6,
+    align=center,text width=12.3cm,inner sep=7pt] at (0,-3.25)
+    {\textbf{Caso cerrado:}\quad $S'\subseteq S$
+     \quad$\Longleftrightarrow$\quad
+     $S\cup S'=S$
+     \quad$\Longleftrightarrow$\quad
+     $\bar S=S$.};
+\end{tikzpicture}
+\caption{Relación entre un conjunto $S$, su conjunto derivado $S'$ y su clausura $\bar S$: cerrar un conjunto significa incorporar todos sus puntos de acumulación.}
+\end{figure}
+
 Por otro lado, si $z_0 \in S$ pero $z_0$ \textit{no} es un punto de acumulación de $S$, entonces $z_0$ se denomina \textit{punto aislado} de $S$. Esto significa que existe algún $\epsilon > 0$ tal que $N_\epsilon^*(z_0) \cap S = \emptyset$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=Latex,scale=0.93]
+  \begin{scope}[shift={(-3.75,0.2)}]
+    \node[font=\small,epsgreen!55!black] at (2.45,2.65)
+      {\textbf{Punto de acumulación}};
+    \draw[->,thick] (-0.35,0) -- (5.35,0) node[right] {$\operatorname{Re}z$};
+    \draw[->,thick] (0,-2.2) -- (0,2.3) node[above] {$\operatorname{Im}z$};
+
+    \coordinate (z0) at (2.45,0.15);
+    \fill[epsgreen!5] (z0) circle (1.85);
+    \fill[epsgreen!8] (z0) circle (1.25);
+    \fill[epsgreen!13] (z0) circle (0.68);
+    \draw[epsgreen!45,dashed,thick] (z0) circle (1.85);
+    \draw[epsgreen!60!black,dashed,thick] (z0) circle (1.25);
+    \draw[epsgreen!75!black,dashed,very thick] (z0) circle (0.68);
+
+    \foreach \ang/\dist in {160/2.15,125/1.65,205/1.45,75/1.05,235/0.82,25/0.57,300/0.4,145/0.25}
+      \fill[seqorange] ($(z0)+(\ang:\dist)$) circle (2.5pt);
+
+    \fill[white] (z0) circle (4.2pt);
+    \draw[red!75!black,very thick] (z0) circle (4.2pt);
+    \node[below right,font=\small,red!70!black] at (z0) {$z_0$};
+    \node[align=center,font=\scriptsize,epsgreen!55!black] at (2.45,-2.0)
+      {por pequeño que sea $\epsilon$,\\$N_\epsilon^*(z_0)\cap S\neq\emptyset$};
+  \end{scope}
+
+  \draw[very thick,gray!55] (0,-2.35) -- (0,2.65);
+
+  \begin{scope}[shift={(3.75,0.2)}]
+    \node[font=\small,seqorange!85!black] at (2.45,2.65)
+      {\textbf{Punto aislado}};
+    \draw[->,thick] (-0.35,0) -- (5.35,0) node[right] {$\operatorname{Re}z$};
+    \draw[->,thick] (0,-2.2) -- (0,2.3) node[above] {$\operatorname{Im}z$};
+
+    \coordinate (p) at (2.45,0.15);
+    \fill[seqorange!7] (p) circle (1.25);
+    \draw[seqorange!85!black,dashed,very thick] (p) circle (1.25);
+
+    \foreach \ang/\dist in {20/1.75,65/1.95,135/1.7,195/1.85,245/1.65,315/1.8}
+      \fill[limitblue] ($(p)+(\ang:\dist)$) circle (2.5pt);
+
+    \fill[seqorange] (p) circle (3.2pt);
+    \node[below right,font=\small,seqorange!85!black] at (p) {$p\in S$};
+    \node[align=center,font=\scriptsize,seqorange!85!black] at (2.45,-2.0)
+      {existe $\epsilon>0$ tal que\\$N_\epsilon^*(p)\cap S=\emptyset$};
+  \end{scope}
+
+  \node[draw,rounded corners,very thick,limitblue,fill=limitblue!6,
+    align=center,text width=12.2cm,inner sep=7pt] at (0,-3.05)
+    {El conjunto derivado $S'$ conserva los puntos de acumulación y descarta los puntos aislados de $S$.};
+\end{tikzpicture}
+\caption{Contraste local entre un punto de acumulación y un punto aislado: la diferencia está en la existencia de un entorno reducido vacío.}
+\end{figure}
 
 \subsection*{Relevancia en Análisis Complejo y Teoría de Números}
 En el análisis complejo (Churchill), el concepto es vital para el \textbf{Teorema de Unicidad}. Si dos funciones $f$ y $g$ son analíticas en un dominio $D$, y el conjunto $S = \{z \in D : f(z) = g(z)\}$ tiene un \textit{punto de acumulación que pertenece a $D$}, entonces $f(z) = g(z)$ para todo $z \in D$. La condición de que el punto de acumulación esté \textit{dentro} del dominio de analiticidad es estricta y no negociable.
