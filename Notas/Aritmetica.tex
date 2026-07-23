@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, geometry}
+\geometry{a4paper, margin=2.5cm}
+
+\title{El Teorema Fundamental de la Aritmética y el Producto de Euler}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{El Teorema Fundamental de la Aritmética}
+
+El Teorema Fundamental de la Aritmética establece las bases estructurales de los números enteros positivos respecto a la operación de multiplicación. Su enunciado formal es el siguiente:
+
+\textbf{Teorema.} Todo entero $n > 1$ puede representarse de manera única como un producto de potencias de números primos, salvo por el orden de los factores. Específicamente, para todo entero $n \geq 2$, existe una única factorización de la forma:
+$$ n = p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k} $$
+donde $p_1 < p_2 < \dots < p_k$ son números primos y $\alpha_1, \alpha_2, \dots, \alpha_k$ son enteros positivos.
+
+Este teorema garantiza que los números primos constituyen los bloques de construcción multiplicativos elementales e irreducibles del anillo de los enteros $\mathbb{Z}$.
+
+\section{La Función Zeta de Riemann y el Producto de Euler}
+
+La función Zeta de Riemann se define inicialmente mediante la serie de Dirichlet:
+$$ \zeta(s) = \sum_{n=1}^{\infty} n^{-s} $$
+donde $s = \sigma + it$ es una variable compleja. Esta serie converge absolutamente en el semiplano derecho $\Re(s) > 1$.
+
+La manifestación analítica que vincula esta serie con la distribución de los números primos es el Producto de Euler, el cual establece que:
+$$ \zeta(s) = \sum_{n=1}^{\infty} n^{-s} = \prod_{p \text{ prime}} \left(1 - p^{-s}\right)^{-1} $$
+Esta identidad es la traducción analítica directa del Teorema Fundamental de la Aritmética al plano complejo.
+
+\section{Demostración Analítica de la Equivalencia}
+
+Para demostrar rigurosamente que el Producto de Euler es equivalente a la serie de Dirichlet, se procede mediante la expansión algebraica y la aplicación del Teorema Fundamental de la Aritmética.
+
+\subsection{Expansión en Serie Geométrica}
+
+Para un número primo $p$ y en la región de convergencia absoluta $\Re(s) > 1$, se cumple que $|p^{-s}| = p^{-\sigma} < 1$. Por lo tanto, el término $(1 - p^{-s})^{-1}$ puede expandirse como una serie geométrica convergente:
+$$ (1 - p^{-s})^{-1} = 1 + p^{-s} + p^{-2s} + p^{-3s} + \dots = \sum_{\alpha=0}^{\infty} (p^{\alpha})^{-s} $$
+
+\subsection{Producto sobre todos los primos}
+
+Al construir el producto infinito sobre todos los números primos, se obtiene la multiplicación de estas series geométricas:
+$$ \prod_{p \text{ prime}} \left(1 - p^{-s}\right)^{-1} = \left( \sum_{\alpha_1=0}^{\infty} 2^{-\alpha_1 s} \right) \left( \sum_{\alpha_2=0}^{\infty} 3^{-\alpha_2 s} \right) \left( \sum_{\alpha_3=0}^{\infty} 5^{-\alpha_3 s} \right) \cdots $$
+
+\subsection{Aplicación del Teorema Fundamental}
+
+Dado que la serie converge absolutamente para $\Re(s) > 1$, las propiedades de las series absolutamente convergentes permiten expandir este producto infinito y reagrupar los términos sin alterar la suma.
+
+Al multiplicar las series, cada término resultante en la expansión es de la forma:
+$$ (2^{\alpha_1} 3^{\alpha_2} 5^{\alpha_3} \cdots)^{-s} $$
+
+Por el Teorema Fundamental de la Aritmética, la expresión $n = 2^{\alpha_1} 3^{\alpha_2} 5^{\alpha_3} \cdots$ genera biyectivamente cada entero positivo $n \geq 1$ exactamente una vez, al variar los exponentes $\alpha_i \geq 0$ (donde todos menos un número finito de $\alpha_i$ son cero).
+
+En consecuencia, la suma de todos los términos generados por la expansión del producto es exactamente la suma sobre todos los enteros positivos:
+$$ \prod_{p \text{ prime}} \left(1 - p^{-s}\right)^{-1} = \sum_{n=1}^{\infty} n^{-s} = \zeta(s) $$
+
+\section{Condiciones de Convergencia}
+
+Es imperativo señalar que la manipulación algebraica que permite intercambiar el producto infinito por la suma infinita requiere convergencia absoluta.
+
+\begin{itemize}
+    \item Para $\Re(s) > 1$, la serie $\sum n^{-\sigma}$ converge, lo que garantiza que el producto $\prod (1 - p^{-\sigma})^{-1}$ también converge absolutamente.
+    \item En esta región, la reordenación de los términos está analíticamente justificada, validando la equivalencia entre la suma de Dirichlet y el producto de Euler.
+\end{itemize}
+
+Esta identidad demuestra analíticamente que la función $\zeta(s)$ no posee ceros en el semiplano $\Re(s) > 1$, ya que el producto de Euler está compuesto por términos no nulos y converge absolutamente en dicha región.
+
+\end{document}

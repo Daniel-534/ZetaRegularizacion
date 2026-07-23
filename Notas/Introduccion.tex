@@ -1412,57 +1412,71 @@ Por otro lado, si $z_0 \in S$ pero $z_0$ \textit{no} es un punto de acumulación
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[>=Latex,scale=0.93]
-  \begin{scope}[shift={(-3.75,0.2)}]
-    \node[font=\small,epsgreen!55!black] at (2.45,2.65)
-      {\textbf{Punto de acumulación}};
-    \draw[->,thick] (-0.35,0) -- (5.35,0) node[right] {$\operatorname{Re}z$};
-    \draw[->,thick] (0,-2.2) -- (0,2.3) node[above] {$\operatorname{Im}z$};
+\begin{tikzpicture}[>=Latex,scale=0.94]
+  \node[font=\small] at (4.2,2.75)
+    {\textbf{Un mismo conjunto con acumulación y un punto aislado}};
 
-    \coordinate (z0) at (2.45,0.15);
-    \fill[epsgreen!5] (z0) circle (1.85);
-    \fill[epsgreen!8] (z0) circle (1.25);
-    \fill[epsgreen!13] (z0) circle (0.68);
-    \draw[epsgreen!45,dashed,thick] (z0) circle (1.85);
-    \draw[epsgreen!60!black,dashed,thick] (z0) circle (1.25);
-    \draw[epsgreen!75!black,dashed,very thick] (z0) circle (0.68);
+  \draw[->,thick] (-0.45,0) -- (8.25,0) node[right] {$\operatorname{Re}z$};
+  \draw[->,thick] (0,-2.2) -- (0,2.35);
+  \node[rotate=90,font=\small] at (-0.34,1.25) {$\operatorname{Im}z$};
 
-    \foreach \ang/\dist in {160/2.15,125/1.65,205/1.45,75/1.05,235/0.82,25/0.57,300/0.4,145/0.25}
-      \fill[seqorange] ($(z0)+(\ang:\dist)$) circle (2.5pt);
+  \coordinate (z0) at (2.55,0.25);
+  \coordinate (p) at (6.65,0.75);
 
-    \fill[white] (z0) circle (4.2pt);
-    \draw[red!75!black,very thick] (z0) circle (4.2pt);
-    \node[below right,font=\small,red!70!black] at (z0) {$z_0$};
-    \node[align=center,font=\scriptsize,epsgreen!55!black] at (2.45,-2.0)
-      {por pequeño que sea $\epsilon$,\\$N_\epsilon^*(z_0)\cap S\neq\emptyset$};
-  \end{scope}
+  % Parte no aislada A del conjunto S
+  \fill[limitblue!12]
+    (0.65,-1.25) .. controls (0.35,-0.15) and (0.65,1.65) .. (2.0,2.05)
+    .. controls (3.45,2.45) and (4.85,1.35) .. (4.65,-0.15)
+    .. controls (4.35,-1.45) and (1.75,-1.7) .. (0.65,-1.25) -- cycle;
+  \draw[limitblue,very thick]
+    (0.65,-1.25) .. controls (0.35,-0.15) and (0.65,1.65) .. (2.0,2.05)
+    .. controls (3.45,2.45) and (4.85,1.35) .. (4.65,-0.15)
+    .. controls (4.35,-1.45) and (1.75,-1.7) .. (0.65,-1.25);
+  \node[limitblue,font=\large] at (1.15,1.55) {$A$};
+  \node[limitblue,font=\scriptsize,align=center] at (2.65,1.72)
+    {parte acumulada\\de $S$};
 
-  \draw[very thick,gray!55] (0,-2.35) -- (0,2.65);
+  \foreach \x/\y in {0.95/0.35,1.25/-0.75,1.45/1.05,1.8/-1.2,1.95/0.65,2.15/-0.45,2.35/1.2,2.4/-0.9,2.75/0.9,2.85/-0.25,3.1/0.45,3.3/-0.75,3.55/1.05,3.75/0.15,4.0/-0.45}
+    \fill[limitblue] (\x,\y) circle (2.2pt);
 
-  \begin{scope}[shift={(3.75,0.2)}]
-    \node[font=\small,seqorange!85!black] at (2.45,2.65)
-      {\textbf{Punto aislado}};
-    \draw[->,thick] (-0.35,0) -- (5.35,0) node[right] {$\operatorname{Re}z$};
-    \draw[->,thick] (0,-2.2) -- (0,2.3) node[above] {$\operatorname{Im}z$};
+  % Entorno reducido alrededor del punto de acumulación z0
+  \fill[epsgreen!11,even odd rule] (z0) circle (1.05) (z0) circle (0.09);
+  \draw[epsgreen!65!black,very thick,dashed] (z0) circle (1.05);
+  \fill[white] (z0) circle (4.2pt);
+  \draw[red!75!black,very thick] (z0) circle (4.2pt);
+  \node[below right,font=\small,red!70!black] at (z0) {$z_0$};
+  \node[epsgreen!55!black,font=\scriptsize] at (3.45,1.15)
+    {$N_\epsilon^*(z_0)$};
 
-    \coordinate (p) at (2.45,0.15);
-    \fill[seqorange!7] (p) circle (1.25);
-    \draw[seqorange!85!black,dashed,very thick] (p) circle (1.25);
+  \foreach \ang/\dist in {25/0.7,72/0.48,145/0.75,210/0.62,285/0.45,335/0.82}
+    \fill[seqorange] ($(z0)+(\ang:\dist)$) circle (2.5pt);
 
-    \foreach \ang/\dist in {20/1.75,65/1.95,135/1.7,195/1.85,245/1.65,315/1.8}
-      \fill[limitblue] ($(p)+(\ang:\dist)$) circle (2.5pt);
+  \draw[->,thick,epsgreen!65!black] (3.55,-1.28) -- ($(z0)+(285:0.45)$);
+  \node[align=center,font=\scriptsize,epsgreen!55!black] at (2.45,-1.72)
+    {$N_\epsilon^*(z_0)\cap S\neq\emptyset$\\
+     $\Longrightarrow\ z_0\in S'$};
 
-    \fill[seqorange] (p) circle (3.2pt);
-    \node[below right,font=\small,seqorange!85!black] at (p) {$p\in S$};
-    \node[align=center,font=\scriptsize,seqorange!85!black] at (2.45,-2.0)
-      {existe $\epsilon>0$ tal que\\$N_\epsilon^*(p)\cap S=\emptyset$};
-  \end{scope}
+  % Punto aislado p, separado de la parte A pero perteneciente a S
+  \fill[seqorange!10,even odd rule] (p) circle (0.92) (p) circle (0.09);
+  \draw[seqorange!85!black,very thick,dashed] (p) circle (0.92);
+  \fill[seqorange] (p) circle (3.5pt);
+  \node[above right,font=\small,seqorange!85!black] at (p) {$p\in S$};
+  \node[seqorange!85!black,font=\scriptsize] at (6.65,-0.48)
+    {$N_\delta^*(p)$};
+
+  \draw[<->,thick,gray!65] (4.7,0.75) -- (5.7,0.75)
+    node[midway,above,font=\scriptsize,align=center]
+    {separación\\positiva};
+
+  \node[align=center,font=\scriptsize,seqorange!85!black] at (6.65,-1.15)
+    {$N_\delta^*(p)\cap S=\emptyset$\\
+     $\Longrightarrow\ p\notin S'$};
 
   \node[draw,rounded corners,very thick,limitblue,fill=limitblue!6,
-    align=center,text width=12.2cm,inner sep=7pt] at (0,-3.05)
-    {El conjunto derivado $S'$ conserva los puntos de acumulación y descarta los puntos aislados de $S$.};
+    align=center,text width=12.3cm,inner sep=7pt] at (4.0,-2.65)
+    {$S=A\cup\{p\}$: el punto $p$ está fuera de la parte acumulada $A$, pero pertenece a $S$; por eso puede ser un punto aislado de $S$.};
 \end{tikzpicture}
-\caption{Contraste local entre un punto de acumulación y un punto aislado: la diferencia está en la existencia de un entorno reducido vacío.}
+\caption{En el conjunto $S=A\cup\{p\}$, el disco perforado alrededor de $z_0$ siempre encuentra puntos de $S$, mientras que existe un disco perforado alrededor de $p$ que no contiene ningún otro punto de $S$.}
 \end{figure}
 
 \subsection*{Relevancia en Análisis Complejo y Teoría de Números}

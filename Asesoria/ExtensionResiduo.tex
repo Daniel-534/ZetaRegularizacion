@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, geometry}
+\usepackage{parskip}
+
+\geometry{a4paper, margin=2cm}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\title{Estudio Analítico del Producto Zeta-Regularizado en el Caso Singular}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{El Producto Zeta-Regularizado y el Caso Regular}
+
+El problema de asignar un valor finito a un producto infinito de números complejos $\Lambda = {(\lambda_n)}_{n=1}^{\infty}$ que crecen asintóticamente se aborda mediante la Zeta-Regularización. El punto de partida es la construcción de la función zeta espectral asociada a la secuencia, definida inicialmente en su semiplano de convergencia absoluta como la serie de Dirichlet:
+
+\[
+\zeta_\Lambda(s) = \sum_{n=1}^{\infty} \lambda_n^{-s}
+\]
+
+A través de la continuación analítica, asumimos que $\zeta_\Lambda(s)$ puede ser extendida a una región que incluye el origen $s=0$. 
+
+\subsection{La Definición Estándar}
+
+Si la continuación meromorfa de $\zeta_\Lambda(s)$ es holomorfa (regular) en $s=0$, la definición del producto zeta-regularizado surge de manera natural al relacionar la derivada de la función zeta con la suma de los logaritmos. Formalmente, se define:
+
+\[
+\prod_{n=1}^{\infty} \lambda_n := \exp\left(-\zeta_\Lambda'(0)\right)
+\]
+
+En este escenario regular, la evaluación de la derivada en el origen no presenta ninguna anomalía analítica, y el producto queda rigurosamente determinado.
+
+\section{El Caso Singular: Polo en el Origen}
+
+Sin embargo, en múltiples aplicaciones de la geometría espectral y la teoría analítica de números, la continuación analítica de $\zeta_\Lambda(s)$ no es holomorfa en $s=0$, sino que presenta una singularidad, específicamente un polo. 
+
+Cuando $s=0$ es un polo, la derivada clásica $\zeta_\Lambda'(0)$ diverge y la fórmula estándar $\exp(-\zeta_\Lambda'(0))$ colapsa, volviéndose inaplicable. Para resolver esta obstrucción analítica, se requiere una generalización del formalismo que permita extraer la información finita subyacente, descartando la parte divergente.
+
+\subsection{Definición Generalizada mediante el Operador de Término Lineal}
+
+Para el caso en que $\zeta_\Lambda(s)$ posee un polo en $s=0$, se define el producto regularizado (a menudo denominado producto \textit{ddotted} en la literatura especializada) utilizando el operador de extracción del término lineal, denotado como $LT_{s=0}$. 
+
+La definición formal establece que:
+
+\[
+\prod_{n=1}^{\infty} \lambda_n := \exp\left(-LT_{s=0} \zeta_\Lambda(s)\right)
+\]
+
+Donde el término lineal se extrae analíticamente mediante el residuo de la función zeta dividida por $s^2$:
+
+\[
+LT_{s=0} \zeta_\Lambda(s) := \operatorname{Res}_{s=0} \frac{\zeta_\Lambda(s)}{s^2}
+\]
+
+\section{Planteamiento del Problema Analítico}
+
+Esta definición generalizada nos lleva a una pregunta fundamental sobre la consistencia del formalismo: 
+
+¿Por qué es matemáticamente válido tomar el residuo de $\frac{\zeta_\Lambda(s)}{s^2}$ en $s=0$ como la continuación analítica legítima de la operación $\zeta_\Lambda'(0)$ cuando la función original tiene un polo en el origen? 
+
+Para responder a esta inquietud, no debemos ver el residuo como un truco algebraico aislado, sino como la manifestación de la mecánica de las series de Laurent. A continuación, se guía la justificación analítica de esta equivalencia.
+
+\section{Justificación mediante Series de Laurent}
+
+Supongamos que $\zeta_\Lambda(s)$ tiene un polo de orden $k$ en $s=0$. Su comportamiento local está completamente descrito por su expansión en serie de Laurent en un entorno puncturado del origen:
+
+\[
+\zeta_\Lambda(s) = \frac{a_{-k}}{s^k} + \frac{a_{-k+1}}{s^{k-1}} + \cdots + \frac{a_{-1}}{s} + a_0 + a_1 s + a_2 s^2 + \cdots
+\]
+
+En el caso regular (holomorfo), $k=0$ (no hay parte principal), y la serie se reduce a una serie de Taylor. En ese caso, es un resultado elemental del cálculo que la derivada evaluada en el origen es exactamente el coeficiente que acompaña a $s^1$:
+
+\[
+\zeta_\Lambda'(0) = a_1
+\]
+
+El desafío es demostrar que la operación $\operatorname{Res}_{s=0} \frac{\zeta_\Lambda(s)}{s^2}$ extrae exactamente este mismo coeficiente $a_1$, independientemente de si existen términos con potencias negativas (el polo).
+
+\begin{enumerate}
+    \item Construya la función auxiliar dividiendo la serie de Laurent completa entre $s^2$:
+    \[
+    \frac{\zeta_\Lambda(s)}{s^2} = \frac{a_{-k}}{s^{k+2}} + \cdots + \frac{a_{-1}}{s^3} + \frac{a_0}{s^2} + \frac{a_1}{s} + a_2 + a_3 s + \cdots
+    \]
+    \item Recuerde la definición analítica de residuo en $s=0$: es el coeficiente que acompaña al término $\frac{1}{s}$ en la expansión de Laurent de la función.
+    \item Inspeccione la serie resultante. Al dividir cada término original por $s^2$, el término lineal original $a_1 s$ se desplaza exactamente a $\frac{a_1}{s}$. 
+\end{enumerate}
+
+A partir de esta inspección, el lector puede confirmar que la operación de dividir por $s^2$ actúa como un filtro algebraico que desplaza todas las potencias dos grados hacia abajo, haciendo que el término lineal $a_1$ se convierta en el único término que contribuye al residuo, aislando $a_1$ y descartando tanto la parte principal (divergencias) como el término constante.
+
+\section{Ejemplo Ilustrativo: Secuencia con Polo en el Origen}
+
+Para solidificar esta justificación, analizaremos el caso particular desarrollado en la literatura (Sección 1.2.3), donde se construye una secuencia $\Lambda$ cuya función de conteo espectral genera deliberadamente un polo simple en el origen.
+
+\subsection{Construcción de la Función Zeta}
+
+Definimos la función de conteo espectral como:
+\[
+N(x) = x + \log x + c
+\]
+donde $c$ es una constante real. Utilizando la transformada de Mellin-Stieltjes para $\Re(s) > 1$:
+
+\[
+\zeta_\Lambda(s) = s \int_1^{\infty} N(x) x^{-s-1} \, dx = s \int_1^{\infty} (x + \log x + c) x^{-s-1} \, dx
+\]
+
+Al evaluar las integrales por separado, obtenemos la continuación meromorfa explícita:
+\[
+\zeta_\Lambda(s) = \frac{s}{s-1} + \frac{1}{s} + c
+\]
+
+Es evidente que el término $\frac{1}{s}$ indica que $\zeta_\Lambda(s)$ tiene un polo simple en $s=0$.
+
+\subsection{Expansión de Laurent y Verificación del Formalismo}
+
+Para aplicar la fórmula generalizada, debemos expandir $\zeta_\Lambda(s)$ en serie de Laurent alrededor de $s=0$. 
+
+\begin{enumerate}
+    \item Analice el término racional $\frac{s}{s-1}$. Factorizando un signo negativo en el denominador, puede reescribirse como $-s{(1-s)}^{-1}$. Utilizando la serie geométrica para ${(1-s)}^{-1}$, obtenga la expansión de este término alrededor de $s=0$.
+    \item Ensamble la expansión completa de $\zeta_\Lambda(s)$ sumando la serie obtenida en el paso anterior con los términos $\frac{1}{s}$ y $c$.
+    \item Identifique explícitamente los coeficientes de la serie de Laurent resultante: el residuo del polo ($a_{-1}$), el término constante ($a_0$), y el término lineal ($a_1$).
+    \item Construya la función $\frac{\zeta_\Lambda(s)}{s^2}$ dividiendo término a término su expansión de Laurent.
+    \item Extraiga el residuo de esta nueva función en $s=0$ (el coeficiente de $1/s$). 
+\end{enumerate}
+
+Al completar estos pasos, el lector podrá verificar de manera directa que el residuo extraído mediante $\operatorname{Res}_{s=0} \frac{\zeta_\Lambda(s)}{s^2}$ coincide numérica y analíticamente con el coeficiente lineal $a_1$ de la expansión original de $\zeta_\Lambda(s)$. Esto confirma que el operador $LT_{s=0}$ no es más que la continuación analítica robusta de la derivada en el origen, validando plenamente la definición del producto regularizado en el caso singular.
+
+\end{document}

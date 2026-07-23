@@ -1,0 +1,1421 @@
+\documentclass[11pt]{article}
+
+% Configuración general
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% Matemáticas y estructura
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows.meta,babel,backgrounds,calc,decorations.pathreplacing,fit,positioning}
+\usepackage{placeins}
+\usepackage{hyperref}
+
+\definecolor{azulprofundo}{HTML}{173B57}
+\definecolor{azulclaro}{HTML}{EAF2F7}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=azulprofundo,
+  urlcolor=azulprofundo,
+  pdftitle={Teoría emergente desde la autorrecurrencia}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65\baselineskip}
+\setlist{itemsep=0.25em,topsep=0.35em}
+\setcounter{tocdepth}{2}
+\numberwithin{equation}{section}
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.8em}}
+\makeatother
+
+\newtheoremstyle{prism}
+  {0.7em}{0.7em}{\normalfont}{}%
+  {\color{azulprofundo}\bfseries}{.}{0.5em}{}
+\theoremstyle{prism}
+\newtheorem{axioma}{Axioma}
+\newtheorem{definicion}{Definición}
+\newtheorem{regla}{Regla}
+\newtheorem{observacion}{Observación}
+\newtheorem{axiomacap}{Axioma}
+\newtheorem{defcap}{Definición}
+
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\raiz}{\rho_{\!*}}
+\newcommand{\iter}[2]{#1^{[#2]}}
+\newcommand{\peq}{\simeq_{\!r}}
+\newcommand{\pentails}{\Rightarrow_{\!r}}
+\newcommand{\pneg}{\neg_{\!r}}
+\newcommand{\inestable}{\bot_{\!r}}
+\newcommand{\Proto}[1]{\boldsymbol{\Xi}_{#1}}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\Con}{Con}
+\DeclareMathOperator{\per}{per}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\Cl}{Cl}
+
+\newcommand{\capitulo}[2]{%
+  \clearpage
+  \phantomsection
+  \addcontentsline{toc}{part}{#1: #2}%
+  \begin{center}
+    {\color{azulprofundo}\Large\bfseries #1\par}
+    \vspace{0.35em}
+    {\huge\bfseries #2\par}
+  \end{center}
+  \vspace{1.2em}
+}
+
+\title{\textcolor{azulprofundo}{\bfseries
+Teoría emergente desde la autorrecurrencia}\\[0.4em]
+\large Una propuesta protoaxiomática}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\vspace{-2.5em}
+
+\begin{abstract}
+Se propone la autorrecurrencia como mecanismo primitivo para la emergencia de
+identidad, estructura y relaciones. A partir de una operación de autoaplicación
+se introducen las nociones de protoforma, universo emergente, dimensión,
+distancia, aritmética y topología protoestructurales. El objetivo del texto es
+organizar estas ideas en un lenguaje matemático uniforme y desarrollar sus
+primeras consecuencias fundacionales. Las relaciones de
+equivalencia, contención estable y convergencia se consideran primitivas mientras
+no se especifique un modelo concreto que las realice.
+\end{abstract}
+
+\newpage
+\begingroup
+\small
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+\newpage
+
+\phantomsection
+\addcontentsline{toc}{part}{Introducción y marco protoaxiomático}
+
+\section{Preliminares y convención de notación}
+
+Sea $\F$ una clase de \emph{formas} dotada de una operación parcial de
+aplicación
+\[
+  (\varphi,\psi)\longmapsto \varphi(\psi).
+\]
+Cuando las aplicaciones correspondientes estén definidas, la iteración
+autorrecursiva de $\varphi$ se denota por
+\begin{equation}
+  \iter{\varphi}{0}=\varphi,
+  \qquad
+  \iter{\varphi}{n+1}=\varphi\bigl(\iter{\varphi}{n}\bigr),
+  \qquad n\in\N.
+  \label{eq:iteracion}
+\end{equation}
+La relación $\varphi\peq\psi$ significa que ambas formas son
+estructuralmente equivalentes bajo recurrencia. No se exige que sean
+literalmente el mismo objeto.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{>{$}c<{$} p{0.67\textwidth}}
+\toprule
+\text{Símbolo} & \textbf{Significado} \\
+\midrule
+\F & Clase de formas sobre la que se define la aplicación. \\
+\iter{\varphi}{n} & Iteración autorrecursiva de orden $n$. \\
+\varphi\peq\psi & Equivalencia estructural bajo recurrencia. \\
+\varphi\pentails\psi & $\psi$ conserva de manera estable la estructura de $\varphi$. \\
+\Orb(\varphi) & Órbita autorrecursiva generada por $\varphi$. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Protoaxioma fundamental}
+
+\setcounter{axioma}{-1}
+\begin{axioma}[Existencia emergente]
+Existe una raíz autorrecursiva distinguida $\raiz\in\F$, entendida como el
+generador primitivo de la teoría, tal que
+\begin{equation}
+  \raiz(\raiz)\peq\raiz.
+  \label{eq:raiz}
+\end{equation}
+La raíz se determina mediante su propia acción y no mediante una estructura
+externa previamente dada.
+\end{axioma}
+
+La autorrecurrencia se adopta como el mecanismo mínimo e irreductible por el
+que puede emerger una estructura estable. La unicidad de $\raiz$ se refiere a
+su papel fundacional, no a que todas las formas de $\F$ sean idénticas.
+
+\section{Protológica emergente}
+
+La lógica de la teoría no se presupone como una estructura completamente
+formada. Se expresa inicialmente mediante las siguientes relaciones:
+
+\begin{description}[style=nextline,leftmargin=1.8em]
+  \item[Afirmación autorrecursiva.]
+  $\mathsf{A}_r(\varphi)$ afirma que la recurrencia de $\varphi$ preserva su
+  identidad; en particular,
+  \[
+    \mathsf{A}_r(\varphi)
+    \quad\Longleftrightarrow\quad
+    \varphi(\varphi)\peq\varphi.
+  \]
+
+  \item[Negación protoformal.]
+  $\pneg\varphi$ indica que la órbita de $\varphi$ no alcanza una forma estable.
+  No representa necesariamente la negación clásica.
+
+  \item[Implicación emergente.]
+  Se escribe $\varphi\pentails\psi$ cuando $\psi$ contiene o reproduce de
+  manera estable la estructura recurrente de $\varphi$.
+\end{description}
+
+En este nivel no se impone el principio del tercero excluido. Puede existir un
+estado intermedio en el que una recurrencia todavía no se haya estabilizado ni
+haya mostrado que no puede hacerlo.
+
+\section{Protoformas y estabilidad}
+
+\begin{definicion}[Protoforma]
+Una forma $\varphi\in\F$ es una \emph{protoforma} si su órbita autorrecursiva
+conserva una identidad estructural. Es decir, existen $N\in\N$ y
+$p\in\N_{>0}$ tales que
+\begin{equation}
+  \iter{\varphi}{n+p}\peq\iter{\varphi}{n}
+  \qquad\text{para todo }n\geq N.
+  \label{eq:protoforma}
+\end{equation}
+\end{definicion}
+
+El caso particular $p=1$ describe un punto fijo estructural:
+\[
+  \varphi(\varphi)\peq\varphi.
+\]
+De este modo, la afirmación de que una protoforma es ``su propia causa y
+consecuencia'' se interpreta como cierre de su órbita, no como causalidad en
+sentido temporal.
+
+La condición de periodicidad eventual puede visualizarse como un diagrama
+conmutativo. Si $T_{\varphi}(x)=\varphi(x)$, las flechas horizontales de la
+Figura~\ref{fig:diagrama-protoforma} representan aplicaciones sucesivas de
+$T_{\varphi}$, mientras que las flechas verticales identifican estados
+equivalentes separados por un período $p$.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzcd}[
+    column sep=3.3em,
+    row sep=3.2em,
+    cells={nodes={font=\small}}
+  ]
+    \iter{\varphi}{N}
+      \arrow[r,"T_{\varphi}"]
+      \arrow[d,dashed,"{\simeq_r}"']
+    & \iter{\varphi}{N+1}
+      \arrow[r,"T_{\varphi}"]
+      \arrow[d,dashed,"{\simeq_r}"']
+    & \cdots
+      \arrow[r,"T_{\varphi}"]
+      \arrow[d,dashed,"{\simeq_r}"']
+    & \iter{\varphi}{N+p}
+      \arrow[d,dashed,"{\simeq_r}"']
+    \\
+    \iter{\varphi}{N+p}
+      \arrow[r,"T_{\varphi}"']
+    & \iter{\varphi}{N+p+1}
+      \arrow[r,"T_{\varphi}"']
+    & \cdots
+      \arrow[r,"T_{\varphi}"']
+    & \iter{\varphi}{N+2p}
+  \end{tikzcd}
+  \caption{Diagrama conmutativo de la periodicidad eventual. Cada cuadrado
+  expresa que aplicar $T_{\varphi}$ es compatible con la equivalencia
+  recurrente $\simeq_r$.}
+  \label{fig:diagrama-protoforma}
+\end{figure}
+
+Otra manera de entender la misma situación consiste en separar una fase
+transitoria y un atractor recurrente. La Figura~\ref{fig:atractor-protoforma}
+muestra cómo las primeras iteraciones pueden cambiar de estructura hasta entrar
+en un ciclo estable; desde ese momento, la evolución no tiene que permanecer
+inmóvil, pero sí repite su patrón tras $p$ aplicaciones.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    transitorio/.style={
+      circle,draw=azulprofundo!65,fill=white,thick,minimum size=8.5mm
+    },
+    estable/.style={
+      circle,draw=azulprofundo,fill=azulclaro,very thick,minimum size=10mm
+    },
+    flujo/.style={->,thick,draw=azulprofundo!75},
+    ciclo/.style={->,very thick,draw=azulprofundo}
+  ]
+    \begin{scope}[on background layer]
+      \fill[azulclaro!38] (2.65,0) circle[radius=2.15];
+      \draw[azulprofundo!28,dashed,thick]
+        (2.65,0) circle[radius=2.15];
+      \draw[azulprofundo!16,densely dotted]
+        (2.65,0) circle[radius=1.55];
+    \end{scope}
+
+    \node[transitorio] (x0) at (-4.8,0.15) {$\iter{\varphi}{0}$};
+    \node[transitorio] (x1) at (-3.65,0.85) {$\iter{\varphi}{1}$};
+    \node (xd) at (-2.65,0.55) {$\cdots$};
+    \node[transitorio] (xn) at (-1.55,1.2) {$\iter{\varphi}{N-1}$};
+
+    \node[estable] (c0) at (1.25,1.35) {$\iter{\varphi}{N}$};
+    \node[estable] (c1) at (3.95,1.35) {$\iter{\varphi}{N+1}$};
+    \node[estable] (cd) at (4.35,-0.85) {$\cdots$};
+    \node[estable] (cp) at (1.05,-0.95) {$\iter{\varphi}{N+p-1}$};
+    \node[align=center,text=azulprofundo] at (2.65,0.05)
+      {\bfseries atractor recurrente\\[-0.15em]período $p$};
+
+    \draw[flujo] (x0) to[bend left=13] node[above] {$T_{\varphi}$} (x1);
+    \draw[flujo] (x1) -- (xd);
+    \draw[flujo] (xd) -- (xn);
+    \draw[flujo] (xn) to[bend left=10] node[above] {$T_{\varphi}$} (c0);
+
+    \draw[ciclo] (c0) to[bend left=18] node[above] {$T_{\varphi}$} (c1);
+    \draw[ciclo] (c1) to[bend left=16] (cd);
+    \draw[ciclo] (cd) to[bend left=18] (cp);
+    \draw[ciclo] (cp) to[bend left=22]
+      node[left] {$T_{\varphi}$} (c0);
+
+    \node[above=0.55em of x1,text=azulprofundo!80]
+      {fase transitoria};
+    \draw[decorate,decoration={brace,amplitude=4pt},azulprofundo!55]
+      (-5.25,-0.55) -- (-1.15,-0.55)
+      node[midway,below=0.45em,text=azulprofundo!75]
+      {cambios antes de la estabilización};
+  \end{tikzpicture}
+  \caption{Representación de una órbita eventualmente periódica. Tras una
+  etapa transitoria, las iteraciones entran en un ciclo estructural de período
+  $p$.}
+  \label{fig:atractor-protoforma}
+\end{figure}
+
+\FloatBarrier
+\section{Universos emergentes}
+
+\begin{axioma}[Universalidad emergente]
+Un universo emergente $\U\subseteq\F$ es una colección no vacía de
+protoformas que posee relaciones internas estables y está cerrada bajo las
+aplicaciones que se encuentren definidas dentro de ella:
+\begin{equation}
+  \varphi,\psi\in\U
+  \quad\text{y}\quad
+  \varphi(\psi)\text{ definida}
+  \quad\Longrightarrow\quad
+  \varphi(\psi)\in\U.
+  \label{eq:universo}
+\end{equation}
+\end{axioma}
+
+Un universo no presupone dimensión espacial, cantidad ni geometría. Estas
+propiedades, si aparecen, deben obtenerse de las relaciones recurrentes entre
+sus protoformas.
+
+La Figura~\ref{fig:universo-emergente} ofrece una representación esquemática de
+esta idea. La frontera de $\U$ no debe interpretarse como un borde espacial:
+simboliza que las relaciones y aplicaciones internas no producen formas ajenas
+al universo. En particular, si $\varphi,\psi\in\U$, entonces el resultado
+$\varphi(\psi)$ permanece en $\U$ siempre que la aplicación esté definida.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    forma/.style={
+      circle,draw=azulprofundo,fill=white,very thick,minimum size=10mm
+    },
+    resultado/.style={
+      rounded corners=3pt,draw=azulprofundo,fill=azulclaro,
+      very thick,minimum width=16mm,minimum height=9mm
+    },
+    operador/.style={
+      circle,draw=azulprofundo!80,fill=azulprofundo!8,
+      thick,minimum size=8mm
+    },
+    relacion/.style={->,thick,draw=azulprofundo!62},
+    aplicacion/.style={->,very thick,draw=azulprofundo}
+  ]
+    \begin{scope}[on background layer]
+      \fill[azulclaro!34] (0,0) ellipse[x radius=6.15cm,y radius=2.75cm];
+      \draw[azulprofundo,very thick]
+        (0,0) ellipse[x radius=6.15cm,y radius=2.75cm];
+      \draw[azulprofundo!25,dashed]
+        (0,0) ellipse[x radius=5.75cm,y radius=2.35cm];
+    \end{scope}
+
+    \node[anchor=west,text=azulprofundo] at (-5.7,2.3)
+      {$\boldsymbol{\mathcal U}$: universo emergente};
+
+    \node[forma] (phi) at (-4.25,0.8) {$\varphi$};
+    \node[forma] (psi) at (-2.25,1.65) {$\psi$};
+    \node[forma] (chi) at (0.65,1.7) {$\chi$};
+    \node[forma] (eta) at (3.55,1.0) {$\eta$};
+    \node[forma] (omega) at (4.15,-1.05) {$\omega$};
+
+    \node[operador] (ap) at (-1.85,0.05) {$\mathrm{ap}$};
+    \node[resultado] (res) at (0.25,-1.35) {$\varphi(\psi)$};
+
+    \draw[aplicacion] (phi) to[bend right=12]
+      node[below left] {forma activa} (ap);
+    \draw[aplicacion] (psi) to[bend left=10]
+      node[right] {argumento} (ap);
+    \draw[aplicacion] (ap) to[bend right=8]
+      node[below left] {aplicación} (res);
+
+    \draw[relacion] (psi) to[bend left=12]
+      node[above] {$\pentails$} (chi);
+    \draw[relacion] (chi) to[bend left=10]
+      node[above] {$\pentails$} (eta);
+    \draw[relacion] (eta) to[bend left=15] (omega);
+    \draw[relacion] (omega) to[bend left=13]
+      node[below] {$\peq$} (res);
+    \draw[relacion] (res) to[bend left=16]
+      node[below] {$\pentails$} (phi);
+
+    \draw[relacion] (chi) to[loop above,min distance=13mm]
+      node[above] {$T_{\chi}$} (chi);
+    \draw[relacion] (omega) to[loop right,min distance=12mm]
+      node[right] {$T_{\omega}$} (omega);
+
+    \node[align=center,text=azulprofundo!85] at (2.0,-0.15)
+      {red interna de\\relaciones estables};
+    \node[align=center,text=azulprofundo] at (-1.0,-2.25)
+      {\bfseries clausura: ninguna aplicación definida sale de $\mathcal U$};
+  \end{tikzpicture}
+  \caption{Visualización de un universo emergente. Las protoformas forman una
+  red de recurrencias internas y la aplicación de $\varphi$ a $\psi$ produce
+  otra forma $\varphi(\psi)$ perteneciente al mismo universo.}
+  \label{fig:universo-emergente}
+\end{figure}
+
+\FloatBarrier
+\section{Dimensión como recurrencia}
+
+\begin{definicion}[Dimensión protoestructural]
+Para una protoforma $\varphi$, su dimensión protoestructural es el menor
+período estable de su órbita:
+\begin{equation}
+  \mathcal{D}(\varphi)
+  =\min\Bigl\{p\in\N_{>0}:\exists N\in\N\quad
+  \forall n\geq N,
+  \iter{\varphi}{n+p}\peq\iter{\varphi}{n}\Bigr\}.
+  \label{eq:dimension}
+\end{equation}
+Si la órbita no se estabiliza periódicamente, se escribe
+$\mathcal{D}(\varphi)=\infty$.
+\end{definicion}
+
+Esta dimensión cuenta ciclos internos de recurrencia; no mide longitudes,
+áreas ni volúmenes. La formulación evita que la definición sea trivial por el
+mero hecho de que $\iter{\varphi}{0}=\varphi$.
+
+La Figura~\ref{fig:dimension-recurrente} presenta tres ``relojes recurrentes''.
+La dimensión es el número mínimo de aplicaciones necesarias para regresar a
+una clase estructural equivalente una vez alcanzado el régimen estable. Por
+ello, un punto fijo tiene dimensión $1$, mientras que una oscilación entre dos o
+tres estados tiene dimensión $2$ o $3$, respectivamente.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    estado/.style={
+      circle,draw=azulprofundo,fill=white,very thick,minimum size=11mm
+    },
+    paso/.style={->,very thick,draw=azulprofundo}
+  ]
+    % Dimensión uno
+    \begin{scope}[shift={(-4.6,0)}]
+      \fill[azulclaro!38,rounded corners=7pt]
+        (-1.8,-2.0) rectangle (1.8,2.0);
+      \draw[azulprofundo!35,rounded corners=7pt,thick]
+        (-1.8,-2.0) rectangle (1.8,2.0);
+      \node[text=azulprofundo,font=\bfseries] at (0,1.55)
+        {$\mathcal D(\varphi)=1$};
+      \node[estado] (a) at (0,0.25) {$\iter{\varphi}{N}$};
+      \draw[paso] (a) to[loop right,min distance=17mm]
+        node[right] {$T_{\varphi}$} (a);
+      \node[align=center,text=azulprofundo!85] at (0,-1.35)
+        {punto fijo\\retorno en un paso};
+    \end{scope}
+
+    % Dimensión dos
+    \begin{scope}[shift={(0,0)}]
+      \fill[azulclaro!38,rounded corners=7pt]
+        (-1.8,-2.0) rectangle (1.8,2.0);
+      \draw[azulprofundo!35,rounded corners=7pt,thick]
+        (-1.8,-2.0) rectangle (1.8,2.0);
+      \node[text=azulprofundo,font=\bfseries] at (0,1.55)
+        {$\mathcal D(\varphi)=2$};
+      \node[estado] (b0) at (-0.85,0.25) {$\iter{\varphi}{N}$};
+      \node[estado] (b1) at (0.85,0.25) {$\iter{\varphi}{N+1}$};
+      \draw[paso] (b0) to[bend left=24]
+        node[above] {$T_{\varphi}$} (b1);
+      \draw[paso] (b1) to[bend left=24]
+        node[below] {$T_{\varphi}$} (b0);
+      \node[align=center,text=azulprofundo!85] at (0,-1.35)
+        {oscilación\\retorno en dos pasos};
+    \end{scope}
+
+    % Dimensión tres
+    \begin{scope}[shift={(4.6,0)}]
+      \fill[azulclaro!38,rounded corners=7pt]
+        (-1.8,-2.0) rectangle (1.8,2.0);
+      \draw[azulprofundo!35,rounded corners=7pt,thick]
+        (-1.8,-2.0) rectangle (1.8,2.0);
+      \node[text=azulprofundo,font=\bfseries] at (0,1.55)
+        {$\mathcal D(\varphi)=3$};
+      \node[estado] (c0) at (0,0.95) {$\iter{\varphi}{N}$};
+      \node[estado] (c1) at (1.0,-0.15) {$\iter{\varphi}{N+1}$};
+      \node[estado] (c2) at (-1.0,-0.15) {$\iter{\varphi}{N+2}$};
+      \draw[paso] (c0) to[bend left=13] (c1);
+      \draw[paso] (c1) to[bend left=13] (c2);
+      \draw[paso] (c2) to[bend left=13]
+        node[left] {$T_{\varphi}$} (c0);
+      \node[align=center,text=azulprofundo!85] at (0,-1.45)
+        {ciclo triple\\retorno en tres pasos};
+    \end{scope}
+
+    \draw[decorate,decoration={brace,amplitude=5pt},azulprofundo!55]
+      (-6.4,-2.3) -- (6.4,-2.3)
+      node[midway,below=0.5em,text=azulprofundo]
+      {la dimensión cuenta fases recurrentes, no direcciones espaciales};
+  \end{tikzpicture}
+  \caption{Ejemplos de dimensión protoestructural. El valor de
+  $\mathcal D(\varphi)$ es la longitud del ciclo estable mínimo, medida en
+  aplicaciones de $T_{\varphi}$.}
+  \label{fig:dimension-recurrente}
+\end{figure}
+
+\FloatBarrier
+\section{Métrica emergente}
+
+\begin{definicion}[Protodistancia]
+La protodistancia entre $\varphi,\psi\in\F$ es el primer nivel en el que sus
+órbitas confluyen estructuralmente:
+\begin{equation}
+  \delta(\varphi,\psi)
+  =\inf\Bigl\{n\in\N:
+  \iter{\varphi}{n}\peq\iter{\psi}{n}\Bigr\}.
+  \label{eq:distancia}
+\end{equation}
+Si no existe tal nivel, se define $\delta(\varphi,\psi)=\infty$.
+\end{definicion}
+
+La función $\delta$ cuantifica estabilidad compartida, no separación espacial.
+Para llamarla métrica en sentido estricto sería necesario demostrar, dentro de
+un modelo concreto, positividad, simetría y desigualdad triangular.
+
+La Figura~\ref{fig:protodistancia-confluencia} representa la protodistancia como
+un primer instante de sincronización. Las dos órbitas pueden recorrer estados
+estructuralmente distintos durante varios niveles; el valor
+$\delta(\varphi,\psi)=n_{*}$ se alcanza precisamente cuando sus iteraciones son
+equivalentes por primera vez.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    estadoA/.style={
+      circle,draw=azulprofundo,fill=azulclaro,very thick,minimum size=10mm
+    },
+    estadoB/.style={
+      circle,draw=azulprofundo!65,fill=white,thick,minimum size=10mm
+    },
+    evolucionA/.style={->,very thick,draw=azulprofundo},
+    evolucionB/.style={->,thick,draw=azulprofundo!62}
+  ]
+    \begin{scope}[on background layer]
+      \fill[azulclaro!48,rounded corners=7pt]
+        (2.25,-1.75) rectangle (4.45,1.75);
+      \draw[azulprofundo!35,dashed,rounded corners=7pt,thick]
+        (2.25,-1.75) rectangle (4.45,1.75);
+    \end{scope}
+
+    \node[text=azulprofundo,anchor=east] at (-5.65,0.9)
+      {\bfseries órbita de $\varphi$};
+    \node[text=azulprofundo!70,anchor=east] at (-5.65,-0.9)
+      {\bfseries órbita de $\psi$};
+
+    \node[estadoA] (p0) at (-5.1,0.9) {$\iter{\varphi}{0}$};
+    \node[estadoA] (p1) at (-2.4,0.9) {$\iter{\varphi}{1}$};
+    \node[estadoA] (p2) at (0.3,0.9) {$\iter{\varphi}{2}$};
+    \node[estadoA] (pn) at (3.35,0.9) {$\iter{\varphi}{n_{*}}$};
+
+    \node[estadoB] (q0) at (-5.1,-0.9) {$\iter{\psi}{0}$};
+    \node[estadoB] (q1) at (-2.4,-0.9) {$\iter{\psi}{1}$};
+    \node[estadoB] (q2) at (0.3,-0.9) {$\iter{\psi}{2}$};
+    \node[estadoB] (qn) at (3.35,-0.9) {$\iter{\psi}{n_{*}}$};
+
+    \draw[evolucionA] (p0) -- node[above] {$T_{\varphi}$} (p1);
+    \draw[evolucionA] (p1) -- node[above] {$T_{\varphi}$} (p2);
+    \draw[evolucionA] (p2) -- node[above] {$\cdots$} (pn);
+
+    \draw[evolucionB] (q0) -- node[below] {$T_{\psi}$} (q1);
+    \draw[evolucionB] (q1) -- node[below] {$T_{\psi}$} (q2);
+    \draw[evolucionB] (q2) -- node[below] {$\cdots$} (qn);
+
+    \draw[azulprofundo!35,densely dotted,thick]
+      (p0) -- node[right] {$\not\simeq_r$} (q0);
+    \draw[azulprofundo!35,densely dotted,thick]
+      (p1) -- node[right] {$\not\simeq_r$} (q1);
+    \draw[azulprofundo!35,densely dotted,thick]
+      (p2) -- node[right] {$\not\simeq_r$} (q2);
+    \draw[<->,azulprofundo,very thick,dashed]
+      (pn) -- node[right,fill=azulclaro!48,inner sep=2pt]
+      {$\simeq_r$} (qn);
+
+    \node[align=center,text=azulprofundo,anchor=south] at (3.35,1.78)
+      {\bfseries primera confluencia};
+    \node[align=center,text=azulprofundo] at (5.35,0)
+      {$\boxed{\delta(\varphi,\psi)=n_{*}}$};
+
+    \draw[->,azulprofundo!70,thick] (-5.55,-2.15) -- (4.65,-2.15)
+      node[right] {nivel de recurrencia};
+    \foreach \x/\etiqueta in {-5.1/0,-2.4/1,0.3/2,3.35/n_{*}} {
+      \draw[azulprofundo!70] (\x,-2.05) -- (\x,-2.25)
+        node[below] {$\etiqueta$};
+    }
+  \end{tikzpicture}
+  \caption{La protodistancia como primer nivel de confluencia estructural. Las
+  órbitas permanecen distinguibles para $n<n_{*}$ y se vuelven equivalentes en
+  el nivel $n_{*}$.}
+  \label{fig:protodistancia-confluencia}
+\end{figure}
+
+\FloatBarrier
+\section{Protoaritmética}
+
+Los números protoestructurales representan niveles o tipos de estabilización,
+en lugar de cantidades ordinarias. Para $n\in\N_{>0}$, se introduce la clase
+\begin{axioma}[Números protoestructurales]
+\begin{equation}
+  \mathbf{P}_n
+  =\bigl\{\varphi\in\F:\mathcal{D}(\varphi)=n\bigr\}.
+  \label{eq:protonumero}
+\end{equation}
+Así, el símbolo $n$ puede emplearse como etiqueta del comportamiento recurrente
+de período $n$.
+\end{axioma}
+
+Cuando $a$ y $b$ representan acciones recurrentes compatibles, se proponen las
+operaciones formales
+\begin{align}
+  a\oplus b &\coloneqq a(b),
+  \\
+  a\otimes b &\coloneqq a^{\circ b}
+  =\underbrace{a\circ a\circ\cdots\circ a}_{b\text{ composiciones}}.
+\end{align}
+Estas operaciones no deben identificarse con la suma y el producto usuales sin
+probar previamente propiedades como clausura, asociatividad y existencia de
+elementos neutros.
+
+La Figura~\ref{fig:protoaritmetica-circuitos} separa los dos mecanismos
+operacionales. La operación $\oplus$ introduce una forma como argumento de otra,
+mientras que $\otimes$ representa la reiteración de una misma acción. El segundo
+panel utiliza una forma auxiliar $x$ para hacer visible el efecto de la
+composición repetida.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    entrada/.style={circle,draw=azulprofundo!70,fill=white,thick,minimum size=9mm},
+    operador/.style={rounded corners=4pt,draw=azulprofundo,fill=azulclaro,
+      very thick,minimum width=11mm,minimum height=10mm},
+    salida/.style={rounded corners=4pt,draw=azulprofundo,fill=white,
+      very thick,minimum width=17mm,minimum height=10mm},
+    flujo/.style={->,very thick,draw=azulprofundo,shorten >=2pt,shorten <=2pt}
+  ]
+    % Panel de aplicación
+    \begin{scope}[shift={(-3.8,0)}]
+      \fill[azulclaro!28,rounded corners=8pt]
+        (-2.5,-2.0) rectangle (2.5,2.0);
+      \draw[azulprofundo!35,rounded corners=8pt,thick]
+        (-2.5,-2.0) rectangle (2.5,2.0);
+      \node[text=azulprofundo,font=\bfseries] at (0,1.55)
+        {aplicación: $a\oplus b$};
+      \node[entrada] (b) at (-1.65,0.15) {$b$};
+      \node[operador] (opa) at (-0.05,0.15) {$a(\,\cdot\,)$};
+      \node[salida] (ab) at (1.65,0.15) {$a(b)$};
+      \draw[flujo] (b) -- node[above] {argumento} (opa);
+      \draw[flujo] (opa) -- node[above] {acción} (ab);
+      \node[align=center,text=azulprofundo!80] at (0,-1.25)
+        {dos formas compatibles\\producen una nueva forma};
+    \end{scope}
+
+    % Panel de composición reiterada
+    \begin{scope}[shift={(3.45,0)}]
+      \fill[azulclaro!28,rounded corners=8pt]
+        (-3.7,-2.0) rectangle (3.7,2.0);
+      \draw[azulprofundo!35,rounded corners=8pt,thick]
+        (-3.7,-2.0) rectangle (3.7,2.0);
+      \node[text=azulprofundo,font=\bfseries] at (0,1.55)
+        {iteración: $a\otimes b=a^{\circ b}$};
+      \node[entrada] (x) at (-3.05,0.15) {$x$};
+      \node[operador] (a1) at (-1.75,0.15) {$a$};
+      \node[operador] (a2) at (-0.35,0.15) {$a$};
+      \node (dots) at (0.7,0.15) {$\cdots$};
+      \node[operador] (ak) at (1.55,0.15) {$a$};
+      \node[salida] (out) at (3.0,0.15) {$a^{\circ b}(x)$};
+      \draw[flujo] (x) -- (a1);
+      \draw[flujo] (a1) -- (a2);
+      \draw[flujo] (a2) -- (dots);
+      \draw[flujo] (dots) -- (ak);
+      \draw[flujo] (ak) -- (out);
+      \draw[decorate,decoration={brace,amplitude=4pt},azulprofundo!60]
+        (-2.25,-0.65) -- (2.25,-0.65)
+        node[midway,below=0.45em,text=azulprofundo] {$b$ aplicaciones};
+      \node[align=center,text=azulprofundo!80] at (0,-1.55)
+        {la recurrencia convierte repetición\\en estructura operacional};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Interpretación operacional de la protoaritmética. A la izquierda,
+  $\oplus$ actúa por aplicación; a la derecha, $\otimes$ codifica composición
+  recurrente.}
+  \label{fig:protoaritmetica-circuitos}
+\end{figure}
+
+\FloatBarrier
+\section{Prototopología}
+
+\begin{axioma}[Protovecindad]
+Para $\varepsilon\in\N_{>0}$, la vecindad recurrente de radio $\varepsilon$
+centrada en $\varphi$ es
+\begin{equation}
+  B_{\varepsilon}(\varphi)
+  =\bigl\{\psi\in\F:\delta(\varphi,\psi)<\varepsilon\bigr\}.
+  \label{eq:vecindad}
+\end{equation}
+Dos protoformas son cercanas al nivel $\varepsilon$ si
+$\psi\in B_{\varepsilon}(\varphi)$.
+\end{axioma}
+
+La cercanía expresa confluencia autorrecursiva. Una topología propiamente dicha
+se obtiene cuando estas vecindades generan una familia que contiene a $\F$ y al
+vacío, y es estable bajo uniones arbitrarias e intersecciones finitas.
+
+La Figura~\ref{fig:prototopologia-vecindades} muestra una familia anidada de
+protovecindades. Las circunferencias son una ayuda visual y no distancias
+espaciales: cada frontera agrupa las formas cuya confluencia con $\varphi$
+ocurre antes del umbral recurrente indicado.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    forma/.style={circle,draw=azulprofundo,fill=white,thick,minimum size=8.5mm},
+    centro/.style={circle,draw=azulprofundo,fill=azulprofundo,
+      text=white,very thick,minimum size=10mm}
+  ]
+    \begin{scope}[shift={(-1.7,0)}]
+      \fill[azulclaro!14] (0,0) circle[radius=3.25];
+      \fill[azulclaro!24] (0,0) circle[radius=2.35];
+      \fill[azulclaro!42] (0,0) circle[radius=1.35];
+      \draw[azulprofundo!45,dashed,thick] (0,0) circle[radius=3.25];
+      \draw[azulprofundo!62,dashed,thick] (0,0) circle[radius=2.35];
+      \draw[azulprofundo,very thick] (0,0) circle[radius=1.35];
+
+      \node[centro] (phi) at (0,0) {$\varphi$};
+      \node[forma] (p1) at (0.75,0.45) {$\psi_1$};
+      \node[forma] (p2) at (-1.45,1.05) {$\psi_2$};
+      \node[forma] (p3) at (1.55,-1.25) {$\psi_3$};
+      \node[forma] (p4) at (-2.55,-1.25) {$\psi_4$};
+      \node[forma] (p5) at (2.65,-1.75) {$\psi_5$};
+      \node[forma,draw=azulprofundo!40,text=azulprofundo!55]
+        (out) at (-3.75,2.4) {$\xi$};
+
+      \draw[->,azulprofundo!55,thick] (p1) -- node[above] {$\delta<1$} (phi);
+      \draw[->,azulprofundo!45,thick] (p3) to[bend right=13] (phi);
+      \draw[->,azulprofundo!35,thick] (p5) to[bend left=15] (phi);
+
+      \node[text=azulprofundo,anchor=west] at (0.95,1.05)
+        {$B_{1}(\varphi)$};
+      \node[text=azulprofundo!78,anchor=west] at (1.55,1.65)
+        {$B_{2}(\varphi)$};
+      \node[text=azulprofundo!62,anchor=west] at (2.45,2.45)
+        {$B_{3}(\varphi)$};
+      \node[text=azulprofundo!55,anchor=east] at (-3.35,3.0)
+        {$\xi\notin B_{3}(\varphi)$};
+    \end{scope}
+
+    \node[align=left,text=azulprofundo] at (4.15,1.6)
+      {$B_{1}(\varphi)\subseteq B_{2}(\varphi)$\\[0.35em]
+       $\hphantom{B_{1}(\varphi)}\subseteq B_{3}(\varphi)$};
+    \node[align=left,text=azulprofundo!80] at (4.15,0.15)
+      {menor $\delta$\\$\Longrightarrow$\\mayor cercanía recurrente};
+    \draw[->,very thick,azulprofundo!65] (3.35,-1.15) -- (5.05,-1.15)
+      node[midway,below=0.45em] {umbral $\varepsilon$ creciente};
+  \end{tikzpicture}
+  \caption{Protovecindades anidadas centradas en $\varphi$. La pertenencia a
+  $B_{\varepsilon}(\varphi)$ depende del nivel de confluencia recurrente y no
+  de una distancia espacial previa.}
+  \label{fig:prototopologia-vecindades}
+\end{figure}
+
+\FloatBarrier
+\section{Metaestructura cíclica}
+
+\begin{definicion}[Metaestructura]
+La metaestructura cíclica asociada a $\varphi$ es su órbita:
+\begin{equation}
+  \mathscr{M}(\varphi)
+  \coloneqq\Orb(\varphi)
+  =\bigl\{\iter{\varphi}{0},\iter{\varphi}{1},
+  \iter{\varphi}{2},\ldots\bigr\}.
+  \label{eq:metaestructura}
+\end{equation}
+\end{definicion}
+
+La secuencia representa el pliegue y despliegue de la autorrecurrencia a través
+de múltiples niveles. Si dos términos distintos de la secuencia son equivalentes,
+se forma un ciclo; dicho ciclo se interpreta como un nodo emergente de
+significado.
+
+La Figura~\ref{fig:metaestructura-pliegue} visualiza este proceso como una cinta
+de iteraciones. La sucesión se despliega hacia estados nuevos hasta que una
+iteración posterior reproduce la clase estructural de un estado anterior. La
+flecha de retorno pliega entonces la cinta y delimita un ciclo con significado
+propio.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    estado/.style={circle,draw=azulprofundo,fill=white,very thick,minimum size=10mm},
+    cicloestado/.style={circle,draw=azulprofundo,fill=azulclaro,
+      very thick,minimum size=10mm},
+    avance/.style={->,very thick,draw=azulprofundo}
+  ]
+    \node[estado] (s0) at (-5.4,0) {$\iter{\varphi}{0}$};
+    \node[cicloestado] (s1) at (-3.1,0.9) {$\iter{\varphi}{1}$};
+    \node[cicloestado] (s2) at (-0.7,0) {$\iter{\varphi}{2}$};
+    \node[cicloestado] (s3) at (1.7,-0.9) {$\iter{\varphi}{3}$};
+    \node[cicloestado] (s4) at (4.1,0) {$\iter{\varphi}{4}$};
+
+    \begin{scope}[on background layer]
+      \node[fit=(s1)(s2)(s3)(s4),rounded corners=14pt,
+        fill=azulclaro!32,draw=azulprofundo!35,dashed,thick,
+        inner sep=13mm] (zona) {};
+      \fill[azulprofundo!5,rounded corners=12pt]
+        (-6.15,-0.55) -- (-3.25,1.55) -- (-0.55,0.65) --
+        (1.8,-1.55) -- (4.75,-0.45) -- (4.55,0.45) --
+        (1.65,-0.25) -- (-0.85,0.65) -- (-3.0,1.25) -- cycle;
+    \end{scope}
+
+    \draw[avance] (s0) to[bend left=8] node[above left] {$T_{\varphi}$} (s1);
+    \draw[avance] (s1) to[bend left=8] node[above] {$T_{\varphi}$} (s2);
+    \draw[avance] (s2) to[bend left=8] node[below left] {$T_{\varphi}$} (s3);
+    \draw[avance] (s3) to[bend left=8] node[below right] {$T_{\varphi}$} (s4);
+    \draw[->,azulprofundo,very thick,dashed]
+      (s4) to[bend right=55] node[above] {$\iter{\varphi}{4}\peq\iter{\varphi}{1}$} (s1);
+
+    \node[text=azulprofundo!75] at (-5.35,-1.0) {origen};
+    \node[text=azulprofundo,font=\bfseries] at (0.55,2.05)
+      {pliegue recurrente};
+
+    \node[circle,draw=azulprofundo,double,fill=white,very thick,
+      minimum size=14mm] (nodo) at (5.75,-1.1) {$\mathfrak n_{\varphi}$};
+    \draw[->,very thick,azulprofundo!70] (s4) to[bend left=18]
+      node[right] {síntesis} (nodo);
+    \node[align=center,text=azulprofundo,anchor=north] at (5.75,-1.9)
+      {nodo emergente\\de significado};
+
+    \draw[decorate,decoration={brace,amplitude=5pt},azulprofundo!55]
+      (-5.9,-2.45) -- (4.65,-2.45)
+      node[midway,below=0.5em,text=azulprofundo]
+      {despliegue de la órbita a través de niveles recurrentes};
+  \end{tikzpicture}
+  \caption{Metaestructura cíclica como despliegue y pliegue de una órbita.
+  La repetición estructural cierra un ciclo y permite tratarlo como un nodo
+  emergente $\mathfrak n_{\varphi}$.}
+  \label{fig:metaestructura-pliegue}
+\end{figure}
+
+\FloatBarrier
+\section{Autorrecurrencia, autosimilitud y equidad}
+
+Dentro de la jerarquía conceptual propuesta, las tres nociones cumplen
+funciones diferentes:
+\begin{enumerate}
+  \item la \textbf{autorrecurrencia} proporciona el mecanismo generador;
+  \item la \textbf{autosimilitud} describe la persistencia de un patrón entre
+  niveles de recurrencia;
+  \item la \textbf{equidad} expresa un estado emergente de simetría o balance
+  entre formas ya constituidas.
+\end{enumerate}
+En consecuencia, el orden de dependencia sugerido es
+\[
+  \boxed{\text{autorrecurrencia}}
+  \longrightarrow
+  \boxed{\text{autosimilitud}}
+  \longrightarrow
+  \boxed{\text{equidad}}.
+\]
+La flecha indica dependencia conceptual, no implicación lógica automática.
+
+\section{Colecciones emergentes}
+
+\begin{axioma}[Protoconjuntismo]
+Una protoforma no se considera aislada: se caracteriza también por las formas
+con las que mantiene una recurrencia estable. La colección emergente generada
+por $\varphi$ es
+\begin{equation}
+  \Con(\varphi)
+  =\bigl\{\psi\in\F:
+  \varphi\pentails\psi\quad\text{o}\quad\psi\pentails\varphi\bigr\}.
+  \label{eq:conjunto}
+\end{equation}
+\end{axioma}
+
+En la interpretación original no existe un elemento absolutamente aislado. El
+vacío emergente puede entenderse como ausencia de estabilización dentro de una
+órbita. Esto no elimina el conjunto vacío $\varnothing$ de la metateoría, pues
+este sigue siendo necesario para formular la teoría de conjuntos y la topología
+que sirven como lenguaje externo.
+
+La Figura~\ref{fig:coleccion-emergente} representa $\Con(\varphi)$ como una
+constelación relacional. Su contorno es únicamente esquemático: una forma
+pertenece a la colección no por ocupar una región, sino porque mantiene con
+$\varphi$ al menos una relación recurrente estable en alguna dirección.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    centro/.style={
+      circle,draw=azulprofundo,fill=azulprofundo,text=white,
+      very thick,minimum size=13mm
+    },
+    miembro/.style={
+      circle,draw=azulprofundo,fill=white,very thick,minimum size=10mm
+    },
+    exterior/.style={
+      circle,draw=azulprofundo!38,fill=white,text=azulprofundo!55,
+      dashed,thick,minimum size=10mm
+    },
+    relacion/.style={->,very thick,draw=azulprofundo},
+    relacionsec/.style={->,thick,draw=azulprofundo!62}
+  ]
+    \begin{scope}[on background layer]
+      \fill[azulclaro!34]
+        plot[smooth cycle,tension=0.75] coordinates {
+          (-4.8,0.1) (-3.5,2.35) (-0.7,2.7) (2.25,2.25)
+          (3.45,0.3) (2.55,-2.15) (-0.15,-2.55) (-3.4,-2.05)
+        };
+      \draw[azulprofundo,very thick]
+        plot[smooth cycle,tension=0.75] coordinates {
+          (-4.8,0.1) (-3.5,2.35) (-0.7,2.7) (2.25,2.25)
+          (3.45,0.3) (2.55,-2.15) (-0.15,-2.55) (-3.4,-2.05)
+        };
+      \draw[azulprofundo!25,dashed,thick]
+        plot[smooth cycle,tension=0.75] coordinates {
+          (-4.45,0.05) (-3.25,2.0) (-0.7,2.35) (1.95,1.95)
+          (3.05,0.25) (2.25,-1.8) (-0.2,-2.2) (-3.1,-1.75)
+        };
+    \end{scope}
+
+    \node[anchor=west,text=azulprofundo,font=\bfseries]
+      at (-4.15,2.1) {$\Con(\varphi)$};
+
+    \node[centro] (phi) at (-0.65,0) {$\varphi$};
+    \node[miembro] (p1) at (-3.25,0.9) {$\psi_1$};
+    \node[miembro] (p2) at (-2.65,-1.25) {$\psi_2$};
+    \node[miembro] (p3) at (0.3,1.55) {$\psi_3$};
+    \node[miembro] (p4) at (1.8,-0.9) {$\psi_4$};
+    \node[miembro] (p5) at (2.1,0.95) {$\psi_5$};
+
+    \draw[relacion] (phi) to[bend left=12]
+      node[above] {$\pentails$} (p1);
+    \draw[relacion] (p2) to[bend left=10]
+      node[below right] {$\pentails$} (phi);
+    \draw[relacion] (phi) to[bend left=14]
+      node[right] {$\pentails$} (p3);
+    \draw[relacionsec] (p3) to[bend left=14] (phi);
+    \draw[relacion] (p4) to[bend left=12]
+      node[below] {$\pentails$} (phi);
+    \draw[relacion] (phi) to[bend left=10]
+      node[above] {$\pentails$} (p5);
+
+    \draw[relacionsec] (p1) to[bend left=13] (p3);
+    \draw[relacionsec] (p3) to[bend left=13] (p5);
+    \draw[relacionsec] (p2) to[bend right=14] (p4);
+
+    \node[exterior] (xi) at (5.0,1.15) {$\xi$};
+    \draw[azulprofundo!38,dashed,thick]
+      (3.3,0.85) -- node[above,sloped,text=azulprofundo!58]
+      {sin recurrencia estable} (xi);
+    \node[align=center,text=azulprofundo!65] at (5.0,0.25)
+      {$\xi\notin\Con(\varphi)$};
+
+    \node[rounded corners=5pt,draw=azulprofundo!55,fill=white,
+      align=center,inner sep=7pt,text=azulprofundo] at (4.85,-1.35)
+      {$\psi\in\Con(\varphi)$\\[0.2em]
+       $\Longleftrightarrow$\\[-0.05em]
+       $\varphi\pentails\psi$ o $\psi\pentails\varphi$};
+  \end{tikzpicture}
+  \caption{Colección emergente generada por $\varphi$. Las protoformas
+  conectadas con el centro mediante una recurrencia estable pertenecen a
+  $\Con(\varphi)$, independientemente del sentido de la relación; una forma
+  sin tal vínculo queda fuera de la colección.}
+  \label{fig:coleccion-emergente}
+\end{figure}
+
+\FloatBarrier
+
+\section{Síntesis axiomática}
+
+La propuesta puede resumirse en los siguientes principios:
+\begin{enumerate}[label=\textbf{P\arabic*.}]
+  \item \textbf{Existencia emergente:} una entidad interna se reconoce mediante
+  un comportamiento autorrecurrente.
+  \item \textbf{Protoforma:} la identidad estructural consiste en la estabilidad
+  eventual de una órbita.
+  \item \textbf{Dimensión:} la dimensión protoestructural es el período mínimo de
+  recurrencia estable.
+  \item \textbf{Medición:} se miden niveles de recurrencia y confluencia, no
+  cantidades espaciales primitivas.
+  \item \textbf{Topología:} la cercanía procede de la confluencia entre órbitas.
+  \item \textbf{Protológica:} el discernimiento se basa en la preservación y la
+  contención estable de estructura.
+  \item \textbf{Colecciones:} las colecciones emergen de relaciones recurrentes
+  entre formas.
+  \item \textbf{Similitud:} la autosimilitud es resonancia estructural entre
+  distintos niveles.
+  \item \textbf{Equidad:} la equidad es una metaforma de balance recurrente.
+\end{enumerate}
+
+\section{Sistema protodeductivo}
+
+Se adoptan tres expresiones básicas:
+\[
+  \mathsf{A}_r(\varphi),
+  \qquad
+  \varphi\vdash_r\psi,
+  \qquad
+  \varphi\peq\psi.
+\]
+La primera afirma la estabilidad autorrecursiva de $\varphi$; la segunda indica
+que la estructura de $\psi$ se obtiene recurrentemente a partir de $\varphi$; y
+la tercera expresa convergencia o equivalencia recurrente.
+
+\begin{regla}[Estabilidad]
+Si $\varphi(\varphi)\peq\varphi$, entonces
+$\mathsf{A}_r(\varphi)$.
+\end{regla}
+
+\begin{regla}[Transitividad]
+Si $\varphi\vdash_r\psi$ y $\psi\vdash_r\chi$, entonces
+$\varphi\vdash_r\chi$.
+\end{regla}
+
+\begin{regla}[Equivalencia por recurrencia mutua]
+Si $\varphi\vdash_r\psi$ y $\psi\vdash_r\varphi$, entonces
+$\varphi\peq\psi$.
+\end{regla}
+
+La Figura~\ref{fig:sistema-protodeductivo} organiza las tres reglas como canales
+de transformación inferencial. En cada canal, unas premisas recurrentes ingresan
+al núcleo de la regla y producen una conclusión cuya información estructural ya
+estaba contenida en ellas.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    >=Stealth,
+    every node/.style={font=\small},
+    premisa/.style={
+      rounded corners=4pt,draw=azulprofundo!65,fill=white,thick,
+      minimum width=37mm,minimum height=11mm,align=center,inner sep=5pt
+    },
+    nucleo/.style={
+      rounded corners=6pt,draw=azulprofundo,fill=azulclaro,very thick,
+      minimum width=27mm,minimum height=13mm,align=center
+    },
+    conclusion/.style={
+      rounded corners=4pt,draw=azulprofundo,fill=azulprofundo,
+      text=white,very thick,minimum width=31mm,minimum height=11mm,
+      align=center,inner sep=5pt
+    },
+    flujo/.style={->,very thick,draw=azulprofundo,shorten >=2pt,shorten <=2pt}
+  ]
+    \begin{scope}[on background layer]
+      \foreach \y in {2.15,0,-2.15} {
+        \fill[azulclaro!23,rounded corners=8pt]
+          (-6.1,\y-0.82) rectangle (6.1,\y+0.82);
+        \draw[azulprofundo!24,rounded corners=8pt,thick]
+          (-6.1,\y-0.82) rectangle (6.1,\y+0.82);
+      }
+    \end{scope}
+
+    \node[text=azulprofundo,font=\bfseries,anchor=west] at (-5.85,3.35)
+      {premisas recurrentes};
+    \node[text=azulprofundo,font=\bfseries] at (0,3.35)
+      {regla};
+    \node[text=azulprofundo,font=\bfseries,anchor=east] at (5.85,3.35)
+      {conclusión emergente};
+    \draw[->,azulprofundo!55,thick] (-5.8,3.0) -- (5.8,3.0)
+      node[midway,fill=white,inner sep=2pt,text=azulprofundo!75]
+      {flujo protodeductivo};
+
+    % Canal de estabilidad
+    \node[text=azulprofundo,font=\bfseries] at (-5.65,2.15) {R1};
+    \node[premisa] (e-prem) at (-3.45,2.15)
+      {$\varphi(\varphi)\peq\varphi$};
+    \node[nucleo] (e-regla) at (0,2.15)
+      {\bfseries estabilidad};
+    \node[conclusion] (e-conc) at (4.0,2.15)
+      {$\mathsf A_r(\varphi)$};
+    \draw[flujo] (e-prem) -- (e-regla);
+    \draw[flujo] (e-regla) -- (e-conc);
+
+    % Canal de transitividad
+    \node[text=azulprofundo,font=\bfseries] at (-5.65,0) {R2};
+    \node[premisa] (t-prem) at (-3.45,0)
+      {$\varphi\vdash_r\psi$\\[-0.05em]
+       $\psi\vdash_r\chi$};
+    \node[nucleo] (t-regla) at (0,0)
+      {\bfseries transitividad};
+    \node[conclusion] (t-conc) at (4.0,0)
+      {$\varphi\vdash_r\chi$};
+    \draw[flujo] (t-prem) -- (t-regla);
+    \draw[flujo] (t-regla) -- (t-conc);
+
+    % Canal de equivalencia mutua
+    \node[text=azulprofundo,font=\bfseries] at (-5.65,-2.15) {R3};
+    \node[premisa] (m-prem) at (-3.45,-2.15)
+      {$\varphi\vdash_r\psi$\\[-0.05em]
+       $\psi\vdash_r\varphi$};
+    \node[nucleo] (m-regla) at (0,-2.15)
+      {\bfseries recurrencia\\[-0.1em]mutua};
+    \node[conclusion] (m-conc) at (4.0,-2.15)
+      {$\varphi\peq\psi$};
+    \draw[flujo] (m-prem) -- (m-regla);
+    \draw[flujo] (m-regla) -- (m-conc);
+
+    \draw[decorate,decoration={brace,amplitude=5pt},azulprofundo!55]
+      (-5.95,-3.25) -- (5.95,-3.25)
+      node[midway,below=0.5em,text=azulprofundo]
+      {preservación, composición y reconocimiento de estructura recurrente};
+  \end{tikzpicture}
+  \caption{Arquitectura del sistema protodeductivo. Cada regla transforma un
+  patrón de premisas recurrentes en una afirmación de estabilidad, una relación
+  generativa compuesta o una equivalencia estructural.}
+  \label{fig:sistema-protodeductivo}
+\end{figure}
+
+\FloatBarrier
+
+\section{Conclusión y alcance formal}
+
+La teoría sitúa la autorrecurrencia en el nivel fundacional y presenta la
+estabilidad, la medida, la cercanía y la autosimilitud como fenómenos derivados.
+La notación anterior separa la igualdad literal $=$ de la equivalencia recurrente
+$\peq$, y distingue una forma de sus iteraciones. Con ello se evitan varias
+ambigüedades de la formulación inicial.
+
+Para convertir la propuesta en una teoría matemática completa todavía se debe
+especificar un modelo de $\F$, definir rigurosamente $\peq$ y $\pentails$, y
+demostrar la consistencia e independencia de los axiomas. Hasta entonces, el
+sistema debe entenderse como un marco protoaxiomático: una organización formal
+de intuiciones sobre la emergencia de estructura mediante autorrecurrencia.
+
+% -----------------------------------------------------------------------------
+% Capítulo I
+% -----------------------------------------------------------------------------
+
+\capitulo{Capítulo I}{Fundamentos de la matemática autorrecursiva}
+
+\renewcommand{\thesection}{I.\arabic{section}}
+\renewcommand{\theHsection}{capI.\arabic{section}}
+\renewcommand{\theHequation}{capI.\arabic{section}.\arabic{equation}}
+\setcounter{section}{0}
+\setcounter{axiomacap}{-1}
+\setcounter{defcap}{0}
+
+\section{Protoorigen: la unidad raíz}
+
+Toda teoría debe precisar qué admite como existente. En el presente sistema no
+se introduce ninguna entidad interna que no pueda obtenerse por necesidad
+estructural a partir del fundamento autorrecursivo.
+
+\begin{axiomacap}[Raíz]
+Existe una única entidad original $\raiz$, indivisible y sin exterior dentro de
+la teoría, cuya existencia consiste en su propia regeneración:
+\begin{equation}
+  \raiz(\raiz)\peq\raiz.
+  \label{eq:cap-raiz}
+\end{equation}
+La unicidad se refiere a su función como origen generativo.
+\end{axiomacap}
+
+La expresión \eqref{eq:cap-raiz} no identifica dos cadenas tipográficas, sino
+que afirma que la autoaplicación de la raíz reproduce su tipo estructural. Por
+ello se utiliza la equivalencia recurrente $\peq$ en lugar de una igualdad
+literal.
+
+\section{Naturaleza del fundamento}
+
+\begin{defcap}[Autoforma]
+Una \emph{autoforma} es una forma $\alpha\in\F$ para la cual está definida la
+secuencia completa de autoaplicaciones
+\[
+  \alpha,
+  \quad \alpha(\alpha),
+  \quad \alpha\bigl(\alpha(\alpha)\bigr),
+  \quad\ldots
+\]
+o, de manera abreviada, $\bigl(\iter{\alpha}{n}\bigr)_{n\in\N}$.
+\end{defcap}
+
+Una autoforma no se presupone como número, conjunto o valor. Es, en primera
+instancia, una forma capaz de actuar recurrentemente sobre su propio resultado.
+La estabilidad de esa acción se estudiará después; por tanto, ser autoforma no
+equivale todavía a ser un punto fijo.
+
+\begin{axiomacap}[Pureza formal]
+El dominio interno de la teoría contiene solamente autoformas y las relaciones
+generadas necesariamente por sus recurrencias. El espacio, el tiempo, la
+cantidad, la medida y la geometría no se toman como datos primitivos.
+\end{axiomacap}
+
+Este axioma expresa una restricción del lenguaje interno. La metateoría sigue
+utilizando lógica, conjuntos e índices naturales para formular y analizar el
+sistema.
+
+\section{Primeros estados emergentes}
+
+La primera autoaplicación de $\alpha$ puede producir distintos comportamientos.
+Con la notación ya establecida, se distinguen:
+\begin{align}
+  \text{persistencia:}
+  &\quad \iter{\alpha}{1}\peq\iter{\alpha}{0},
+  \label{eq:persistencia}
+  \\
+  \text{expansión:}
+  &\quad \iter{\alpha}{1}\not\peq\iter{\alpha}{0},
+  \label{eq:expansion}
+  \\
+  \text{degeneración:}
+  &\quad \iter{\alpha}{1}=\inestable.
+  \label{eq:degeneracion}
+\end{align}
+El símbolo $\inestable$ designa una forma cuya recurrencia no puede continuar o
+no produce una estructura observable. No se identifica con el conjunto vacío
+$\varnothing$.
+
+\begin{defcap}[Estado protoestructural]
+Una autoforma $\alpha$ alcanza un estado protoestructural cuando dos etapas
+consecutivas de su órbita son recurrentemente equivalentes. En el primer nivel
+no trivial, esta condición se escribe
+\begin{equation}
+  \iter{\alpha}{2}\peq\iter{\alpha}{1}.
+  \label{eq:estado-protoestructural}
+\end{equation}
+\end{defcap}
+
+La condición anterior representa autosimilitud persistente, pero no exige que
+los dos estados sean literalmente idénticos.
+
+\begin{axiomacap}[Suficiencia generativa]
+Toda autoforma cuya órbita alcanza un patrón estable genera una protoestructura
+válida. Las nociones posteriores de dimensión, transformación y medida deberán
+definirse a partir de dicho patrón.
+\end{axiomacap}
+
+\section{Emergencia de la protosecuencia}
+
+La autoaplicación reiterada de $\alpha$ produce la \emph{protosecuencia}
+\begin{equation}
+  \iter{\alpha}{0}=\alpha,
+  \qquad
+  \iter{\alpha}{n+1}
+  =\alpha\bigl(\iter{\alpha}{n}\bigr),
+  \qquad n\in\N,
+  \label{eq:protosecuencia-cap}
+\end{equation}
+que coincide con la convención de \eqref{eq:iteracion}. Cada término registra
+un nivel de transformación; la secuencia se \emph{pliega} cuando un estado
+estructural anterior reaparece.
+
+\begin{defcap}[Recurrencia plegada]
+Una autoforma $\alpha$ es \emph{plegable} si existen enteros $n>m\geq0$ tales
+que $\iter{\alpha}{n}\peq\iter{\alpha}{m}$. Su grado de pliegue es el primer
+índice en el que ocurre una repetición:
+\begin{equation}
+  \gr(\alpha)
+  =\min\Bigl\{n\in\N_{>0}:\exists m<n,
+  \ \iter{\alpha}{n}\peq\iter{\alpha}{m}\Bigr\}.
+  \label{eq:grado-pliegue}
+\end{equation}
+Si no hay repetición, se define $\gr(\alpha)=\infty$.
+\end{defcap}
+
+El grado $\gr(\alpha)$ localiza la primera repetición, mientras que
+$\mathcal D(\alpha)$, definida en \eqref{eq:dimension}, mide el período estable
+eventual. Estas cantidades pueden coincidir, pero describen aspectos distintos.
+
+\begin{axiomacap}[Pliegue finito]
+Las estructuras discernibles desde el interior de la teoría proceden de
+autoformas plegables. Una órbita infinitamente divergente puede existir en la
+metateoría, pero no constituye una estructura internamente observable.
+\end{axiomacap}
+
+\section{Generación de protoestructuras}
+
+\begin{defcap}[Protoestructura generada]
+Si $\alpha$ es plegable, su protoestructura es la órbita ordenada hasta la
+primera repetición:
+\begin{equation}
+  \Proto{\alpha}
+  =\bigl(
+    \iter{\alpha}{0},
+    \iter{\alpha}{1},
+    \ldots,
+    \iter{\alpha}{\gr(\alpha)-1}
+  \bigr),
+  \label{eq:protoestructura-generada}
+\end{equation}
+junto con la identificación recurrente que cierra el ciclo.
+\end{defcap}
+
+Se emplea una sucesión ordenada, y no un conjunto ordinario, porque el orden de
+las iteraciones contiene información dinámica. La protoestructura de la raíz se
+denota por $\Proto{\raiz}$.
+
+La órbita estricta de una raíz persistente puede contener una sola clase de
+equivalencia. Para expresar que de ella emerge una diversidad de formas se
+introduce, por tanto, su cierre generativo:
+\begin{equation}
+  \Cl_r(\raiz)
+  =\bigl\{\alpha\in\F:\raiz\vdash_r^{*}\alpha\bigr\},
+  \label{eq:cierre-generativo}
+\end{equation}
+donde $\vdash_r^{*}$ es la clausura reflexiva y transitiva de la relación de
+generación recurrente.
+
+\begin{axiomacap}[Encierro emergente]
+Toda estructura interna de la teoría debe generarse a partir de la raíz; en
+particular, sus formas pertenecen a $\Cl_r(\raiz)$. No se admiten como primitivas
+estructuras externas o predeterminadas.
+\end{axiomacap}
+
+Esta formulación sustituye la expresión informal ``subconjunto de las iteraciones
+de la raíz''. Si se interpretara esa frase literalmente, una raíz que satisface
+\eqref{eq:cap-raiz} no podría producir diversidad estructural.
+
+\section{Protoidentidad y distinguibilidad}
+
+\begin{defcap}[Equivalencia recursiva]
+Dos autoformas plegables $\alpha$ y $\beta$ son recurrentemente equivalentes si
+sus protoestructuras tienen el mismo patrón de transición y de cierre:
+\begin{equation}
+  \alpha\peq\beta
+  \quad\Longleftrightarrow\quad
+  \Proto{\alpha}\cong_r\Proto{\beta},
+  \label{eq:igualdad-recursiva}
+\end{equation}
+donde $\cong_r$ denota un isomorfismo que preserva el orden recurrente.
+\end{defcap}
+
+La igualdad literal $=$ queda reservada para la identidad de objetos dentro de
+la metateoría. La relación $\peq$ compara comportamientos recurrentes, de modo
+que dos formas distintas pueden representar la misma estructura emergente.
+
+\begin{axiomacap}[Equivalencia emergente]
+La comparación interna entre autoformas depende exclusivamente de sus patrones
+de recurrencia. En consecuencia, las propiedades observables deben ser
+invariantes bajo $\peq$.
+\end{axiomacap}
+
+\section{Protoestabilidad y comportamiento dinámico}
+
+Dentro del dominio observable, una autoforma plegable puede clasificarse por el
+destino de su recurrencia:
+\begin{description}[leftmargin=2.2em,style=nextline]
+  \item[Estática.]
+  $\iter{\alpha}{1}\peq\iter{\alpha}{0}$; la forma alcanza inmediatamente un
+  punto fijo estructural.
+
+  \item[Cíclica.]
+  Existen $n>m\geq0$ tales que
+  $\iter{\alpha}{n}\peq\iter{\alpha}{m}$, con período estable mayor que uno.
+
+  \item[Degenerada.]
+  Existe $n\in\N$ tal que $\iter{\alpha}{n}=\inestable$; la recurrencia deja de
+  producir estados estructuralmente observables.
+\end{description}
+
+Una autoforma no plegable constituye además un comportamiento
+\emph{divergente}; por el axioma de pliegue finito, queda fuera de la taxonomía
+interna de estructuras discernibles. Los términos ``vive'', ``muere'' y
+``genera'' pueden emplearse como metáforas, pero las tres condiciones anteriores
+son sus definiciones matemáticas.
+
+\section{Resumen de la notación del capítulo}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{>{$}c<{$} p{0.66\textwidth}}
+\toprule
+\text{Símbolo} & \textbf{Interpretación} \\
+\midrule
+\raiz & Raíz autorrecursiva distinguida. \\
+\alpha,\beta,\gamma & Autoformas genéricas. \\
+\iter{\alpha}{n} & Iteración autorrecursiva de nivel $n$. \\
+\Proto{\alpha} & Protoestructura ordenada generada por $\alpha$. \\
+\gr(\alpha) & Primer índice de pliegue de $\alpha$. \\
+\alpha\peq\beta & Equivalencia de patrones recurrentes. \\
+\inestable & Estado inestable o recurrencia interrumpida. \\
+\Cl_r(\raiz) & Cierre de formas generadas desde la raíz. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Conclusión del capítulo}
+
+Los seis axiomas numerados del $0$ al $5$ ---el axioma raíz y cinco axiomas
+adicionales--- establecen un primer núcleo fundacional. A partir de ellos se
+obtienen una secuencia de autoaplicaciones, un criterio de pliegue, una
+protoestructura ordenada, una equivalencia recurrente y una clasificación de
+los comportamientos observables.
+
+El capítulo no demuestra todavía que exista un modelo no trivial que satisfaga
+simultáneamente todos los axiomas. Su aportación es precisar las condiciones que
+deberá cumplir dicho modelo para que operaciones, geometrías, medidas y
+relaciones puedan emerger sin ser introducidas como primitivas externas.
+
+\end{document}

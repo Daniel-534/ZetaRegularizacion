@@ -98,6 +98,88 @@ El comportamiento de la función en $s=0$ dicta la definición formal del produc
 
 Esta distinción es crucial. Mientras que en la física espectral estándar (como el Laplaciano en variedades compactas) $s=0$ suele ser un punto regular, en teoría de números analítica y geometría hiperbólica es frecuente encontrarse con polos en el origen, requiriendo el uso de esta definición generalizada basada en residuos.
 
+
+\subsection{Ejemplo: El Caso Singular (Origen con Polo)}
+
+Para comprender a fondo el caso b) de la Sección 1.2.2, donde la función zeta espectral $\zeta_\Lambda(s)$ presenta un polo en el origen $s=0$, es imperativo alejarse de la abstracción y construir un ejemplo explícito. En este ejemplo, diseñaremos una secuencia $\Lambda$ cuya función de conteo $N(x)$ genere una función zeta con un polo simple en $s=0$. A través de este caso, demostraremos rigurosamente por qué la expansión de Laurent nos obliga a considerar el término lineal y cómo este se extrae elegantemente mediante el residuo de $\zeta_\Lambda(s)/s^2$.
+
+\subsection{Construcción de una Secuencia con Polo en el Origen}
+
+Recordemos que la función zeta asociada a una secuencia $\Lambda = \{\lambda_n\}$ puede expresarse mediante la transformada de Mellin-Stieltjes de su función de conteo espectral $N(x) = \#\{n \in \mathbb{N} : |\lambda_n| \le x\}$:
+$$ \zeta_\Lambda(s) = s \int_1^\infty N(x) x^{-s-1} dx $$
+Esta integral converge absolutamente para $\Re(s)$ suficientemente grande y proporciona la continuación meromorfa de $\zeta_\Lambda(s)$ a todo el plano complejo.
+
+Para nuestro ejemplo, definimos una función de conteo espectral que combine un crecimiento polinómico estándar con un término logarítmico y una constante:
+$$ N(x) = x + \log x + c $$
+donde $c$ es una constante real arbitraria. Físicamente, esto representaría un espectro donde la densidad de estados líder es la estándar (como en una dimensión), pero con una corrección logarítmica y un desplazamiento constante.
+
+Calculemos $\zeta_\Lambda(s)$ para $\Re(s) > 1$:
+$$ \zeta_\Lambda(s) = s \int_1^\infty (x + \log x + c) x^{-s-1} dx $$
+Podemos separar esta integral en tres partes:
+1. $\int_1^\infty x \cdot x^{-s-1} dx = \int_1^\infty x^{-s} dx = \frac{1}{s-1}$
+2. $\int_1^\infty \log x \cdot x^{-s-1} dx = \frac{1}{s^2}$ (resultado estándar de la transformada de Mellin del logaritmo)
+3. $\int_1^\infty c \cdot x^{-s-1} dx = \frac{c}{s}$
+
+Sustituyendo estos resultados en la expresión original y multiplicando por $s$:
+$$ \zeta_\Lambda(s) = s \left( \frac{1}{s-1} + \frac{1}{s^2} + \frac{c}{s} \right) = \frac{s}{s-1} + \frac{1}{s} + c $$
+Esta expresión es válida para $\Re(s) > 1$, pero el lado derecho está compuesto por funciones racionales que proporcionan la \textbf{continuación meromorfa} de $\zeta_\Lambda(s)$ a todo el plano complejo $\mathbb{C}$.
+
+\subsection{Expansión de Laurent y el Término Lineal}
+
+Analicemos el comportamiento de $\zeta_\Lambda(s)$ en las cercanías del origen $s=0$. Observamos inmediatamente que el término $\frac{1}{s}$ indica que $\zeta_\Lambda(s)$ tiene un \textbf{polo simple} en $s=0$. Por lo tanto, estamos en el caso singular.
+
+Para extraer el término lineal, debemos construir la serie de Laurent de $\zeta_\Lambda(s)$ alrededor de $s=0$. Expandimos la fracción $\frac{s}{s-1}$ usando la serie geométrica:
+$$ \frac{s}{s-1} = \frac{s}{-1(1 - s)} = -s (1 - s)^{-1} = -s (1 + s + s^2 + s^3 + \dots) = -s - s^2 - s^3 - \dots $$
+
+Ahora, ensamblamos la expansión completa de $\zeta_\Lambda(s)$:
+$$ \zeta_\Lambda(s) = \frac{1}{s} + c - s - s^2 - s^3 - \dots $$
+Esta es la serie de Laurent de $\zeta_\Lambda(s)$ en $s=0$. Identifiquemos sus componentes:
+\begin{itemize}
+    \item \textbf{Parte principal (polo):} $\frac{1}{s}$
+    \item \textbf{Término constante:} $c$
+    \item \textbf{Término lineal (coeficiente de $s^1$):} $-1$
+\end{itemize}
+
+Según la definición generalizada del producto regularizado para el caso con polo, el valor que reemplaza a $\zeta_\Lambda'(0)$ es precisamente el \textbf{término lineal} de esta expansión. En nuestro ejemplo, el término lineal es $-1$.
+
+\subsection{Justificación Analítica: ¿Por qué el Residuo de $\zeta_\Lambda(s)/s^2$?}
+
+La fórmula maestra para el caso singular define el producto regularizado como:
+$$ \prod_{n=1}^\infty \lambda_n := \exp\left( - \text{Res}_{s=0} \frac{\zeta_\Lambda(s)}{s^2} \right) $$
+¿Por qué dividir por $s^2$ y tomar el residuo extrae exactamente el término lineal? La respuesta yace en la mecánica algebraica de las series de Laurent.
+
+Tomemos nuestra expansión de Laurent general para una función con un polo simple en el origen:
+$$ \zeta_\Lambda(s) = \frac{a_{-1}}{s} + a_0 + a_1 s + a_2 s^2 + \dots $$
+Donde $a_1$ es, por definición, el término lineal que buscamos.
+
+Si construimos la función $\frac{\zeta_\Lambda(s)}{s^2}$, dividimos cada término de la serie por $s^2$:
+$$ \frac{\zeta_\Lambda(s)}{s^2} = \frac{a_{-1}}{s^3} + \frac{a_0}{s^2} + \frac{a_1}{s} + a_2 + a_3 s + \dots $$
+
+El residuo de una función en $s=0$ se define como el coeficiente del término $\frac{1}{s}$ en su expansión de Laurent. Al inspeccionar la serie anterior, el coeficiente de $\frac{1}{s}$ es exactamente $a_1$.
+$$ \text{Res}_{s=0} \frac{\zeta_\Lambda(s)}{s^2} = a_1 $$
+
+\textbf{Conclusión analítica:} Dividir por $s^2$ desplaza toda la serie de Laurent dos potencias hacia abajo. Esto hace que el término original de grado $+1$ (el término lineal $a_1 s$) se convierta en un término de grado $-1$ (es decir, $\frac{a_1}{s}$). Por lo tanto, calcular el residuo de $\zeta_\Lambda(s)/s^2$ es un truco algebraico elegante y riguroso para aislar el coeficiente $a_1$ sin necesidad de derivar funciones que tienen polos.
+
+\textit{Verificación en nuestro ejemplo:}
+$$ \frac{\zeta_\Lambda(s)}{s^2} = \frac{1}{s^3} + \frac{c}{s^2} - \frac{1}{s} - 1 - s - \dots $$
+El coeficiente de $1/s$ es $-1$. Por lo tanto, el residuo es $-1$, lo cual coincide perfectamente con el término lineal que identificamos previamente. El producto regularizado de esta secuencia hipotética sería $\exp(-(-1)) = e$.
+
+\subsection{Tarea Propuesta}
+
+Para consolidar tu comprensión de este formalismo y la extracción del término lineal mediante residuos, desarrolla el siguiente caso particular.
+
+\begin{enumerate}[a)]
+    \item Considera una secuencia $\Lambda'$ cuya función de conteo espectral está dada por $N(x) = x^2 + 2\log x + 3$ para $x \ge 1$.
+    \item Utiliza la transformada de Mellin-Stieltjes $\zeta_{\Lambda'}(s) = s \int_1^\infty N(x) x^{-s-1} dx$ para encontrar la expresión cerrada de la función zeta y su continuación meromorfa.
+    \item Expande $\zeta_{\Lambda'}(s)$ en serie de Laurent alrededor de $s=0$. Identifica explícitamente la parte principal, el término constante y el término lineal.
+    \item Construye la función $\frac{\zeta_{\Lambda'}(s)}{s^2}$, extrae su residuo en $s=0$ y verifica que coincida con el término lineal de tu expansión.
+    \item Calcula el valor final del producto Zeta-regularizado de la secuencia $\Lambda'$ usando la fórmula maestra $\exp(-\text{Res}_{s=0} \frac{\zeta_{\Lambda'}(s)}{s^2})$.
+\end{enumerate}
+
+
+
+
+
 \subsection{La fórmula maestra: Sumas y Productos Regularizados}
 
 Una vez que la función $\zeta_\Lambda(s)$ ha sido continuada analíticamente y su comportamiento en $s=0$ ha sido clasificado, podemos definir rigurosamente las sumas y productos regularizados. 
@@ -138,6 +220,118 @@ Basándonos en el análisis anterior, definimos los siguientes operados regulari
 \end{itemize}
 
 La fórmula maestra $\prod \lambda_i = \exp(-\zeta_\Lambda'(0))$ no es, por tanto, un mero truco algebraico, sino la consecuencia directa de identificar el determinante funcional (o producto infinito) con la derivada en el origen de la traza regularizada del operador (o suma de Dirichlet). Esta definición preserva la multiplicatividad en la mayoría de los casos, aunque, como veremos en clases posteriores, puede dar lugar a profundas \textit{anomalías multiplicativas} cuando se regularizan productos de productos.
+
+
+\subsection{Ejemplo Desarrollado: La Secuencia Geométrica Exponencial y el Polo de Bose-Einstein}
+
+Para ilustrar de manera completamente explícita la necesidad del caso generalizado con polo, consideremos una secuencia que \textit{inevitablemente} produce una singularidad en el origen y que, por tanto, hace imposible la aplicación directa de la fórmula estándar $\exp(-\zeta'_\Lambda(0))$.
+
+\subsubsection*{Definición de la secuencia}
+
+Sea $\Lambda = \{e^n\}_{n=1}^{\infty} = \{e,\, e^2,\, e^3,\, e^4,\, \ldots\}$ la secuencia geométrica de razón $e$. Esta secuencia crece exponencialmente, por lo que su función de conteo es:
+$$ N(x) = \#\{n \in \mathbb{N} : e^n \le x\} = \lfloor \log x \rfloor \quad \text{para } x \ge e $$
+El crecimiento logarítmico de $N(x)$ es precisamente la fuente analítica del polo en el origen, como veremos a continuación.
+
+\subsubsection*{Construcción de la función zeta espectral}
+
+La función zeta asociada a $\Lambda$ se define, para $\Re(s)$ suficientemente grande, como:
+$$ \zeta_\Lambda(s) = \sum_{n=1}^{\infty} (e^n)^{-s} = \sum_{n=1}^{\infty} e^{-ns} $$
+Esta es una serie geométrica de razón $r = e^{-s}$, que converge absolutamente si y solo si $|e^{-s}| < 1$, es decir, $\Re(s) > 0$. Su suma cerrada es:
+$$ \zeta_\Lambda(s) = \frac{e^{-s}}{1 - e^{-s}} = \frac{1}{e^s - 1} $$
+Esta última expresión es precisamente la \textbf{función de distribución de Bose-Einstein} (sin el factor de degeneración), un objeto ubicuo en física estadística cuántica. Lo crucial es que el lado derecho, $\frac{1}{e^s - 1}$, es una función meromorfa en todo $\mathbb{C}$, lo cual proporciona la \textit{continuación meromorfa} de $\zeta_\Lambda(s)$ más allá de la región de convergencia $\Re(s) > 0$.
+
+\subsubsection*{Identificación del polo en el origen}
+
+Evaluemos el denominador en $s = 0$:
+$$ e^s - 1 \Big|_{s=0} = 1 - 1 = 0 $$
+Mientras que el numerador es simplemente $1 \neq 0$. Por lo tanto, $s = 0$ es un \textbf{polo} de $\zeta_\Lambda(s)$. Para determinar su orden, expandimos el denominador:
+$$ e^s - 1 = s + \frac{s^2}{2!} + \frac{s^3}{3!} + \cdots = s\left(1 + \frac{s}{2} + \frac{s^2}{6} + \cdots\right) $$
+El factor entre paréntesis no se anula en $s=0$ (vale $1$), de modo que el cero del denominador es de orden exactamente $1$. Concluimos:
+
+\begin{itemize}
+    \item $s = 0$ es un \textbf{polo simple} de $\zeta_\Lambda(s)$.
+    \item La derivada $\zeta'_\Lambda(0)$ \textbf{no existe} en el sentido clásico.
+    \item Estamos irremediablemente en el \textbf{caso b) (origen con polo)} de la Sección 1.2.2.
+\end{itemize}
+
+La fórmula maestra estándar $\prod \lambda_n = \exp(-\zeta'_\Lambda(0))$ es \textit{inaplicable}. Debemos recurrir a la definición generalizada.
+
+\subsubsection*{Expansión de Laurent completa alrededor de $s=0$}
+
+Para extraer el término lineal, necesitamos la serie de Laurent de $\zeta_\Lambda(s) = \frac{1}{e^s - 1}$ en un entorno puncturado de $s=0$. Escribimos:
+$$ \frac{1}{e^s - 1} = \frac{1}{s\left(1 + \frac{s}{2} + \frac{s^2}{6} + \frac{s^3}{24} + \cdots\right)} = \frac{1}{s} \cdot \frac{1}{1 + \frac{s}{2} + \frac{s^2}{6} + \cdots} $$
+Denotemos $u = \frac{s}{2} + \frac{s^2}{6} + \frac{s^3}{24} + \cdots$ y expandimos $(1+u)^{-1} = 1 - u + u^2 - u^3 + \cdots$ orden por orden:
+
+\begin{enumerate}[a)]
+    \item \textbf{Orden $s^0$:} El término constante de $(1+u)^{-1}$ es $1$.
+    \item \textbf{Orden $s^1$:} De $-u$ extraemos $-\frac{s}{2}$.
+    \item \textbf{Orden $s^2$:} De $-u$ extraemos $-\frac{s^2}{6}$; de $u^2$ extraemos $\left(\frac{s}{2}\right)^2 = \frac{s^2}{4}$. Suma: $-\frac{1}{6} + \frac{1}{4} = \frac{1}{12}$.
+    \item \textbf{Orden $s^3$:} De $-u$: $-\frac{s^3}{24}$; de $u^2$: $2\cdot\frac{s}{2}\cdot\frac{s^2}{6} = \frac{s^3}{6}$; de $-u^3$: $-\frac{s^3}{8}$. Suma: $-\frac{1}{24} + \frac{1}{6} - \frac{1}{8} = 0$.
+\end{enumerate}
+
+Por tanto:
+$$ \frac{1}{1+u} = 1 - \frac{s}{2} + \frac{s^2}{12} + 0 \cdot s^3 + \cdots $$
+(De hecho, los coeficientes de esta expansión están gobernados por los \textit{números de Bernoulli} $B_k$ mediante la relación $\frac{s}{e^s-1} = \sum_{k=0}^{\infty} \frac{B_k}{k!} s^k$.)
+
+Multiplicando por $\frac{1}{s}$, obtenemos la \textbf{expansión de Laurent} buscada:
+$$ \boxed{\zeta_\Lambda(s) = \frac{1}{e^s - 1} = \frac{1}{s} - \frac{1}{2} + \frac{s}{12} - \frac{s^3}{720} + \cdots} $$
+
+Identificamos explícitamente cada componente de la serie $\zeta_\Lambda(s) = \frac{a_{-1}}{s} + a_0 + a_1 s + a_2 s^2 + a_3 s^3 + \cdots$:
+\begin{itemize}
+    \item $a_{-1} = 1$ (residuo del polo: $\text{Res}_{s=0}\,\zeta_\Lambda(s) = 1$).
+    \item $a_0 = -\dfrac{1}{2}$ (término constante).
+    \item $a_1 = \dfrac{1}{12}$ (\textbf{término lineal}).
+    \item $a_2 = 0$.
+    \item $a_3 = -\dfrac{1}{720}$.
+\end{itemize}
+
+\subsubsection*{Aplicación de la fórmula generalizada: el residuo de $\zeta_\Lambda(s)/s^2$}
+
+Según la definición del caso generalizado con polo (Sección 1.2.2), el producto regularizado se define como:
+$$ \prod_{n=1}^{\infty} \lambda_n := \exp\!\left(-\text{Res}_{s=0}\,\frac{\zeta_\Lambda(s)}{s^2}\right) $$
+
+Construyamos explícitamente la función $\frac{\zeta_\Lambda(s)}{s^2}$ dividiendo la serie de Laurent término a término por $s^2$:
+$$ \frac{\zeta_\Lambda(s)}{s^2} = \frac{1}{s^3} - \frac{1}{2s^2} + \frac{1}{12s} - \frac{s}{720} + \cdots $$
+
+Ahora invocamos la definición de residuo: $\text{Res}_{s=0} f(s)$ es el coeficiente de $s^{-1}$ en la expansión de Laurent de $f$ alrededor de $s=0$. Inspeccionando la serie anterior:
+
+$$ \text{Res}_{s=0}\,\frac{\zeta_\Lambda(s)}{s^2} = \frac{1}{12} $$
+
+\textbf{Verificación del mecanismo algebraico:} La división por $s^2$ desplaza cada potencia $s^k$ a $s^{k-2}$. En particular:
+\begin{itemize}
+    \item El polo original $a_{-1}/s = 1/s$ se desplaza a $1/s^3$ (ya no contribuye al residuo).
+    \item El término constante $a_0 = -1/2$ se desplaza a $-1/(2s^2)$ (tampoco contribuye).
+    \item El \textbf{término lineal} $a_1 s = s/12$ se desplaza a $\dfrac{1}{12s}$: \textit{este} es el único término que genera una contribución al residuo.
+\end{itemize}
+
+Así, la operación $\text{Res}_{s=0}[\zeta_\Lambda(s)/s^2]$ es un \textit{filtro algebraico} que aísla exclusivamente el coeficiente $a_1$ del término lineal, descartando toda la parte principal y todos los términos de grado superior. Esto justifica la notación $\text{LT}_{s=0}\,\zeta_\Lambda(s)$ (``linear term'') utilizada en la literatura de Friedman, Jorgenson y Smajlovi\'c.
+
+\subsubsection*{Cálculo del producto regularizado}
+
+Aplicando la fórmula maestra generalizada:
+$$ \prod_{n=1}^{\infty} e^n := \exp\!\left(-\text{Res}_{s=0}\,\frac{\zeta_\Lambda(s)}{s^2}\right) = \exp\!\left(-\frac{1}{12}\right) = e^{-1/12} $$
+
+Este resultado es notable: el ``producto'' de la secuencia $\{e, e^2, e^3, \ldots\}$, que clásicamente diverge a $+\infty$ de forma superexponencial, recibe un valor finito y bien definido mediante la regularización. Nótese además la coherencia dimensional: $\log\prod e^n = \sum n = \zeta_\Lambda(-1)$, y en efecto:
+$$ \zeta_\Lambda(-1) = \frac{1}{e^{-1}-1} = \frac{1}{\frac{1}{e}-1} = \frac{e}{1-e} = -\frac{e}{e-1} $$
+lo cual es consistente con la evaluación analítica de la serie $\sum_{n=1}^\infty n$ regularizada en el punto $s=-1$ de la continuación meromorfa.
+
+\subsubsection*{Contraste con el caso regular}
+
+Para enfatizar la necesidad del formalismo generalizado, obsérvese qué ocurriría si intentáramos aplicar la fórmula del caso regular. Necesitaríamos:
+$$ \zeta'_\Lambda(s) = -\frac{e^s}{(e^s-1)^2} $$
+Evaluando en $s=0$: el denominador $(e^s-1)^2 \to 0$ mientras el numerador $e^s \to 1$, por lo que $\zeta'_\Lambda(0) = -\infty$. La fórmula $\exp(-\zeta'_\Lambda(0))$ produciría $\exp(+\infty)$, un resultado carente de sentido. El caso generalizado con polo no es una opción: es la \textit{única} vía analíticamente consistente.
+
+\subsubsection*{Tarea}
+
+\begin{enumerate}[a)]
+    \item Considere la secuencia $\Lambda' = \{2^n\}_{n=1}^{\infty} = \{2, 4, 8, 16, \ldots\}$. Demuestre que su función zeta es $\zeta_{\Lambda'}(s) = \frac{1}{2^s - 1}$ y que posee un polo simple en $s=0$.
+    \item Calcule la expansión de Laurent de $\zeta_{\Lambda'}(s)$ alrededor de $s=0$ hasta el término de orden $s^3$, identificando $a_{-1}$, $a_0$, $a_1$ y $a_3$ en términos de $\log 2$ y los números de Bernoulli.
+    \item Verifique explícitamente que $\text{Res}_{s=0}\,\frac{\zeta_{\Lambda'}(s)}{s^2} = a_1$ construyendo la serie de Laurent de $\zeta_{\Lambda'}(s)/s^2$ e identificando el coeficiente de $1/s$.
+    \item Calcule el producto Zeta-regularizado $\prod_{n=1}^{\infty} 2^n$ usando la fórmula generalizada.
+    \item \textit{Pregunta conceptual:} ¿Por qué el término $a_2$ (coeficiente de $s^2$) no interviene en la definición del producto regularizado, independientemente de su valor? Relacione su respuesta con la estructura de la división por $s^2$ y la definición de residuo.
+\end{enumerate}
+
+
 
 \section{Propiedades algebraicas básicas}
 
