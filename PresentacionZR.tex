@@ -1,0 +1,884 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning,shapes.geometric}
+
+% -----------------------------------------------------------------------------
+% Identidad visual: verdes inspirados en la Universidad de Antioquia
+% -----------------------------------------------------------------------------
+\definecolor{UdeAGreen}{HTML}{006B3F}
+\definecolor{UdeADark}{HTML}{004D2D}
+\definecolor{UdeALime}{HTML}{8ABF3F}
+\definecolor{UdeAPale}{HTML}{E8F3EC}
+\definecolor{Ink}{HTML}{24312B}
+\definecolor{Warm}{HTML}{F4B942}
+
+\usetheme{default}
+\usefonttheme{professionalfonts}
+\setbeamercolor{normal text}{fg=Ink,bg=white}
+\setbeamercolor{structure}{fg=UdeAGreen}
+\setbeamercolor{frametitle}{fg=white,bg=UdeAGreen}
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{subtitle}{fg=UdeAPale}
+\setbeamercolor{block title}{fg=white,bg=UdeAGreen}
+\setbeamercolor{block body}{fg=Ink,bg=UdeAPale}
+\setbeamercolor{block title alerted}{fg=white,bg=UdeADark}
+\setbeamercolor{block body alerted}{fg=Ink,bg=Warm!18}
+\setbeamercolor{itemize item}{fg=UdeALime}
+\setbeamercolor{itemize subitem}{fg=UdeAGreen}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercovered{invisible}
+\setbeamertemplate{itemize item}{\raise0.15ex\hbox{\scriptsize$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\raise0.1ex\hbox{\tiny$\bullet$}}
+
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.78cm,dp=0.22cm,leftskip=0.55cm]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+  \end{beamercolorbox}}
+
+\setbeamertemplate{footline}{%
+  \leavevmode
+  \hbox{%
+    \begin{beamercolorbox}[wd=.72\paperwidth,ht=2.7ex,dp=1.1ex,leftskip=.5cm]{author in head/foot}%
+      \color{UdeADark}\scriptsize Daniel Soto Villada \enspace|\enspace Zeta-regularización
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.28\paperwidth,ht=2.7ex,dp=1.1ex,rightskip=.5cm plus1fil]{date in head/foot}%
+      \color{UdeADark}\scriptsize Universidad de Antioquia \enspace \insertframenumber/\inserttotalframenumber
+    \end{beamercolorbox}}
+  \vskip0pt}
+
+\newcommand{\reg}{\operatorname{reg}}
+\newcommand{\Res}{\operatorname*{Res}}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\newcommand{\highlight}[1]{\textcolor{UdeAGreen}{\bfseries #1}}
+
+\title{De sumas divergentes a determinantes espectrales}
+\subtitle{Una introducción a la zeta-regularización}
+\author{Daniel Soto Villada}
+\institute{%
+  Estudiante de Astronomía\\
+  Instituto de Física\\
+  Facultad de Ciencias Exactas y Naturales\\
+  Universidad de Antioquia}
+\date{Medellín, \today}
+
+\AtBeginSection[]{
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[UdeADark] (current page.south west) rectangle (current page.north east);
+      \fill[UdeALime] (current page.south west) rectangle ([xshift=0.22cm]current page.north west);
+      \node[anchor=west,text=white,font=\Large\bfseries,text width=.78\paperwidth]
+        at ([xshift=1.25cm]current page.west) {\insertsectionhead};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+\begin{document}
+
+% -----------------------------------------------------------------------------
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[UdeADark] (current page.south west) rectangle (current page.north east);
+    \fill[UdeAGreen] (current page.south west) rectangle ([xshift=.28\paperwidth]current page.north west);
+    \fill[UdeALime] ([xshift=.28\paperwidth]current page.south west)
+      rectangle ([xshift=.295\paperwidth]current page.north west);
+    \node[circle,draw=white!28,line width=1.2pt,minimum size=3.0cm]
+      at ([xshift=-.45cm,yshift=1.2cm]current page.east) {};
+    \node[circle,draw=white!14,line width=1pt,minimum size=4.0cm]
+      at ([xshift=-.45cm,yshift=1.2cm]current page.east) {};
+    \node[text=white!15,font=\fontsize{70}{70}\selectfont]
+      at ([xshift=-.45cm,yshift=1.2cm]current page.east) {$\zeta$};
+  \end{tikzpicture}
+  \vspace{1.0cm}
+  \hspace{.31\paperwidth}
+  \begin{minipage}{.54\paperwidth}
+    {\color{white}\Large\bfseries\inserttitle\par}
+    \vspace{.25cm}
+    {\color{UdeAPale}\large\insertsubtitle\par}
+    \vspace{.85cm}
+    {\color{white}\normalsize\insertauthor\par}
+    \vspace{.12cm}
+    {\color{white!82}\footnotesize\insertinstitute\par}
+    \vspace{.48cm}
+    {\color{UdeALime}\small\insertdate\par}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Ruta de la charla}
+  \begin{columns}[T,onlytextwidth]
+    \column{.47\textwidth}
+      \begin{block}{I. El lenguaje}
+        Sucesiones, series, espectros, productos infinitos y continuación analítica.
+      \end{block}
+      \pause
+      \begin{block}{II. La construcción}
+        Función zeta asociada, suma regularizada y determinante zeta.
+      \end{block}
+    \column{.47\textwidth}
+      \pause
+      \begin{block}{III. Qué produce}
+        Fórmula de Lerch, energía de Casimir y determinantes funcionales.
+      \end{block}
+      \pause
+      \begin{block}{IV. Hasta dónde llega}
+        Primos, secuencias automáticas, superzetas y anomalías.
+      \end{block}
+  \end{columns}
+  \pause
+  \vfill
+  \centering\highlight{Pregunta guía: ¿qué información finita puede extraerse de una expresión divergente?}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\section{El lenguaje antes de regularizar}
+
+\begin{frame}{Una serie es un límite, no una suma interminable}
+  \small
+  Para una sucesión $\{a_n\}$ se forman las sumas parciales
+  \[
+    S_N=\sum_{n=1}^{N}a_n.
+  \]
+  \pause
+  La serie converge cuando existe un número $S$ tal que
+  \[
+    \lim_{N\to\infty}S_N=S.
+  \]
+  \pause
+  \begin{alertblock}{Primera advertencia}
+    Si el límite no existe, la serie es divergente en el sentido clásico. Una
+    regularización no cambia ese hecho: introduce otra operación, con otro significado.
+  \end{alertblock}
+  \pause
+  \vspace{-0.15cm}
+  \begin{center}
+    \begin{tikzpicture}[>=Latex,x=1.02cm,y=.44cm]
+      \draw[->,Ink!55] (0,0)--(9.8,0) node[right] {$N$};
+      \draw[UdeAGreen,dashed] (0,2)--(9.4,2) node[right] {$S$};
+      \foreach \x/\y in {1/.7,2/2.8,3/1.3,4/2.45,5/1.62,6/2.25,7/1.78,8/2.14,9/1.88}
+        \fill[UdeALime!80!UdeADark] (\x,\y) circle (2.2pt);
+      \draw[->,UdeAGreen,thick] (5.4,2.75)--(7.5,2.2) node[midway,above] {estabilización};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Series de Dirichlet: convertir crecimiento en decaimiento}
+  Una serie de Dirichlet general tiene la forma
+  \[
+    F(s)=\sum_{n\ge1}a_n e^{-\lambda_n s},\qquad s=\sigma+it.
+  \]
+  \pause
+  Si $\lambda_n=\log n$, entonces
+  \[
+    e^{-\lambda_ns}=e^{-s\log n}=n^{-s},
+    \qquad F(s)=\sum_{n\ge1}\frac{a_n}{n^s}.
+  \]
+  \pause
+  \begin{columns}[T,onlytextwidth]
+    \column{.48\textwidth}
+      \begin{block}{Semiplano de convergencia}
+        Existe una abscisa $\sigma_c$ tal que la serie converge absolutamente para
+        $\Re(s)>\sigma_c$.
+      \end{block}
+    \column{.48\textwidth}
+      \pause
+      \begin{block}{Ejemplo central}
+        Para $a_n=1$ aparece
+        $\displaystyle\zeta(s)=\sum_{n\ge1}n^{-s}$, inicialmente para $\Re(s)>1$.
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Del operador a una sucesión: el espectro}
+  Sea $L$ un operador diferencial en un espacio de Hilbert. El problema
+  \[
+    Lu_n=\lambda_nu_n
+  \]
+  produce, bajo hipótesis de autoadjunción y compacidad, un espectro discreto
+  $\Lambda=\{\lambda_n\}_{n\ge1}$.
+  \pause
+  \begin{center}
+  \begin{tikzpicture}[>=Latex,node distance=.45cm and .55cm,
+    box/.style={draw=UdeAGreen,rounded corners,fill=UdeAPale,align=center,
+      minimum height=1cm,text width=2.5cm}]
+    \node[box] (dom) {dominio $\Omega$\\y frontera};
+    \node[box,right=of dom] (op) {operador\\$L:D(L)\to H$};
+    \node[box,right=of op] (eig) {ecuación\\$Lu=\lambda u$};
+    \node[box,right=of eig] (sp) {espectro\\$\{\lambda_n\}$};
+    \draw[->,thick,UdeADark] (dom)--(op);
+    \draw[->,thick,UdeADark] (op)--(eig);
+    \draw[->,thick,UdeADark] (eig)--(sp);
+  \end{tikzpicture}
+  \end{center}
+  \pause
+  \begin{block}{Ejemplo: Laplaciano de Dirichlet en $(0,\pi)$}
+    $L=-\frac{\dd^2}{\dd x^2}$, $u(0)=u(\pi)=0$:
+    \[
+      u_n(x)=\sqrt{\frac2\pi}\sin(nx),\qquad \lambda_n=n^2.
+    \]
+  \end{block}
+\end{frame}
+
+\begin{frame}{Productos infinitos y logaritmos}
+  Un producto infinito ordinario se estudia mediante
+  \[
+    P_N=\prod_{n=1}^{N}p_n,
+    \qquad \log P_N=\sum_{n=1}^{N}\log p_n.
+  \]
+  \pause
+  Para factores $p_n=1+a_n$ cercanos a $1$,
+  \[
+    \log(1+a_n)=a_n+\mathcal O(a_n^2).
+  \]
+  \pause
+  \begin{columns}[T,onlytextwidth]
+    \column{.48\textwidth}
+      \begin{block}{Idea clásica}
+        La convergencia del producto se traduce en la convergencia de una serie de
+        logaritmos.
+      \end{block}
+    \column{.48\textwidth}
+      \pause
+      \begin{block}{Idea regularizada}
+        Codificaremos $\sum\log\lambda_n$ en una derivada de una función zeta.
+      \end{block}
+  \end{columns}
+  \pause
+  \vfill
+  \centering $\displaystyle \frac{\dd}{\dd s}\lambda^{-s}=-(\log\lambda)\lambda^{-s}$
+\end{frame}
+
+\begin{frame}{Continuación analítica: salir del dominio original}
+  Una función definida por una serie en una región puede poseer una extensión única a
+  una región mayor.
+  \pause
+  \begin{exampleblock}{Ejemplo elemental}
+    Para $|z|<1$,
+    \[
+      1+z+z^2+\cdots=\frac{1}{1-z}.
+    \]
+    La serie solo converge en el disco, pero $1/(1-z)$ existe en todo
+    $\mathbb C\setminus\{1\}$.
+  \end{exampleblock}
+  \pause
+  \begin{alertblock}{Lo esencial}
+    Fuera de la región de convergencia ya no estamos sumando término a término:
+    evaluamos la función analítica que coincide con la serie donde esta sí converge.
+  \end{alertblock}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\section{La construcción zeta}
+
+\begin{frame}{La función zeta asociada a una secuencia}
+  Sea $\Lambda=\{\lambda_n\}$ una sucesión discreta, no nula y con
+  $|\lambda_n|\to\infty$. Definimos inicialmente
+  \[
+    \boxed{\zeta_\Lambda(s)=\sum_{n=1}^{\infty}\lambda_n^{-s}}
+  \]
+  en su semiplano de convergencia.
+  \pause
+  \begin{itemize}[<+->]
+    \item El crecimiento de $\lambda_n$ determina la abscisa de convergencia.
+    \item La continuación meromorfa codifica información más allá de la suma original.
+    \item Los puntos clave son $s=-k$ para sumas de potencias y $s=0$ para productos.
+  \end{itemize}
+  \pause
+  \begin{block}{En geometría espectral}
+    Si $\lambda_n$ son los autovalores positivos de $L$, entonces
+    $\zeta_L(s)=\operatorname{Tr}(L^{-s})$ donde la expresión tiene sentido.
+  \end{block}
+\end{frame}
+
+\begin{frame}{La fórmula maestra}
+  Si $\zeta_\Lambda$ es holomorfa en los puntos requeridos, se define
+  \begin{align*}
+    \sum_{n\ge1}^{\reg}\lambda_n^k
+      &:=\zeta_\Lambda(-k),\\[2mm]
+    \prod_{n\ge1}^{\reg}\lambda_n
+      &:=\exp\!\left[-\zeta_\Lambda'(0)\right].
+  \end{align*}
+  \pause
+  La segunda fórmula proviene formalmente de
+  \[
+    \zeta_\Lambda'(0)
+      =-\sum_{n\ge1}\log\lambda_n
+      =-\log\!\prod_{n\ge1}\lambda_n.
+  \]
+  \pause
+  \begin{alertblock}{Notación y significado}
+    $\sum^{\reg}n=-1/12$ no significa que las sumas parciales de $1+2+3+\cdots$
+    converjan a $-1/12$. Es el valor asignado por este procedimiento analítico.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{El mecanismo en una imagen}
+  \begin{center}
+  \begin{tikzpicture}[>=Latex,node distance=.55cm and .45cm,
+    box/.style={rounded corners,draw=UdeAGreen,thick,fill=UdeAPale,
+      align=center,text width=2.55cm,minimum height=1.25cm},
+    key/.style={rounded corners,draw=UdeADark,very thick,fill=Warm!18,
+      align=center,text width=2.55cm,minimum height=1.25cm}]
+    \node[box] (seq) {secuencia\\$\Lambda=\{\lambda_n\}$};
+    \node[box,right=of seq] (dir) {serie de Dirichlet\\$\sum\lambda_n^{-s}$};
+    \node[key,right=of dir] (cont) {continuación\\analítica};
+    \node[box,right=of cont] (eval) {evaluar en\\$s=-k$ o $s=0$};
+    \draw[->,thick,UdeADark] (seq)--(dir);
+    \draw[->,thick,UdeADark] (dir)--(cont);
+    \draw[->,thick,UdeADark] (cont)--(eval);
+    \node[below=1.0cm of cont,align=center,text width=7.2cm] (out)
+      {parte finita: suma regularizada o determinante regularizado};
+    \draw[->,thick,UdeAGreen] (eval.south) |- (out.east);
+  \end{tikzpicture}
+  \end{center}
+  \pause
+  \vfill
+  \centering\highlight{La regularización no elimina el infinito: separa la información dependiente del corte de la parte finita.}
+\end{frame}
+
+\begin{frame}{Ejemplo I: los números naturales}
+  Para $\Lambda=\mathbb N$,
+  \[
+    \zeta_\Lambda(s)=\zeta(s)=\sum_{n=1}^{\infty}n^{-s},\qquad \Re(s)>1.
+  \]
+  \pause
+  Su continuación meromorfa satisface
+  \[
+    \zeta(-1)=-\frac{1}{12},
+    \qquad
+    \zeta'(0)=-\frac12\log(2\pi).
+  \]
+  \pause
+  Por tanto,
+  \begin{columns}[c,onlytextwidth]
+    \column{.48\textwidth}
+      \begin{block}{Suma zeta}
+        \[
+          1+2+3+\cdots\;\stackrel{\reg}{=}\;-\frac{1}{12}.
+        \]
+      \end{block}
+    \column{.48\textwidth}
+      \pause
+      \begin{block}{Producto zeta}
+        \[
+          \prod_{n=1}^{\infty\!,\reg}n=\sqrt{2\pi}.
+        \]
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Cálculo guiado: expansión de $\zeta(s)$ en el origen}
+  \small
+  La ecuación funcional de Riemann es
+  \[
+    \zeta(s)=2^s\pi^{s-1}\sin\!\left(\frac{\pi s}{2}\right)
+    \Gamma(1-s)\zeta(1-s).
+  \]
+  \pause
+  Cerca de $s=0$ usamos
+  \begin{align*}
+    2^s\pi^{s-1}&=\pi^{-1}\bigl(1+s\log(2\pi)+\mathcal O(s^2)\bigr),\\
+    \sin(\pi s/2)&=\frac{\pi s}{2}+\mathcal O(s^3),\\
+    \Gamma(1-s)&=1+\gamma s+\mathcal O(s^2),\\
+    \zeta(1-s)&=-\frac1s+\gamma+\mathcal O(s).
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Cálculo guiado: $\prod_{n\ge1}^{\reg}n$}
+  Al multiplicar los cuatro desarrollos anteriores, las constantes de
+  Euler--Mascheroni se cancelan:
+  \pause
+  \[
+    \zeta(s)=-\frac12-\frac12\log(2\pi)s+\mathcal O(s^2).
+  \]
+  \pause
+  Por tanto,
+  \[
+    \zeta'(0)=-\frac12\log(2\pi)
+    \quad\Longrightarrow\quad
+    \prod_{n\ge1}^{\reg}n=e^{-\zeta'(0)}=\sqrt{2\pi}.
+  \]
+\end{frame}
+
+\begin{frame}[t]{Ejemplo II: la zeta de Hurwitz}
+  \small
+  Para $x>0$, la zeta de Hurwitz es
+  \[
+    \zeta(s,x)=\sum_{n=0}^{\infty}(n+x)^{-s}.
+  \]
+  \pause
+  En $s=0$ se cumple
+  \[
+    \zeta'(0,x)=\log\Gamma(x)-\frac12\log(2\pi).
+  \]
+  \pause
+  \begin{block}{Dos datos que codifica en el origen}
+    \[
+      \zeta(0,x)=\frac12-x,
+      \qquad
+      \zeta'(0,x)=\log\!\left(\frac{\Gamma(x)}{\sqrt{2\pi}}\right).
+    \]
+  \end{block}
+  \pause
+  El primer valor describe la suma regularizada de unos; la derivada contiene el
+  producto de la progresión $x,x+1,x+2,\ldots$.
+\end{frame}
+
+\begin{frame}[t]{Cálculo guiado: fórmula de Lerch}
+  \small
+  Partimos de la definición del producto zeta:
+  \[
+    \prod_{n=0}^{\infty\!,\reg}(n+x):=\exp[-\zeta'(0,x)].
+  \]
+  \pause
+  Sustituyendo la identidad de Hurwitz,
+  \begin{align*}
+    \exp[-\zeta'(0,x)]
+      &=\exp\!\left[-\log\Gamma(x)+\frac12\log(2\pi)\right]\\
+      &=\frac{e^{\frac12\log(2\pi)}}{e^{\log\Gamma(x)}}.
+  \end{align*}
+  \pause
+  Entonces la fórmula de Lerch da
+  \[
+    \boxed{\prod_{n=0}^{\infty\!,\reg}(n+x)=\frac{\sqrt{2\pi}}{\Gamma(x)}}.
+  \]
+\end{frame}
+
+\begin{frame}{Dos casos de la fórmula de Lerch}
+  Para $x=1$, como $\Gamma(1)=1$,
+  \[
+    \prod_{n=0}^{\infty\!,\reg}(n+1)
+      =\frac{\sqrt{2\pi}}{\Gamma(1)}=\sqrt{2\pi}.
+  \]
+  \pause
+  Para $x=\tfrac12$, usando $\Gamma(1/2)=\sqrt\pi$,
+  \[
+    \prod_{n=0}^{\infty\!,\reg}\left(n+\frac12\right)
+      =\frac{\sqrt{2\pi}}{\sqrt\pi}=\sqrt2.
+  \]
+  \pause
+  \centering\highlight{La función Gamma organiza los productos regularizados de progresiones aritméticas.}
+\end{frame}
+
+\begin{frame}[t]{¿Qué ocurre si hay un polo en el origen?}
+  \small
+  Si
+  \[
+    \zeta_\Lambda(s)=\frac{a_{-1}}{s}+a_0+a_1s+a_2s^2+\cdots,
+  \]
+  \pause
+  entonces $\zeta_\Lambda'(0)$ no existe. El formalismo generalizado extrae el
+  coeficiente lineal:
+  \[
+    \operatorname{LT}_{s=0}\zeta_\Lambda
+      :=\Res_{s=0}\frac{\zeta_\Lambda(s)}{s^2}=a_1,
+  \]
+  \pause
+  y define
+  \[
+    \prod_{n\ge1}^{\reg}\lambda_n:=e^{-a_1}.
+  \]
+  \pause
+  \begin{block}{Por qué funciona el residuo}
+    \[
+      \frac{\zeta_\Lambda(s)}{s^2}
+      =\frac{a_{-1}}{s^3}+\frac{a_0}{s^2}+\frac{a_1}{s}+a_2+\cdots.
+    \]
+    El residuo selecciona exactamente el coeficiente lineal $a_1$.
+  \end{block}
+\end{frame}
+
+\begin{frame}[t]{Cálculo guiado: la secuencia $\lambda_n=e^n$}
+  \small
+  Para $\Re(s)>0$,
+  \[
+    \zeta_\Lambda(s)=\sum_{n=1}^{\infty}(e^n)^{-s}
+      =\sum_{n=1}^{\infty}e^{-ns}.
+  \]
+  \pause
+  Es una serie geométrica:
+  \[
+    \zeta_\Lambda(s)=\frac{e^{-s}}{1-e^{-s}}=\frac{1}{e^s-1}.
+  \]
+  \pause
+  Su expansión de Laurent es
+  \[
+    \frac{1}{e^s-1}=\frac1s-\frac12+\frac{s}{12}-\frac{s^3}{720}+\cdots.
+  \]
+  \pause
+  \begin{exampleblock}{Secuencia $\lambda_n=e^n$}
+    Como $a_1=1/12$,
+    \[
+      \prod_{n\ge1}^{\reg}e^n
+      =\exp\!\left[-\Res_{s=0}\frac{\zeta_\Lambda(s)}{s^2}\right]
+      =e^{-1/12}.
+    \]
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Del producto de autovalores al determinante}
+  En dimensión finita,
+  \[
+    \det A=\prod_{j=1}^{N}\lambda_j.
+  \]
+  \pause
+  Para un operador con infinitos autovalores positivos, se adopta
+  \[
+    \boxed{\det_{\zeta}L:=\exp[-\zeta_L'(0)]}.
+  \]
+  \pause
+  \begin{columns}[T,onlytextwidth]
+    \column{.48\textwidth}
+      \begin{block}{Qué contiene}
+        Geometría del dominio, condiciones de frontera, multiplicidades y crecimiento
+        espectral.
+      \end{block}
+    \column{.48\textwidth}
+      \pause
+      \begin{block}{Dónde aparece}
+        Integrales funcionales, teoría cuántica de campos, torsión analítica y
+        geometría espectral.
+      \end{block}
+  \end{columns}
+  \pause
+  \vfill
+  \centering Para $L=-\dd^2/\dd x^2$ en $(0,\pi)$: $\zeta_L(s)=\zeta(2s)$.
+\end{frame}
+
+\begin{frame}{Cálculo guiado: determinante del Laplaciano 1D}
+  Para condiciones de Dirichlet en $(0,\pi)$, los autovalores son
+  \[
+    \lambda_n=n^2,\qquad n=1,2,3,\ldots
+  \]
+  \pause
+  Por ello, la zeta espectral es
+  \[
+    \zeta_L(s)=\sum_{n=1}^{\infty}(n^2)^{-s}
+      =\sum_{n=1}^{\infty}n^{-2s}=\zeta(2s).
+  \]
+  \pause
+  Aplicando la regla de la cadena,
+  \[
+    \zeta_L'(0)=2\zeta'(0)
+      =2\left[-\frac12\log(2\pi)\right]
+      =-\log(2\pi).
+  \]
+  \pause
+  Finalmente,
+  \[
+    \boxed{\det_\zeta L=e^{-\zeta_L'(0)}=e^{\log(2\pi)}=2\pi.}
+  \]
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\section{La parte finita como observable físico}
+
+\begin{frame}{Energía de punto cero: el origen del problema}
+  Cada modo cuántico de frecuencia $\omega_n$ contribuye
+  \[
+    E_n=\frac12\hbar\omega_n.
+  \]
+  \pause
+  Formalmente,
+  \[
+    E_0=\frac12\hbar\sum_n\omega_n,
+  \]
+  que suele divergir.
+  \pause
+  \begin{alertblock}{La cantidad física no es la energía absoluta}
+    Se mide una diferencia entre configuraciones:
+    \[
+      \Delta E=E(\text{geometría})-E(\text{referencia}).
+    \]
+  \end{alertblock}
+  \pause
+  Los términos divergentes comunes se cancelan; el término finito depende de la
+  geometría y puede producir una fuerza observable.
+\end{frame}
+
+\begin{frame}{Efecto Casimir: discreto menos continuo}
+  Dos placas conductoras separadas una distancia $d$ discretizan los modos normales.
+  \begin{center}
+  \begin{tikzpicture}[>=Latex]
+    \fill[UdeAGreen!20] (0,0) rectangle (.18,2.1);
+    \fill[UdeAGreen!20] (7.2,0) rectangle (7.38,2.1);
+    \draw[<->,thick,UdeADark] (.25,1.75)--(7.12,1.75) node[midway,above] {$d$};
+    \foreach \k in {1,...,6}
+      \draw[UdeAGreen,thick] (.18,{.25*\k}) -- (7.2,{.25*\k});
+    \node at (3.7,.35) {modos discretos};
+  \end{tikzpicture}
+  \end{center}
+  \pause
+  Las frecuencias permitidas en la dirección normal son
+  \[
+    k_z=\frac{n\pi}{d},\qquad n=1,2,3,\ldots
+  \]
+  \pause
+  Después de integrar los momentos paralelos, la dependencia discreta queda
+  proporcional a la serie divergente $\sum_{n\ge1}n^3$.
+\end{frame}
+
+\begin{frame}{Cálculo guiado: energía de Casimir}
+  Introducimos un parámetro complejo $s$ en la energía por unidad de área:
+  \[
+    \frac{E(s)}{A}
+      =-\frac{\pi^2\hbar c}{6d^3}\mu^{s+3}
+       \sum_{n=1}^{\infty}n^{-s},
+      \qquad \Re(s)>1.
+  \]
+  \pause
+  La suma es $\zeta(s)$. La energía física corresponde a continuar hasta $s=-3$:
+  \[
+    \frac{E_{\reg}}{A}
+      =-\frac{\pi^2\hbar c}{6d^3}\zeta(-3).
+  \]
+  \pause
+  Usando $\zeta(-m)=(-1)^m B_{m+1}/(m+1)$ y $B_4=-1/30$,
+  \[
+    \zeta(-3)=\frac{1}{120}.
+  \]
+  \pause
+  Así,
+  \[
+    \boxed{\frac{E_{\reg}}{A}=-\frac{\pi^2\hbar c}{720d^3}.}
+  \]
+\end{frame}
+
+\begin{frame}{La predicción de Casimir}
+  Tras sustraer el estado de referencia y retirar el corte,
+  \[
+    \frac{\Delta E}{A}=-\frac{\pi^2\hbar c}{720d^3}.
+  \]
+  \pause
+  La presión entre las placas es
+  \[
+    \boxed{\frac{F_C}{A}=-\frac{\pi^2\hbar c}{240d^4}}.
+  \]
+  \pause
+  \begin{columns}[T,onlytextwidth]
+    \column{.48\textwidth}
+      \begin{block}{Signo negativo}
+        La fuerza es atractiva para placas ideales paralelas.
+      \end{block}
+    \column{.48\textwidth}
+      \pause
+      \begin{block}{Papel de la zeta}
+        $\zeta(-3)$ es la parte finita que queda después de cancelar las contribuciones
+        no observables del corte.
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Otro laboratorio: niveles de Landau en grafeno}
+  En grafeno bajo un campo perpendicular $B$,
+  \[
+    \epsilon_n=\operatorname{sgn}(n)\sqrt{|n|}\,E(B),
+    \qquad E(B)=\sqrt{2\hbar v_F eB}.
+  \]
+  \pause
+  Cada nivel tiene una degeneración proporcional a $B$. En el régimen de campo fuerte,
+  el potencial contiene
+  \[
+    \Omega(B,m)=\Omega_S(B)-C_B\sum_{n=1}^{m}\sqrt n.
+  \]
+  \pause
+  El problema vuelve a ser una suma de potencias, ahora con exponente $1/2$.
+\end{frame}
+
+\begin{frame}{Cálculo guiado: residuo finito en grafeno}
+  La suma con corte se escribe exactamente como
+  \[
+    \sum_{n=1}^{m}\sqrt n
+      =\zeta\!\left(-\tfrac12\right)
+       -\zeta\!\left(-\tfrac12,m+1\right).
+  \]
+  \pause
+  Para $m\gg1$, la cola de Hurwitz satisface
+  \[
+    \zeta\!\left(-\tfrac12,m+1\right)
+      =-\frac23m^{3/2}-\frac12m^{1/2}
+       -\frac1{24}m^{-1/2}+\mathcal O(m^{-3/2}).
+  \]
+  \pause
+  La referencia continua sustrae los términos $m^{3/2}$ y $m^{1/2}$; los términos
+  negativos desaparecen al retirar el corte. Sobrevive
+  \[
+    \Delta\Omega(B)=\Omega_S(B)-C_B\zeta\!\left(-\tfrac12\right).
+  \]
+  \pause
+  \begin{block}{Mismo patrón}
+    espectro discreto $-$ referencia continua $=$ respuesta finita observable.
+  \end{block}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\section{Fronteras y extensiones}
+
+\begin{frame}{No toda secuencia admite la receta estándar}
+  Para los primos,
+  \[
+    P(s)=\sum_{p}p^{-s},\qquad \Re(s)>1,
+  \]
+  \pause
+  y la inversión de Möbius da
+  \[
+    P(s)=\sum_{k=1}^{\infty}\frac{\mu(k)}{k}\log\zeta(ks).
+  \]
+  \pause
+  Los ceros y el polo de $\zeta(ks)$ generan singularidades en
+  \[
+    s=\frac{\rho}{k},\qquad s=\frac1k,
+  \]
+  que se acumulan hacia el eje imaginario y el origen.
+  \pause
+  \begin{alertblock}{Consecuencia}
+    La continuación analítica necesaria para evaluar $P'(0)$ no está disponible por
+    la ruta estándar. Regularizar exige información o métodos adicionales.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Secuencias automáticas: la autosimilitud ayuda}
+  Los números odiosos y malvados se distinguen por la paridad de unos en su expansión
+  binaria. Si $\varepsilon_n=(-1)^{t_n}$ es la sucesión de Thue--Morse,
+  \[
+    \zeta_O(s)=\frac12\bigl(\zeta(s)-g(s)\bigr),\qquad
+    \zeta_E(s)=\frac12\bigl(\zeta(s)+g(s)\bigr),
+  \]
+  donde $g(s)=\sum_{n\ge1}\varepsilon_n n^{-s}$.
+  \pause
+  \begin{block}{La clave}
+    La autorrecurrencia binaria produce una ecuación funcional infinita para $g$, que
+    permite continuarla hasta $s=0$ y calcular productos regularizados exóticos.
+  \end{block}
+  \pause
+  Como $O\sqcup E=\mathbb N$, la consistencia recupera
+  \[
+    \prod_{n\in O}^{\reg}n\;\prod_{n\in E}^{\reg}n=\sqrt{2\pi}.
+  \]
+\end{frame}
+
+\begin{frame}[t]{Superzetas: productos sobre ceros}
+  \small
+  Si $f$ es entera de orden finito y sus ceros son $\{y_k\}$, se define
+  \[
+    Z_f(s,z)=\sum_{k\ge1}(z-y_k)^{-s}.
+  \]
+  \pause
+  Cuando la continuación es regular en $s=0$,
+  \[
+    D_f(z)=\exp[-\partial_s Z_f(0,z)]
+  \]
+  regulariza el producto sobre los ceros de $f$.
+  \pause
+  \begin{block}{Interpretación}
+    La variable $z$ desplaza el conjunto de ceros y $s$ controla la convergencia. La
+    derivada en $s=0$ reconstruye la suma regularizada de $\log(z-y_k)$.
+  \end{block}
+\end{frame}
+
+\begin{frame}[t]{Cómo se continúa una superzeta}
+  \small
+  La factorización de Hadamard conecta los ceros de $f$ con su derivada logarítmica
+  $f'/f$.
+  \pause
+  \begin{block}{Puente analítico}
+    Una representación de Mellin relaciona la superzeta con la derivada logarítmica:
+    \[
+      Z_f(s,z)=\frac{\sin(\pi s)}{\pi}
+      \int_0^\infty\frac{f'(z+y)}{f(z+y)}y^{-s}\,\dd y.
+    \]
+  \end{block}
+  \pause
+  El factor $\sin(\pi s)$ cancela polos enteros de la transformada de Mellin y permite
+  alcanzar el entorno de $s=0$.
+  \pause
+  \medskip
+  Esto abre aplicaciones a zetas de Selberg, dispersión y productos sobre ceros de
+  Riemann.
+\end{frame}
+
+\begin{frame}{Anomalía multiplicativa}
+  En dimensión finita, $\det(AB)=\det A\det B$. Para determinantes regularizados puede
+  aparecer
+  \[
+    \mathcal A(A,B)
+      :=\log\det_{\zeta}(AB)
+       -\log\det_{\zeta}A
+       -\log\det_{\zeta}B\neq0.
+  \]
+  \pause
+  \begin{columns}[T,onlytextwidth]
+    \column{.48\textwidth}
+      \begin{block}{Por qué surge}
+        La extracción de una parte finita no necesariamente conmuta con el producto de
+        espectros.
+      \end{block}
+    \column{.48\textwidth}
+      \pause
+      \begin{block}{Qué codifica}
+        Información espectral y geométrica que desaparece en el álgebra finita
+        ordinaria.
+      \end{block}
+  \end{columns}
+  \pause
+  \vfill
+  \centering\highlight{La regularización preserva muchas estructuras, pero no todas automáticamente.}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\section{Cierre}
+
+\begin{frame}{Qué debemos llevarnos}
+  \begin{enumerate}[<+->]
+    \item Una expresión divergente no adquiere convergencia clásica por regularizarla.
+    \item La función zeta convierte una sucesión o un espectro en un objeto analítico.
+    \item La continuación analítica permite extraer valores en $s=-k$ y $s=0$.
+    \item $\exp[-\zeta_L'(0)]$ generaliza el determinante a operadores infinitodimensionales.
+    \item En física, la parte finita aparece naturalmente al comparar con un estado de referencia.
+    \item Fronteras naturales, polos y anomalías indican hasta dónde puede llevarse el método.
+  \end{enumerate}
+  \pause
+  \begin{alertblock}{Idea final}
+    La zeta-regularización es menos una forma de ``sumar infinitos'' que una forma de
+    leer la información finita contenida en la estructura asintótica de un problema.
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Una pequeña tabla de resultados}
+  \centering
+  \renewcommand{\arraystretch}{1.35}
+  \begin{tabular}{lll}
+    \toprule
+    Objeto & Función zeta & Valor regularizado \\
+    \midrule
+    \uncover<2->{$1+2+3+\cdots$} & \uncover<2->{$\zeta(s)$ en $s=-1$} & \uncover<2->{$-1/12$} \\
+    \uncover<3->{$\prod_{n\ge1}n$} & \uncover<3->{$\zeta'(0)$} & \uncover<3->{$\sqrt{2\pi}$} \\
+    \uncover<4->{$\prod_{n\ge0}(n+x)$} & \uncover<4->{$\zeta'(0,x)$} & \uncover<4->{$\sqrt{2\pi}/\Gamma(x)$} \\
+    \uncover<5->{$\prod \lambda_n(L)$} & \uncover<5->{$\zeta_L'(0)$} & \uncover<5->{$\det_\zeta L$} \\
+    \uncover<6->{placas de Casimir} & \uncover<6->{$\zeta(-3)$} & \uncover<6->{$F/A=-\pi^2\hbar c/(240d^4)$} \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[UdeADark] (current page.south west) rectangle (current page.north east);
+    \fill[UdeALime] (current page.south west) rectangle ([yshift=.16cm]current page.south east);
+    \node[text=white,font=\LARGE\bfseries] at ([yshift=.75cm]current page.center)
+      {Muchas gracias};
+    \node[text=UdeAPale,font=\large,align=center] at ([yshift=-.15cm]current page.center)
+      {Preguntas y discusión};
+    \node[text=UdeALime,font=\small,align=center] at ([yshift=-1.45cm]current page.center)
+      {Daniel Soto Villada\\Universidad de Antioquia};
+    \node[text=white!10,font=\fontsize{82}{82}\selectfont]
+      at ([xshift=4.8cm,yshift=1.7cm]current page.center) {$\zeta$};
+  \end{tikzpicture}
+\end{frame}
+
+\end{document}
