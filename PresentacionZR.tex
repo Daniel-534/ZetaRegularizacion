@@ -155,17 +155,6 @@
     Si el límite no existe, la serie es divergente en el sentido clásico. Una
     regularización no cambia ese hecho: introduce otra operación, con otro significado.
   \end{alertblock}
-  \pause
-  \vspace{-0.15cm}
-  \begin{center}
-    \begin{tikzpicture}[>=Latex,x=1.02cm,y=.44cm]
-      \draw[->,Ink!55] (0,0)--(9.8,0) node[right] {$N$};
-      \draw[UdeAGreen,dashed] (0,2)--(9.4,2) node[right] {$S$};
-      \foreach \x/\y in {1/.7,2/2.8,3/1.3,4/2.45,5/1.62,6/2.25,7/1.78,8/2.14,9/1.88}
-        \fill[UdeALime!80!UdeADark] (\x,\y) circle (2.2pt);
-      \draw[->,UdeAGreen,thick] (5.4,2.75)--(7.5,2.2) node[midway,above] {estabilización};
-    \end{tikzpicture}
-  \end{center}
 \end{frame}
 
 \begin{frame}{Series de Dirichlet: convertir crecimiento en decaimiento}
@@ -193,6 +182,85 @@
         $\displaystyle\zeta(s)=\sum_{n\ge1}n^{-s}$, inicialmente para $\Re(s)>1$.
       \end{block}
   \end{columns}
+\end{frame}
+
+\begin{frame}{Figura: el semiplano natural de $\zeta(s)$}
+  \centering
+  \begin{tikzpicture}[x=1.45cm,y=1.15cm,>=Latex]
+    \fill[gray!8] (-3,-2.15) rectangle (4.25,2.15);
+    \uncover<2->{\fill[UdeAPale] (1,-2.15) rectangle (4.25,2.15);}
+    \draw[->,thick] (-3,0)--(4.35,0) node[right] {$\Re(s)$};
+    \draw[->,thick] (0,-2.2)--(0,2.3) node[above] {$\Im(s)$};
+    \foreach \x in {-2,-1,1,2,3,4}
+      \draw (\x,.07)--(\x,-.07) node[below=2pt] {\scriptsize$\x$};
+    \foreach \y in {-2,-1,1,2}
+      \draw (.06,\y)--(-.06,\y);
+    \uncover<2->{
+      \draw[UdeAGreen,very thick,dashed] (1,-2.15)--(1,2.15);
+      \node[UdeADark,fill=white,rounded corners,inner sep=3pt]
+        at (2.65,1.55) {$\Re(s)>1$};
+      \node[UdeADark,align=center] at (2.65,.65)
+        {$\displaystyle\zeta(s)=\sum_{n=1}^{\infty}n^{-s}$\\[2pt]
+         converge absolutamente};
+    }
+    \uncover<3->{
+      \fill[Warm!85!red] (1,0) circle (3pt);
+      \node[above left,red!70!black] at (1,0) {polo en $s=1$};
+      \draw[->,UdeAGreen,thick] (3.8,-1.35)--(2.2,-1.35)
+        node[midway,below] {mayor decaimiento $n^{-\sigma}$};
+    }
+  \end{tikzpicture}
+  \vfill
+  \uncover<3->{\highlight{La serie define primero a $\zeta$ en un semiplano; la continuación analítica amplía después su dominio.}}
+\end{frame}
+
+\begin{frame}{Figura: anatomía analítica de $\zeta(s)$}
+  \small
+  \centering
+  \begin{tikzpicture}[x=1.28cm,y=.84cm,>=Latex]
+    % Regiones analíticas, separadas sin superponer las etiquetas.
+    \fill[gray!7] (-4.65,-2.55) rectangle (0,2.55);
+    \fill[Warm!17] (0,-2.55) rectangle (1,2.55);
+    \fill[UdeAPale] (1,-2.55) rectangle (3.05,2.55);
+
+    \node[text=Ink,align=center,font=\small\bfseries] at (-2.45,2.13)
+      {continuación meromorfa\\$\mathbb C\setminus\{1\}$};
+    \node[text=Warm!55!black,align=center,font=\scriptsize\bfseries]
+      at (.5,2.13) {franja\\crítica};
+    \node[text=UdeADark,align=center,font=\small\bfseries] at (2.08,2.13)
+      {$\Re(s)>1$\\serie convergente};
+
+    % Ejes y fronteras relevantes.
+    \draw[->,thick] (-4.72,0)--(3.18,0) node[right] {$\Re(s)$};
+    \draw[->,thick] (0,-2.65)--(0,2.72);
+    \node[rotate=90,anchor=south] at (-.12,1.05) {$\Im(s)$};
+    \draw[gray!65,dashed] (0,-2.55)--(0,2.55);
+    \draw[Warm!80!black,dashed,thick] (.5,-2.55)--(.5,2.55);
+    \draw[UdeAGreen,dashed,thick] (1,-2.55)--(1,2.55);
+    \node[below,fill=white,inner sep=1pt] at (.5,0) {$\frac12$};
+    \node[below,fill=white,inner sep=1pt] at (1,0) {$1$};
+
+    % Polo y ceros triviales.
+    \fill[red!75!black] (1,0) circle (3.2pt);
+    \node[red!75!black,above right=7pt] at (1,0) {polo simple};
+    \foreach \x in {-2,-4}
+      \fill[UdeADark] (\x,0) circle (3pt);
+    \node[UdeADark,below=8pt] at (-3,0) {ceros triviales $-2,-4,\ldots$};
+
+    % Ceros no triviales representados esquemáticamente en pares conjugados.
+    \foreach \y in {-1.55,-.95,.95,1.55}
+      \fill[Warm!85!black] (.5,\y) circle (2.8pt);
+    \draw[->,Warm!75!black,thick] (-.35,-1.55)--(.43,-1.05);
+    \node[Warm!60!black,align=right] at (-1.42,-1.67)
+      {ceros no triviales\\$\rho=\beta+i\gamma$};
+  \end{tikzpicture}
+
+  \vspace{.05cm}
+  \begin{block}{Lectura del plano}
+    La serie define a $\zeta$ para $\Re(s)>1$; la continuación meromorfa alcanza todo
+    $\mathbb C$ salvo el polo $s=1$, y concentra los ceros no triviales en
+    $0<\Re(s)<1$.
+  \end{block}
 \end{frame}
 
 \begin{frame}{Del operador a una sucesión: el espectro}
@@ -316,6 +384,49 @@
     $\sum^{\reg}n=-1/12$ no significa que las sumas parciales de $1+2+3+\cdots$
     converjan a $-1/12$. Es el valor asignado por este procedimiento analítico.
   \end{alertblock}
+\end{frame}
+
+\begin{frame}[t]{Figura: una función holomorfa en el plano complejo}
+  \small
+  \centering
+  \begin{tikzpicture}[>=Latex,scale=.66,transform shape]
+    \begin{scope}[shift={(-4.6,0)},scale=1.05]
+      \node[font=\bfseries,UdeADark,fill=white,inner sep=2pt]
+        at (-1.15,1.72) {plano $z$};
+      \fill[UdeAPale!55] (-2,-2) rectangle (2,2);
+      \draw[->,thick] (-2.2,0)--(2.25,0) node[right] {$x$};
+      \draw[->,thick] (0,-2.2)--(0,2.25) node[above] {$y$};
+      \foreach \a in {-1.5,-1,-.5,.5,1,1.5}{
+        \draw[UdeAGreen!55] (\a,-2)--(\a,2);
+        \draw[UdeAGreen!55] (-2,\a)--(2,\a);
+      }
+      \fill[Warm!80!black] (1,.5) circle (2.8pt);
+      \node[above right] at (1,.5) {$z_0$};
+    \end{scope}
+
+    \draw[->,very thick,UdeADark] (-1.85,0)--(1.55,0)
+      node[midway,above] {$f(z)=z^2$};
+
+    \begin{scope}[shift={(4.2,0)},scale=.88]
+      \node[font=\bfseries,UdeADark,fill=white,inner sep=2pt]
+        at (-2.05,2.28) {plano $w=f(z)$};
+      \draw[->,thick] (-3,0)--(3.15,0) node[right] {$\Re(w)$};
+      \draw[->,thick] (0,-2.6)--(0,2.65) node[above] {$\Im(w)$};
+      \foreach \a in {-1.5,-1,-.5,.5,1,1.5}
+        \draw[UdeAGreen!65,domain=-1.55:1.55,samples=70,smooth]
+          plot ({\a*\a-\x*\x},{2*\a*\x});
+      \foreach \b in {-1.5,-1,-.5,.5,1,1.5}
+        \draw[UdeALime!80!UdeADark,domain=-1.55:1.55,samples=70,smooth]
+          plot ({\x*\x-\b*\b},{2*\x*\b});
+      \fill[Warm!80!black] (.75,1) circle (3pt);
+      \node[above right] at (.75,1) {$w_0=z_0^2$};
+    \end{scope}
+  \end{tikzpicture}
+  \vspace{-0.2cm}
+  \begin{block}{Lectura geométrica}
+    Donde $f'(z)\neq0$, una función holomorfa transforma pequeñas retículas conservando
+    ángulos. Las ecuaciones de Cauchy--Riemann enlazan sus partes real e imaginaria.
+  \end{block}
 \end{frame}
 
 \begin{frame}{El mecanismo en una imagen}
@@ -492,6 +603,48 @@
     \]
     El residuo selecciona exactamente el coeficiente lineal $a_1$.
   \end{block}
+\end{frame}
+
+\begin{frame}[t]{Figura: un polo simple en el origen}
+  \small
+  \begin{columns}[c,onlytextwidth]
+    \column{.54\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=.76,>=Latex]
+        \fill[UdeAPale!65] (-2.8,-2.45) rectangle (2.8,2.45);
+        \draw[->,thick] (-2.9,0)--(2.95,0) node[right] {$\Re(s)$};
+        \draw[->,thick] (0,-2.55)--(0,2.6) node[above] {$\Im(s)$};
+        \foreach \r/\op in {.45/80,.9/60,1.35/42,1.8/27,2.25/15}
+          \draw[UdeAGreen!\op,line width=1.1pt] (0,0) circle (\r);
+        \foreach \a in {0,45,...,315}
+          \draw[->,UdeADark!65] ({2.18*cos(\a)},{2.18*sin(\a)})
+            -- ({.55*cos(\a)},{.55*sin(\a)});
+        \fill[white] (0,0) circle (5pt);
+        \draw[red!75!black,very thick] (0,0) circle (5pt);
+        \node[red!75!black,above right=5pt] at (0,0) {polo};
+        \node[UdeADark,fill=white,rounded corners] at (1.5,1.9)
+          {$|f(s)|\to\infty$};
+      \end{tikzpicture}
+    \column{.42\textwidth}
+      \begin{block}{Modelo local}
+        \[
+          f(s)=\frac{a_{-1}}{s}+h(s),
+        \]
+        donde $h$ es holomorfa cerca de $0$.
+      \end{block}
+      \pause
+      Si $s=re^{i\theta}$, entonces
+      \[
+        \left|\frac{a_{-1}}{s}\right|
+          =\frac{|a_{-1}|}{r}.
+      \]
+      \pause
+      \highlight{$r\to0^+$ implica $|f(s)|\to\infty$.}
+
+      \medskip
+      El origen queda excluido del dominio holomorfo, pero es una singularidad aislada
+      controlable mediante la serie de Laurent.
+  \end{columns}
 \end{frame}
 
 \begin{frame}[t]{Cálculo guiado: la secuencia $\lambda_n=e^n$}
@@ -864,6 +1017,47 @@
     \uncover<6->{placas de Casimir} & \uncover<6->{$\zeta(-3)$} & \uncover<6->{$F/A=-\pi^2\hbar c/(240d^4)$} \\
     \bottomrule
   \end{tabular}
+\end{frame}
+
+\begin{frame}{Topología, geometría y espectro}
+  \centering
+  \begin{tikzpicture}[x=1.30cm,y=1.05cm,>=Latex]
+    \shade[inner color=UdeAPale,outer color=white]
+      (0,0) ellipse (4.15 and 2.25);
+
+    % Paralelos de la parametrización del toro.
+    \foreach \v in {0,20,...,340}
+      \draw[UdeAGreen!42,line width=.55pt,domain=0:360,samples=72,variable=\t,smooth]
+        plot ({(2.25+.78*cos(\v))*(cos(\t)+.42*sin(\t))},
+              {.78*sin(\v)+.25*(2.25+.78*cos(\v))*sin(\t)});
+
+    % Meridianos: hacen visible la estructura tridimensional de la malla.
+    \foreach \u in {0,30,...,330}
+      \draw[UdeALime!75!UdeADark,line width=.7pt,domain=0:360,samples=58,variable=\t,smooth]
+        plot ({(2.25+.78*cos(\t))*(cos(\u)+.42*sin(\u))},
+              {.78*sin(\t)+.25*(2.25+.78*cos(\t))*sin(\u)});
+
+    % Los dos generadores de H_1(T^2).
+    \draw[UdeADark,very thick,domain=0:360,samples=110,variable=\t,smooth]
+      plot ({(2.25+.78)*(cos(\t)+.42*sin(\t))},
+            {.25*(2.25+.78)*sin(\t)});
+    \draw[Warm!85!black,very thick,domain=0:360,samples=100,variable=\t,smooth]
+      plot ({(2.25+.78*cos(\t))},
+            {.78*sin(\t)});
+
+    \node[fill=white,draw=UdeAGreen,rounded corners,inner sep=3pt,
+      text=UdeADark,font=\large\bfseries]
+      at (0,0) {$T^2=S^1\times S^1$};
+    \node[UdeADark,fill=white,inner sep=2pt] at (-3.15,1.65) {ciclo longitudinal};
+    \draw[->,UdeADark,thick] (-2.55,1.45)--(-1.75,.85);
+    \node[Warm!70!black,fill=white,inner sep=2pt] at (3.0,1.65) {ciclo meridiano};
+    \draw[->,Warm!80!black,thick] (2.45,1.43)--(2.1,.62);
+  \end{tikzpicture}
+  \vspace{-0.25cm}
+  \begin{block}{Dos ciclos que no pueden contraerse}
+    Los dos generadores del toro muestran cómo la topología global condiciona los
+    modos propios, la zeta espectral y el determinante regularizado.
+  \end{block}
 \end{frame}
 
 \begin{frame}[plain]
